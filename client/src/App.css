@@ -1,0 +1,56 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'MyFont';
+    src: url('/fonts/Jungle Giant Script.otf') format('opentype');
+}
+
+.logo-font {
+    font-family: 'MyFont', sans-serif;
+}
+
+html,
+body {
+    width: 100%;
+}
+
+a,
+.link {
+    text-decoration: none;
+    list-style: none;
+    color: inherit;
+}
+
+.landingpage {
+    background-color: #f8f7f4;
+}
+
+.logoslide {
+    width: 200%;
+    display: flex;
+    gap: 30px;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: bannermove 20s linear infinite;
+  }
+  
+  .logo-item {
+    width: 280px;
+    height: 350px;
+    border-radius: 30px;
+  }
+  
+  @keyframes bannermove {
+    0% {
+      transform: translateX(0);
+    }
+  
+    100% {
+      transform: translateX(-50%); 
+    }
+  }
+  

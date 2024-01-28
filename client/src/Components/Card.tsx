@@ -8,7 +8,7 @@ interface CardProps {
 
 const Card = ({ data }: CardProps) => {
   return (
-    <div className="card w-[280px]">
+    <div className="card ">
       <div className="imagecon w-full h-[220px] overflow-hidden rounded-[10px] relative group cursor-pointer">
         <img
           src="https://images.pexels.com/photos/17652903/pexels-photo-17652903/free-photo-of-naomi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"

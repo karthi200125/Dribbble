@@ -1,4 +1,5 @@
-import Card from "../../Components/Card"
+import Button from "../../Components/Button"
+import Cards from "../../Components/Cards"
 
 const LExplore = () => {
 
@@ -30,16 +31,22 @@ const LExplore = () => {
       like: 100,
       see: 300
     },
+    {
+      id: 4,
+      img: "",
+      title: '',
+      profilImg: '',
+      username: '',
+      like: 100,
+      see: 300
+    },
   ]
 
   return (
-    <div className="w-full flex items-center flex-col justify-center">
-      <h1 className="text-6xl">Explore inspiring designs</h1>
-      <div className="w-full grid grid-col sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {cards.map((card) => (
-          <Card key={card.id} data={card} />
-        ))}
-      </div>
+    <div className="w-full flex items-center flex-col justify-center bg-white pt-10 pb-20">
+      <h1 className="w-full text-5xl mb-8 text-center md:text-center ">Explore inspiring designs</h1>
+      <Cards cards={cards} />
+      <Button title="Browse more inspiration" bg="transparent" border="border-black" py="py-4" />
     </div>
   )
 }

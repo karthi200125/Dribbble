@@ -1,8 +1,12 @@
+import { Link } from "react-router-dom"
 import Button from "./Button"
 import SearchBar from "./SearchBar"
-
+import User from "./User"
 
 const Navbar = () => {
+
+    const user = true    
+
     return (
         <div className="w-full h-[100px] flex items-center justify-between flex-row px-10 py-[40px]">
             <div className="flex items-center flex-row gap-6">
@@ -19,10 +23,20 @@ const Navbar = () => {
             <div className="flex items-center flex-row gap-3">
                 <SearchBar />
 
-                <div className="hidden md:flex">
-                    <Button title="Log in" bg="transparent" />
-                </div>
-                <Button title="Sign up" />
+                {user ?
+                    <User />
+                    :
+                    <>
+                        <div className="hidden md:flex">
+                            <Link to="/login">
+                                <Button title="Log in" bg="transparent" />
+                            </Link>
+                        </div>
+                        <Link to="/register">
+                            <Button title="Sign up" />
+                        </Link>
+                    </>
+                }
             </div>
         </div>
     )

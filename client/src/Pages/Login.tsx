@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import Button from "../Components/Button"
 import Input from "../Components/Inputs"
 
@@ -5,7 +6,7 @@ const Login = () => {
     return (
         <div className="w-full h-screen flex flex-row relative">
             <video
-                src="https://cdn.dribbble.com/uploads/48292/original/30fd1f7b63806eff4db0d4276eb1ac45.mp4?1689187515"
+                src="https://cdn.dribbble.com/uploads/48226/original/b8bd4e4273cceae2889d9d259b04f732.mp4?1689028949"
                 autoPlay
                 className="w-[400px] h-full object-cover"
             />
@@ -23,7 +24,7 @@ const Login = () => {
                     <Input labelname="Password" type="password" />
                     <Button title="Sign in" w="w-full" py="py-4" />
                     <div className="text-neutral-600 text-[15px] cursor-pointer">Dont have an account?
-                        <span className="underline">Sign Up</span>
+                        <Link to="/register" className="underline">Sign Up</Link>
                     </div>
                 </div>
             </div>

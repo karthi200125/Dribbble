@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Button from "../../Components/Button";
+import { Link } from "react-router-dom";
 
 const LHome = () => {
     const lightColors = [
@@ -50,7 +51,9 @@ const LHome = () => {
                 <p className="text-center text-xl">
                     Get inspired by the work of millions of top-rated designers & agencies around the world.
                 </p>
-                <Button title="Get started" py="py-4" />
+                <Link to='/register'>
+                    <Button title="Get started" py="py-4" />
+                </Link>
             </div>
         </div>
     );

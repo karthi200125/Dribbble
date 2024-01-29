@@ -1,17 +1,76 @@
-import './App.css'
-import LandingPage from './Pages/Landingpage/LandingPage'
-import Login from './Pages/Login'
-import Register from './Pages/Register'
+import './App.css';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
+
+const OpenPro = lazy(() => import('./Pages/OpenPro'));
+const Profile = lazy(() => import('./Pages/Profile'));
+const Upload = lazy(() => import('./Pages/Upload'));
+const Search = lazy(() => import('./Pages/Search'));
+const LandingPage = lazy(() => import('./Pages/Landingpage/LandingPage'));
+const Login = lazy(() => import('./Pages/Login'));
+const Register = lazy(() => import('./Pages/Register'));
+const Home = lazy(() => import('./Pages/Home'));
 
 function App() {
+  const user = true;
 
   return (
-    <div className=''>
-      {/* <Register /> */}
-      {/* <Login/> */}
-      <LandingPage/>
-    </div>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/login"
+          element={!user ? <Login /> : <Navigate to="/home" />}
+        />
+        <Route
+          path="/register"
+          element={!user ? <Register /> : <Navigate to="/home" />}
+        />
+        <Route
+          path="/"
+          element={!user ? <LandingPage /> : <Navigate to="/home" />} />
+        <Route
+          path="/home"
+          element={
+            <Suspense fallback={"loading..."}>
+              {user ? <Home /> : <Navigate to="/" />}
+            </Suspense>
+          }
+        />
+        <Route
+          path="/openpro/:id"
+          element={
+            <Suspense fallback={"loading..."}>
+              {user ? <OpenPro /> : <Navigate to="/" />}
+            </Suspense>
+          }
+        />
+        <Route
+          path="/profile/:id"
+          element={
+            <Suspense fallback={"loading..."}>
+              {user ? <Profile /> : <Navigate to="/" />}
+            </Suspense>
+          }
+        />
+        <Route
+          path="/upload/:id"
+          element={
+            <Suspense fallback={"loading..."}>
+              {user ? <Upload /> : <Navigate to="/" />}
+            </Suspense>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <Suspense fallback={"loading..."}>
+              {user ? <Search /> : <Navigate to="/" />}
+            </Suspense>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

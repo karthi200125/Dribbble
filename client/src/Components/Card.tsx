@@ -1,6 +1,7 @@
 import { FaHeart } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
 import { CiShare1, CiHeart } from "react-icons/ci";
+import { Link } from "react-router-dom";
 
 interface CardProps {
   data: {};
@@ -8,8 +9,8 @@ interface CardProps {
 
 const Card = ({ data }: CardProps) => {
   return (
-    <div className="card ">
-      <div className="imagecon w-full h-[220px] overflow-hidden rounded-[10px] relative group cursor-pointer">
+    <Link to='/openpro/123' className="card ">
+      <div className="imagecon h-[210px] overflow-hidden rounded-[10px] relative group cursor-pointer">
         <img
           src="https://images.pexels.com/photos/17652903/pexels-photo-17652903/free-photo-of-naomi.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
           alt=""
@@ -55,7 +56,7 @@ const Card = ({ data }: CardProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

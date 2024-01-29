@@ -2,6 +2,7 @@ import { useState } from "react"
 import Button from "../Components/Button"
 import { RiArrowDropLeftLine } from "react-icons/ri";
 import Inputs from "../Components/Inputs";
+import { Link } from "react-router-dom";
 
 const Register = () => {
 
@@ -15,9 +16,11 @@ const Register = () => {
                 className="w-[400px] h-full object-cover"
             />
             <span className="absolute text-white logo-font text-3xl cursor-pointer left-8 top-8">Dribbble</span>
-            <div className="absolute left-[450px] top-[50px] w-10 h-10 flex items-center justify-center rounded-full border-[1px] border-solid border-neutral-300 cursor-pointer" onClick={()=> setRegOpen(false)}>
-                <RiArrowDropLeftLine size={25} />
-            </div>
+            {reOpen &&
+                <div className="absolute left-[450px] top-[50px] w-10 h-10 flex items-center justify-center rounded-full border-[1px] border-solid border-neutral-300 cursor-pointer" onClick={() => setRegOpen(false)}>
+                    <RiArrowDropLeftLine size={25} />
+                </div>
+            }
 
             <div className="w-[0%] h-full flex items-start ml-[150px] justify-center flex-col">
                 {!reOpen ?
@@ -33,7 +36,7 @@ const Register = () => {
                             and our default <span className="underline">Notification Settings.</span>
                         </p>
                         <div className="text-neutral-600 text-[13px] cursor-pointer">Already have an account?
-                            <span className="underline">Sign In</span>
+                            <Link to='/login' className="underline">Sign In</Link>
                         </div>
                     </div>
                     :
@@ -51,7 +54,7 @@ const Register = () => {
                         </div>
                         <Button title="Create Account" w="w-full" py="py-4" />
                         <div className="text-neutral-600 text-[13px] cursor-pointer">Already have an account?
-                            <span className="underline">Sign In</span>
+                            <Link to='/login' className="underline">Sign In</Link>
                         </div>
                         <p className="text-neutral-400 text-[10px]">This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.</p>
                     </div>

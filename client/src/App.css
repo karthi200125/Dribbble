@@ -32,7 +32,11 @@ a,
 }
 
 .category::-webkit-scrollbar {
-  display: none;  
+  display: none;
+}
+
+input:focus {
+  outline: none;
 }
 
 .logoslide {
@@ -58,4 +62,25 @@ a,
   100% {
     transform: translateX(-50%);
   }
+}
+
+.glow {
+  width: 8px;
+  height: 8px;
+  background-color: rgb(7, 187, 7);
+  border-radius: 50%;
+  animation: glow 1s infinite;
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 2px 1px rgb(7, 187, 7);
+  }
+
+  50% {
+    box-shadow: 0 0 10px 2px rgb(7, 187, 7);
+  }
+
+  100% {
+    box-shadow: 0 0 2px 1px rgb(7, 187, 7);  }
 }

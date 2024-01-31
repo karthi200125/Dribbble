@@ -1,18 +1,25 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import noProfile from '../assets/noprofile.png'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from "../Redux/AuthSlice"
 
 const Profilecard = () => {
 
-  const handleLogout = () => [
+  const { user } = useSelector(state => state.user)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-  ]
+  const handleLogout = () => {
+    navigate('/')
+    dispatch(logout())
+  }
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-between p-10 z-10 bg-white">
+    <div className="w-full h-full flex flex-col items-center justify-between p-10 z-[999] bg-white">
       <div className="flex items-center justify-center flex-col">
         <img src={"" || noProfile} alt=""
           className="w-[80px] h-[80px] object-cover rounded-full mb-2" />
-        <span>karthikeyan</span>
+        <span>{user?.username}</span>
       </div>
       <div className=" w-full flex items-start justify-center flex-col  gap-4">
         <Link to='/' className="cursor-pointer hover:opacity-80 text-neutral-700">Upload design work</Link>

@@ -7,6 +7,7 @@ import FooterBtm from "../Components/FooterBtm"
 import { IoMdArrowUp } from "react-icons/io";
 import { CARDS } from "../Cardsdata"
 import Search from "./Search"
+import Button from "../Components/Button"
 
 const Home = () => {
 
@@ -26,6 +27,7 @@ const Home = () => {
                 }
                 <Cards cards={CARDS} />
                 <FooterBtm />
+                
                 <div className="absolute bottom-8 right-8 w-[50px] h-[50px] rounded-full bg-neutral-400 hover:bg-neutral-600 cursor-pointer flex items-center justify-center text-white">
                     <IoMdArrowUp size={25} />
                 </div>

@@ -1,26 +1,32 @@
+import { ReactNode } from "react";
+
 interface ButtonProps {
-  title: string,
   bg?: string;
-  onClick?: () => void;
+  onClick?: (e: any) => void;
   py?: string;
+  px?: string;
+  isLoading?: boolean;
   border?: string;
   color?: string;
   w?: string;
+  children: ReactNode;
 }
 
-const Button = ({ title, bg, onClick, py, border, color, w }: ButtonProps) => {
+const Button = ({ bg, onClick, py, border, color, w, children, px, isLoading }: ButtonProps) => {
 
   return (
     <button
       className={
-        `px-6 ${py ? py : "py-3"} rounded-full transition-opacity duration-300 hover:opacity-60 ${w}
+        `${px ? px : "px-6"} ${py ? py : "py-3"} rounded-full transition-opacity duration-300 hover:opacity-60 ${w}
         ${border && `border-[1px] border-solid border-${border}`}
         ${bg === 'transparent' ? 'text-black' : color ? color : 'text-white'}
         ${bg ? `bg-${bg}` : 'bg-black'}
+        ${isLoading && "cursor-not-allowed opacity-60"}
         `}
       onClick={onClick}
+      disabled={isLoading}
     >
-      <span className="font-bold">{title}</span>
+      {isLoading ? "please wait..." : children}
     </button>
   )
 }

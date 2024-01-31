@@ -15,7 +15,7 @@ const FooterBtm = () => {
                     <li className="cursor-pointer font-bold">Careers</li>
                     <li className="cursor-pointer font-bold">Support</li>
                 </ul>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4">                    
                     <FaTwitter size={20} className="cursor-pointer" />
                     <FaFacebookSquare size={20} className="cursor-pointer" />
                     <FaInstagram size={20} className="cursor-pointer" />

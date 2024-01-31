@@ -6,6 +6,7 @@ import Button from "../../Components/Button";
 import Cards from "../../Components/Cards";
 import noprofile from '../../assets/noprofile.png';
 import { CARDS } from "../../Cardsdata";
+import { memo } from "react";
 
 
 const OpenPro = () => {
@@ -40,13 +41,13 @@ const OpenPro = () => {
               </div>
             </div>
             <div className="flex flex-row gap-3 items-center ">
-              <div className="w-[40px] h-[40px] rounded-full border-[1px] border-solid border-neutral-200 flex items-center justify-center cursor-pointer">
+              <Button bg="transparent" border="neutral-200" px="px-3">
                 <CiHeart size={20} />
-              </div>
-              <div className="w-[40px] h-[40px] rounded-full border-[1px] border-solid border-neutral-200 flex items-center justify-center cursor-pointer">
+              </Button>
+              <Button bg="transparent" border="neutral-200" px="px-3">
                 <IoSaveOutline size={20} />
-              </div>
-              <Button title="get in touch" py="py-2" />
+              </Button>
+              <Button py="py-2">get in touch</Button>
             </div>
           </div>
         </div>
@@ -71,7 +72,7 @@ const OpenPro = () => {
         <div className="flex items-center justify-center flex-col gap-3 mt-10">
           <h1 className="text-xl font-bold">karthikeyan</h1>
           <p className="text-neutral-400">designer and developer</p>
-          <Button title="get on touch" />
+          <Button >get on touch</Button>
         </div>
 
         {/* more deigns */}
@@ -88,4 +89,4 @@ const OpenPro = () => {
   )
 }
 
-export default OpenPro
+export default memo(OpenPro)

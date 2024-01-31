@@ -1,6 +1,7 @@
 import './App.css';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
+import { useSelector } from 'react-redux';
 
 const OpenPro = lazy(() => import('./Pages/Project/OpenPro'));
 const Profile = lazy(() => import('./Pages/Profile'));
@@ -13,7 +14,10 @@ const Register = lazy(() => import('./Pages/Register'));
 const Home = lazy(() => import('./Pages/Home'));
 
 function App() {
-  const user = false;
+
+  const { user } = useSelector(state => state.user)
+
+  console.log(user)
 
   return (
     <BrowserRouter>

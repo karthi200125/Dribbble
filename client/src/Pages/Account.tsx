@@ -1,8 +1,49 @@
+import { useSelector } from "react-redux"
 import Button from "../Components/Button"
 import Input from "../Components/Inputs"
 import Navbar from "../Components/Navbar"
+import { useState } from "react"
+import useHandleCrud from "../Utils/HanldeCrud"
+import { login, logout } from "../Redux/AuthSlice"
 
 const Account = () => {
+
+    const { user } = useSelector(state => state.user)
+
+    const [input, setInput] = useState({
+        username: user?.username || "",
+        email: user?.email || ""
+    })
+
+    const handleChange = (e: any) => {
+        setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    };
+
+    const { isLoading, Crud } = useHandleCrud({
+        url: `/user/userupdate/${user?._id}`,
+        method: "PUT",
+        data: input,
+        successmsg: "user updated succesfully",
+        disp: login
+    });
+
+    const { Crud: deleteUser } = useHandleCrud({
+        url: `/user/userdelete/${user?._id}`,
+        method: "DELETE",
+        data: input,
+        successmsg: "user Account deleted successfully deleted",
+        disp: logout,
+        nav: "/"
+    });
+
+    const handleUpdate = async () => {
+        await Crud();
+    }
+
+    const handleDelete = async () => {
+        await deleteUser();
+    }
+
     return (
         <div className="w-full h-screen">
             <Navbar />
@@ -11,11 +52,11 @@ const Account = () => {
 
                     <div className="flex items-center flex-row justify-between">
                         <div className="flex items-center gap-8 flex-row">
-                            <img src="https://cdn.dribbble.com/users/17579883/avatars/small/0e6cb604f97f1d9236d3089156e7121f.jpg?1695134966" alt=""
+                            <img src={user?.profilePic} alt=""
                                 className="w-[50px] h-[50px] object-cover rounded-full"
                             />
                             <div>
-                                <h1 className="text-[20px]">karthikeyan/gereal</h1>
+                                <h1 className="text-[20px]">{`${user?.username}/gereal`}</h1>
                                 <p className="text-[15px] text-neutral-400">Update your username and manage your account</p>
                             </div>
                         </div>
@@ -40,17 +81,18 @@ const Account = () => {
                                 <li className="text-neutral-400">Data Export</li>
                             </ul>
                             <span className="h-[1px] bg-neutral-400"></span>
-                            <span className="text-red-500 cursor-pointer">Delete Account</span>
+                            <span className="text-red-500 cursor-pointer"></span>
+                            <Button onClick={handleDelete} bg="transparent" color="text-red-600">Delete Account</Button>
                         </div>
                         <div className="w-full h-full flex gap-3 flex-col">
-                            <Input labelname="Username" />
+                            <Input labelname="Username" value={input.username} name="username" />
                             <p className="text-neutral-400">Your Dribbble URL: https://dribbble.com/Karthick25</p>
-                            <Input labelname="Email" />
+                            <Input labelname="Email" value={input.email} name="email" />
                             <div className="mt-8">
                                 <span>Disable Ads</span>
                                 <p className="text-[15px]">With a Pro account, you can disable ads across the site.</p>
                                 <div className="w-full text-end">
-                                    <Button title="Save chnages" py="py-2" />
+                                    <Button py="py-2" onClick={handleUpdate} isLoading={isLoading}>Save changes</Button>
                                 </div>
                             </div>
                         </div>

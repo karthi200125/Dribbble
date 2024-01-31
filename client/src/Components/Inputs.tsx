@@ -1,20 +1,14 @@
-import React, { ChangeEvent } from 'react';
 
 interface InputProps {
-    onChange?: (value: string) => void;
+    onChange?: (e: any) => void;
     type?: string;
     name?: string;
+    value?: string;
     labelname?: string;
     placeholder?: string;
 }
 
-const Input = ({ onChange, type, name, labelname, placeholder }: InputProps) => {
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        if (onChange) {
-            onChange(value);
-        }
-    };
+const Input = ({ onChange, type, name, labelname, placeholder, value }: InputProps) => {
 
     return (
         <div className='w-full flex flex-col gap-2'>
@@ -22,8 +16,9 @@ const Input = ({ onChange, type, name, labelname, placeholder }: InputProps) => 
             <input
                 type={type ? type : 'text'}
                 name={name}
-                onChange={handleChange}
-                className='w-full p-4 rounded-xl border-[1px] border-solid border-neutral-300 hover:border-rose-500 focus:border focus:outline-rose-500 '
+                value={value}
+                onChange={onChange}
+                className='w-full p-4 rounded-xl border-[3px] border-solid border-neutral-300 hover:border-rose-100 focus:outline-rose-200 focus:border-rose-100 '
                 placeholder={placeholder}
             />
         </div>

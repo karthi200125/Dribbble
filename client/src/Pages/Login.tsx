@@ -1,8 +1,36 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Button from "../Components/Button"
 import Input from "../Components/Inputs"
+import useHandleCrud from "../Utils/HanldeCrud"
+import { useState } from "react"
+import { login } from "../Redux/AuthSlice"
 
 const Login = () => {
+
+    const navigate = useNavigate()
+    const [input, setInputs] = useState({
+        email: "",
+        password: ""
+    });
+
+    const handleChange = (e: any) => {
+        setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    };
+
+    const { isLoading, Crud } = useHandleCrud({
+        url: "/auth/login",
+        method: "POST",
+        data: input,
+        successmsg: "user Login successfully",
+        nav: '/home',
+        disp: login
+    });
+
+
+    const handleLogin = async () => {
+        await Crud();
+    }
+
     return (
         <div className="w-full h-screen flex flex-row relative">
             <video
@@ -10,7 +38,7 @@ const Login = () => {
                 autoPlay
                 className="w-[400px] h-full object-cover"
             />
-            <span className="absolute text-white logo-font text-3xl cursor-pointer left-8 top-8">Dribbble</span>
+            <Link to='/' className="absolute text-white logo-font text-3xl cursor-pointer left-8 top-8">Dribbble</Link>
 
             <div className="h-full flex items-start ml-[150px] justify-center flex-col">
                 <div className="w-[400px] h-[500px] flex items-center flex-col justify-between ">
@@ -19,10 +47,10 @@ const Login = () => {
                     <div className="relative w-full h-[1px] bg-neutral-300">
                         <span className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-3 text-neutral-400">or sign in with email</span>
                     </div>
-                    <Input labelname="UserName or Email" type="email" />
+                    <Input labelname="UserName or Email" type="email" onChange={handleChange} value={input.email} name="email" />
                     {/* <span className="w-full text-end underline">Forget?</span> */}
-                    <Input labelname="Password" type="password" />
-                    <Button title="Sign in" w="w-full" py="py-4" />
+                    <Input labelname="Password" type="password" onChange={handleChange} value={input.password} name="password" />
+                    <Button w="w-full" py="py-4" onClick={handleLogin} isLoading={isLoading}>Signin</Button>
                     <div className="text-neutral-600 text-[15px] cursor-pointer">Dont have an account?
                         <Link to="/register" className="underline">Sign Up</Link>
                     </div>

@@ -6,7 +6,7 @@ const userModel = new mongoose.Schema({
     password: { type: String, required: true },
     profilePic: { type: String },
     userTitle: { type: String },
-    available: { type: Boolean, default: false },
+    available: { type: Boolean, default: true },
     followers: [{
         type: Schema.Types.ObjectId,
         ref: 'User'
@@ -27,6 +27,6 @@ const userModel = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'Project'
     }],
-});
+}, { timestamps: true });
 
 export default mongoose.model("User", userModel);

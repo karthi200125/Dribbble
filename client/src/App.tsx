@@ -4,7 +4,7 @@ import { Suspense, lazy } from 'react';
 import { useSelector } from 'react-redux';
 
 const OpenPro = lazy(() => import('./Pages/Project/OpenPro'));
-const Profile = lazy(() => import('./Pages/Profile'));
+const Profile = lazy(() => import('./Pages/Profile/Profile'));
 const Upload = lazy(() => import('./Pages/Upload/Upload'));
 const Search = lazy(() => import('./Pages/Search'));
 const LandingPage = lazy(() => import('./Pages/Landingpage/LandingPage'));
@@ -15,9 +15,7 @@ const Home = lazy(() => import('./Pages/Home'));
 
 function App() {
 
-  const { user } = useSelector(state => state.user)
-
-  console.log(user)
+  const { user } = useSelector((state: any) => state.user)
 
   return (
     <BrowserRouter>

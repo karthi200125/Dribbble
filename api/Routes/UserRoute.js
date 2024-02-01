@@ -7,6 +7,6 @@ router.put('/userupdate/:id', userUpdate)
 router.delete('/userdelete/:id', userDelete)
 router.get('/getallusers', getAllUsers)
 router.get('/getuser/:id', getUser)
-router.get('/userfollow', userFollow)
+router.post('/userfollow', userFollow)
 
 export default router;

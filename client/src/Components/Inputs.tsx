@@ -3,12 +3,13 @@ interface InputProps {
     onChange?: (e: any) => void;
     type?: string;
     name?: string;
+    w?: string;
     value?: string;
     labelname?: string;
     placeholder?: string;
 }
 
-const Input = ({ onChange, type, name, labelname, placeholder, value }: InputProps) => {
+const Input = ({ onChange, type, name, labelname, placeholder, value , w }: InputProps) => {
 
     return (
         <div className='w-full flex flex-col gap-2'>

@@ -26,7 +26,7 @@ const Button = ({ bg, onClick, py, border, color, w, children, px, isLoading }: 
       onClick={onClick}
       disabled={isLoading}
     >
-      {isLoading ? "please wait..." : children}
+      <span className="font-bold">{isLoading ? "please wait..." : children}</span>
     </button>
   )
 }

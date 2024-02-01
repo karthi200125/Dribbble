@@ -6,8 +6,8 @@ import { useSelector } from "react-redux"
 
 const Navbar = () => {
 
-    const { user } = useSelector(state => state.user)
-
+    const { user } = useSelector((state: any) => state.user)
+    
     return (
         <div className="w-full h-[100px] flex items-center justify-between flex-row px-10 py-[40px] ">
             <div className="flex items-center flex-row gap-6">

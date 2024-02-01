@@ -2,15 +2,20 @@ import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { FiChevronDown } from "react-icons/fi";
 import { IoIosCloseCircle } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { searchredux } from "../Redux/SearchSlice";
 
 const Search = () => {
 
+  const { search } = useSelector((state: any) => state.search)
+  const dispatch = useDispatch()
   const [option, setOption] = useState("Shots")
   const [selectOpen, setselectOpen] = useState(false)
-  const [search, setsearch] = useState("test")
+  const [searchItem, setsearchItem] = useState(search || '')
 
-  const handleChnage = (e: any) => {
-    setsearch(e.target.value)
+
+  const handleClick = () => {
+    dispatch(searchredux(searchItem))
   }
 
   return (
@@ -18,9 +23,17 @@ const Search = () => {
       <div className="absolute top-0 left-0 h-[80px] w-full bg-gradient-to-r from-purple-100  to-cyan-100 z-[-1]"></div>
       <div className="w-[600px] rounded-xl h-[70px] shadow-lg bg-white flex items-center justify-between px-5 flex-row border-[1px] border-solid border-neutral-200 mt-10">
         <CiSearch size={25} />
-        <input type="text" className="w-[350px] h-full" placeholder="Search" value={search} onChange={handleChnage} />
+        <input
+          type="text"
+          className="w-[350px] h-full"
+          placeholder="Search"
+          value={searchItem}
+          onChange={(e) => setsearchItem(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && handleClick()}
+        />
+
         {search &&
-          <IoIosCloseCircle size={25} onClick={() => setsearch("")} className="text-neutral-300"/>
+          <IoIosCloseCircle size={25} onClick={() => setsearchItem("")} className="text-neutral-300" />
         }
         <span className="border-r-[3px] border-solid border-neutral-200 text-white">.</span>
 
@@ -42,8 +55,8 @@ const Search = () => {
       </div>
 
       <div className="mt-10 text-center">
-        <h1 className="font-bold text-3xl capitalize">{search}</h1>
-        <p className="text-neutral-400">Inspirational {search} designs</p>
+        <h1 className="font-bold text-3xl capitalize">{searchItem}</h1>
+        <p className="text-neutral-400">Inspirational {searchItem} designs</p>
       </div>
     </div>
   )

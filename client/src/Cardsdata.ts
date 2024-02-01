@@ -2,7 +2,7 @@ export const CARDS = [
     {
         id: 1,
         proImage: "https://cdn.dribbble.com/userupload/12748917/file/original-5703da4d1177610cfba4439c17f1c543.png?resize=320x240&vertical=center",
-        proTitle: "Social Media",
+        proTitle: "one",
         userPro: "https://cdn.dribbble.com/users/432077/avatars/small/111c79d914406def8805c25ab298a1d4.jpg?1706480230",
         username:"karthick",
         proLikes:100,
@@ -11,7 +11,7 @@ export const CARDS = [
     {
         id: 2,
         proImage: "https://cdn.dribbble.com/userupload/12749911/file/original-60ea7b968223e7a3483446700a5fa65a.jpg?resize=320x240&vertical=center",
-        proTitle: "Social Media",
+        proTitle: "two",
         userPro: "https://cdn.dribbble.com/users/432077/avatars/small/111c79d914406def8805c25ab298a1d4.jpg?1706480230",
         username:"karthick",
         proLikes:100,
@@ -20,7 +20,7 @@ export const CARDS = [
     {
         id: 3,
         proImage: "https://cdn.dribbble.com/userupload/12645943/file/original-ee68a610d393b86020bc91b069c310f0.png?resize=320x240&vertical=center",
-        proTitle: "Social Media",
+        proTitle: "three",
         userPro: "https://cdn.dribbble.com/users/432077/avatars/small/111c79d914406def8805c25ab298a1d4.jpg?1706480230",
         username:"karthick",
         proLikes:100,
@@ -47,7 +47,7 @@ export const CARDS = [
     {
         id: 6,
         proImage: "https://cdn.dribbble.com/userupload/12748917/file/original-5703da4d1177610cfba4439c17f1c543.png?resize=320x240&vertical=center",
-        proTitle: "Social Media",
+        proTitle: "three",
         userPro: "https://cdn.dribbble.com/users/432077/avatars/small/111c79d914406def8805c25ab298a1d4.jpg?1706480230",
         username:"karthick",
         proLikes:100,
@@ -74,7 +74,7 @@ export const CARDS = [
     {
         id: 9,
         proImage: "https://cdn.dribbble.com/userupload/12512096/file/still-ecf4fb7f01baef70dd475f7ab4dc05ee.png?resize=320x240&vertical=center",
-        proTitle: "Social Media",
+        proTitle: "ten",
         userPro: "https://cdn.dribbble.com/users/432077/avatars/small/111c79d914406def8805c25ab298a1d4.jpg?1706480230",
         username:"karthick",
         proLikes:100,

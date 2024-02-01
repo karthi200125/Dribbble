@@ -4,8 +4,8 @@ import UserModel from "../Models/UserModel.js";
 
 export const createProject = async (req, res, next) => {
     try {
-        const { proTitle, proDesc, proImage, userId } = req.body;
-        const newProject = await ProjectModel.create({ proTitle, proDesc, proImage });
+        const { proTitle, proDesc, proImage, userId, isPublished } = req.body;
+        const newProject = await ProjectModel.create({ proTitle, proDesc, proImage, isPublished, userId });
         await UserModel.findByIdAndUpdate(userId, { $push: { createdProjects: newProject._id } });
         res.status(200).json(newProject);
     } catch (error) {
@@ -46,12 +46,23 @@ export const getProject = async (req, res, next) => {
 
 export const getAllProjects = async (req, res, next) => {
     try {
-        const allProjects = await ProjectModel.find();
+        const { userId, likedIds } = req.body;
+        let allProjects;
+        if (userId) {
+            allProjects = await ProjectModel.find({ userId });
+        }
+        else if (likedIds && likedIds.length > 0) {
+            allProjects = await ProjectModel.find({ _id: { $in: likedIds } });
+        }
+        else {
+            allProjects = await ProjectModel.find();
+        }
         res.status(200).json(allProjects);
     } catch (error) {
         next(CreateError(error, req, "Get all projects failed"));
     }
 };
+
 
 export const saveProject = async (req, res, next) => {
     try {
@@ -61,13 +72,13 @@ export const saveProject = async (req, res, next) => {
         const isAlreadySaved = user.savedProjects.includes(id);
         if (!isAlreadySaved) {
             await UserModel.findByIdAndUpdate(userId, { $push: { savedProjects: id } });
-            res.status(200).json("Project has been saved");
+            res.status(200).json(id);
         } else {
             await UserModel.findByIdAndUpdate(userId, { $pull: { savedProjects: id } });
-            res.status(200).json("Project has been unsaved");
+            res.status(200).json(id);
         }
     } catch (error) {
-        next(createError(error, req, "Save project failed"));
+        next(CreateError(error, req, "Save project failed"));
     }
 };
 
@@ -80,13 +91,14 @@ export const likeProject = async (req, res, next) => {
         if (!isAlreadyLiked) {
             await UserModel.findByIdAndUpdate(userId, { $push: { likedProjects: id } });
             await ProjectModel.findByIdAndUpdate(id, { $push: { likedUsers: userId } });
-            res.status(200).json("Project has been liked");
+            res.status(200).json(id);
         } else {
             await UserModel.findByIdAndUpdate(userId, { $pull: { likedProjects: id } });
             await ProjectModel.findByIdAndUpdate(id, { $pull: { likedUsers: userId } });
-            res.status(200).json("Project has been Disliked");
+            res.status(200).json(id);
         }
     } catch (error) {
-        next(createError(error, req, "Like project failed"));
+        next(CreateError(error, req, "Like project failed"));
     }
 };
+

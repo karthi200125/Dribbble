@@ -7,8 +7,8 @@ const LBanner = () => {
         <h1 className="text-6xl text-center md:text-center text-[40px] ">Find your next designer today</h1>
         <p className="text-xl text-center">The world’s leading brands use Dribbble to hire creative talent. Browse millions of top-rated portfolios to find your perfect creative match.</p>
         <div className="flex flex-row md:flex-col gap-4 ">
-          <Button title="Get started now" py="py-4" />
-          <Button title="Learn about hiring" bg="white" color="text-black" py="py-4" />
+          <Button py="py-4" >Get started now</Button>
+          <Button bg="white" color="text-black" py="py-4" >Learn about hiring</Button>
         </div>
 
         <p className="flex flex-row items-center text-xl md:text-center flex-col">Are you designer? <span className="text-underline">Jion Dribble</span></p>

@@ -3,10 +3,10 @@ import { createProject, deleteProject, getAllProjects, getProject, likeProject, 
 
 const router = express.Router()
 
-router.put('/createpro', createProject)
-router.delete('/deletpro/:id', deleteProject)
+router.post('/createpro', createProject)
+router.delete('/deletepro/:id', deleteProject)
 router.put('/updatepro/:id', updateProject)
-router.get('/getuallpro', getAllProjects)
+router.get('/getallpro', getAllProjects)
 router.get('/getpro/:id', getProject)
 router.post('/saveproject/:id', saveProject)
 router.post('/likeproject/:id', likeProject)

@@ -4,6 +4,7 @@ import { FaPlus } from "react-icons/fa";
 import { GoVideo } from "react-icons/go";
 import { LuGalleryHorizontal } from "react-icons/lu";
 import { RxText } from "react-icons/rx";
+import Input from "../../Components/Inputs";
 
 interface EditUploadProps {
   image: string;
@@ -12,10 +13,19 @@ interface EditUploadProps {
 
 const EditUpload = ({ image, onBaropen }: EditUploadProps) => {
   const [barOpen, setBarOpen] = useState(false);
+  const [input, setInput] = useState({
+    proTitle: '',
+    proDesc: "",
+    proImage: "https://cdn.dribbble.com/userupload/12800480/file/original-83091a66329bfffa0249884917126b32.png?resize=320x240&vertical=center"
+  })
 
   const handleBaropen = () => {
     setBarOpen(!barOpen)
     onBaropen(!barOpen)
+  }
+
+  const handlechange = (e: any) => {
+    setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
   return (
@@ -25,12 +35,14 @@ const EditUpload = ({ image, onBaropen }: EditUploadProps) => {
           type="text"
           placeholder="Give me name"
           className="text-4xl w-[70%] font-bold h-[100px] bg-transparent"
+          onChange={handlechange}
         />
         <img
           src={image}
           alt=""
           className="w-full h-[500px] object-cover rounded-lg"
         />
+        <Input name="proDesc" placeholder="write what inti thid design or add any details you like mention" onChange={handlechange} value={input.proDesc} />
       </div>
 
       <div className="relative w-full h-[2px] bg-neutral-300 mt-10">
@@ -50,13 +62,13 @@ const EditUpload = ({ image, onBaropen }: EditUploadProps) => {
             <h1 className="text-xl font-bold">Insert Block</h1>
             <div className="flex items-start justify-center flex-col gap-4 ">
               <h2>Basic</h2>
-              <div className="flex flex-row items-center gap-3 font-light hover:bg-neutral-100 rounded-md p-2 px-3 w-full cursor-pointer"><RxText size={25}/><span>Text</span></div>
-              <div className="flex flex-row items-center gap-3 font-light hover:bg-neutral-100 rounded-md p-2 px-3 w-full cursor-pointer"><CiImageOn size={25}/><span>Image</span></div>
-              <div className="flex flex-row items-center gap-3 font-light hover:bg-neutral-100 rounded-md p-2 px-3 w-full cursor-pointer"><GoVideo size={25}/><span>Video</span></div>
+              <div className="flex flex-row items-center gap-3 font-light hover:bg-neutral-100 rounded-md p-2 px-3 w-full cursor-pointer"><RxText size={25} /><span>Text</span></div>
+              <div className="flex flex-row items-center gap-3 font-light hover:bg-neutral-100 rounded-md p-2 px-3 w-full cursor-pointer"><CiImageOn size={25} /><span>Image</span></div>
+              <div className="flex flex-row items-center gap-3 font-light hover:bg-neutral-100 rounded-md p-2 px-3 w-full cursor-pointer"><GoVideo size={25} /><span>Video</span></div>
             </div>
             <div className="flex items-start justify-center flex-col gap-4 mt-5">
               <h2>Rich media</h2>
-              <div className="flex flex-row items-center gap-3 font-light hover:bg-neutral-100 rounded-md p-2 px-3 w-full cursor-pointer"><LuGalleryHorizontal size={20}/><span>Gallery</span></div>
+              <div className="flex flex-row items-center gap-3 font-light hover:bg-neutral-100 rounded-md p-2 px-3 w-full cursor-pointer"><LuGalleryHorizontal size={20} /><span>Gallery</span></div>
             </div>
             <div>
 

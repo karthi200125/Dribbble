@@ -1,17 +1,39 @@
+import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { searchredux } from "../Redux/SearchSlice";
 
 const SearchBar = () => {
 
-  const loaction = useLocation()
-  const pathname = loaction.pathname
+  const { search } = useSelector((state: any) => state.search)
+  const dispatch = useDispatch()
+
+  // console.log("search", search)
+
+  const location = useLocation();
+  const pathname = location.pathname;
+  const navigate = useNavigate();
+  const [query, setQuery] = useState(search || "");
+
+
+  const handleClick = () => {
+    navigate(`/home`);
+    dispatch(searchredux(query))
+  };
 
   return (
-    <div className={`hidden md:flex flex items-center ${pathname === '/home' ? "bg-neutral-100" : "bg-white"} p-3 rounded-full gap-2`}>
+    <div className={`hidden md:flex flex items-center ${pathname !== '/' ? "bg-neutral-100" : "bg-white"} p-3 rounded-full gap-2`}>
       <CiSearch className="" size={25} />
-      <input type="text" placeholder="Search" className={`focus:outline-none ${pathname === '/home' ? "bg-neutral-100" : "bg-white"}`} />
+      <input
+        type="text"
+        value={query}
+        placeholder="Search"
+        className={`focus:outline-none ${pathname !== '/' ? "bg-neutral-100" : "bg-white"}`}
+        onChange={(e) => setQuery(e.target.value)}
+        onKeyPress={(e) => e.key === 'Enter' && handleClick()} />
     </div>
-  )
-}
+  );
+};
 
-export default SearchBar
+export default SearchBar;

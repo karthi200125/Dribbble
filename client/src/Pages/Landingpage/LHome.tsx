@@ -52,7 +52,7 @@ const LHome = () => {
                     Get inspired by the work of millions of top-rated designers & agencies around the world.
                 </p>
                 <Link to='/register'>
-                    <Button title="Get started" py="py-4" />
+                    <Button py="py-4" >Get started</Button>
                 </Link>
             </div>
         </div>

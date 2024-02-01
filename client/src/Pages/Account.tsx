@@ -24,7 +24,8 @@ const Account = () => {
         method: "PUT",
         data: input,
         successmsg: "user updated succesfully",
-        disp: login
+        disp: login,
+        nav: `/account/${user._id}`
     });
 
     const { Crud: deleteUser } = useHandleCrud({
@@ -85,9 +86,9 @@ const Account = () => {
                             <Button onClick={handleDelete} bg="transparent" color="text-red-600">Delete Account</Button>
                         </div>
                         <div className="w-full h-full flex gap-3 flex-col">
-                            <Input labelname="Username" value={input.username} name="username" />
+                            <Input labelname="Username" value={input.username} name="username" onChange={handleChange} />
                             <p className="text-neutral-400">Your Dribbble URL: https://dribbble.com/Karthick25</p>
-                            <Input labelname="Email" value={input.email} name="email" />
+                            <Input labelname="Email" value={input.email} name="email" onChange={handleChange} />
                             <div className="mt-8">
                                 <span>Disable Ads</span>
                                 <p className="text-[15px]">With a Pro account, you can disable ads across the site.</p>

@@ -22,13 +22,13 @@ const Profilecard = () => {
         <span>{user?.username}</span>
       </div>
       <div className=" w-full flex items-start justify-center flex-col  gap-4">
-        <Link to='/' className="cursor-pointer hover:opacity-80 text-neutral-700">Upload design work</Link>
+        <Link to={`/upload/${user?._id}`} className="cursor-pointer hover:opacity-80 text-neutral-700">Upload design work</Link>
         <Link to='/' className="cursor-pointer hover:opacity-80 text-neutral-700">Work preferences</Link>
-        <Link to='/' className="cursor-pointer hover:opacity-80 text-neutral-700">Settings</Link>
+        <Link to={`/account/${user?._id}`} className="cursor-pointer hover:opacity-80 text-neutral-700">Settings</Link>
         <span className="h-[1px] bg-neutral-300 w-full"></span>
         <span className="cursor-pointer hover:opacity-80 text-neutral-700" onClick={handleLogout}>Sign Out</span>
       </div>
-    </div>
+    </div >
   )
 }
 

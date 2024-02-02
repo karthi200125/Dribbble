@@ -61,7 +61,7 @@ const Card = ({ data, Delete, profile }: CardProps) => {
   }, []);
 
   const liked = user?.likedProjects?.includes(data?._id);
-
+  
   // Handle like code
   const { Crud: HandleLike } = useHandleCrud({
     url: `/project/likeproject/${data?._id}`,
@@ -76,15 +76,16 @@ const Card = ({ data, Delete, profile }: CardProps) => {
     dispatch(like(data?._id));
   };
 
+  
   return (
     <div className="card" >
       <Link to={`/openpro/${data._id}`} state={{ ...data, postuser: postuser }} className="group imagecon h-[210px] overflow-hidden rounded-lg relative cursor-pointer">
         <img
           src={data.proImage}
           alt={data.proTitle}
-          className="w-full h-full object-cover rounded-lg"
+          className="w-full object-cover rounded-lg h-[210px]"
         />
-        <div className="hidden group-hover:flex absolute bg-gradient-to-b from-[rgba(0,0,0,0.005)] to-[rgba(0,0,0,0.7)] bottom-0 left-0 w-full items-center justify-between h-20 p-4 transition duration-300 ease-in-out">
+        <div className="hidden group-hover:flex absolute bg-gradient-to-b from-[rgba(0,0,0,0.005)] to-[rgba(0,0,0,0.7)] bottom-0 left-0 w-full items-center justify-between h-20 p-4 transition duration-300 ease-in-out gap-2">
           <h1 className="w-[65%] text-white text-[20px] font-bold cursor-pointer whitespace-nowrap pr-3">
             {data.proTitle}
           </h1>

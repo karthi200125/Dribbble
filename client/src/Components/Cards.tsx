@@ -2,7 +2,7 @@ import { memo } from 'react';
 import Card from './Card';
 
 interface CardsProps {
-    cards: [];
+    cards: any;
     Delete?: any;
     profile?: any;
 }
@@ -13,8 +13,8 @@ const Cards = ({ cards, Delete, profile }: CardsProps) => {
         <div className="w-full ">
             {cards?.length > 0 ?
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 3xl:grid-cols-5 gap-10 p-[75px] items-center">
-                    {cards.map((card, i) => (
-                        <Card key={i} data={card} Delete={Delete} profile={profile} />
+                    {cards.map((card: any) => (
+                        <Card key={card?._id} data={card} Delete={Delete} profile={profile} />
                     ))}
                 </div>
                 :

@@ -25,7 +25,7 @@ const Register = () => {
         method: "POST",
         data: input,
         successmsg: "user has been created successfully",
-        nav: '/home',
+        nav: '/welcome',
         disp: login
     });
 

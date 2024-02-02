@@ -1,19 +1,27 @@
-import React, { useState } from "react";
-import Button from "../../Components/Button";
-import ImageUplaod from "./ImageUplaod";
-import EditUplaod from "./EditUplaod";
-import useHandleCrud from "../../Utils/HanldeCrud";
-import { useSelector } from "react-redux";
-import Input from "../../Components/Inputs";
-import { FaPlus } from "react-icons/fa";
-import { RxText } from "react-icons/rx";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { CiImageOn } from "react-icons/ci";
+import { FaPlus } from "react-icons/fa";
 import { GoVideo } from "react-icons/go";
 import { LuGalleryHorizontal } from "react-icons/lu";
+import { RxText } from "react-icons/rx";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Button from "../../Components/Button";
+import Input from "../../Components/Inputs";
+import useHandleCrud from "../../Utils/HanldeCrud";
+import { useUplaod } from "../../Utils/UplaodFile";
+import ImageUplaod from "./ImageUplaod";
+
+interface ImageProps {
+  imageUrl: string;
+  file: {
+    name: any;
+  }; 
+}
 
 const Upload = () => {
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState<ImageProps>();
   const [barOpen, setBarOpen] = useState(false);
   const navigate = useNavigate()
 
@@ -22,8 +30,7 @@ const Upload = () => {
   const [input, setInput] = useState({
     proTitle: "",
     proDesc: "",
-    proImage:
-      "https://cdn.dribbble.com/userupload/12802575/file/original-fd7d568834b4588fe9c2997b37524080.png?resize=320x240&vertical=center",
+    proImage: "",
   });
 
   const handleBaropen = () => {
@@ -34,16 +41,13 @@ const Upload = () => {
     setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleImageChange = (imageUrl: any) => {
-    setImage(imageUrl);
-  };
-
-  console.log(user)
+  const { UploadFile, donwlaodUrl, per } = useUplaod({ image })
+  useEffect(() => { image && UploadFile(); }, [image]);
 
   const { isLoading, Crud } = useHandleCrud({
     url: "/project/createpro",
     method: "POST",
-    data: { ...input, isPublished: true, userId: user?._id },
+    data: { ...input, isPublished: true, userId: user?._id, proImage: donwlaodUrl },
     successmsg: "project has been published",
     nav: `/profile/${user?._id}`,
   });
@@ -51,18 +55,23 @@ const Upload = () => {
   const { isLoading: savecraftloading, Crud: SaveAsCraft } = useHandleCrud({
     url: "/project/createpro",
     method: "POST",
-    data: { ...input, isPublished: false, userId: user?._id },
+    data: { ...input, isPublished: false, userId: user?._id, proImage: donwlaodUrl },
     successmsg: "project has been saved as craft",
     nav: `/profile/${user?._id}`,
   });
 
   const HandleContinue = async () => {
+    if (!input.proTitle) return toast.error("fill Project Title")
+    if (!input.proDesc) return toast.error("fill Project Desciption")
+    if (!donwlaodUrl) return toast.error("please wiat uplaoding ...")
     await Crud();
   };
 
   const HandleSaveasCreaft = async () => {
+    if (!input.proTitle) return toast.error("fill Project Title")
+    if (!input.proDesc) return toast.error("fill Project Desciption")
+    if (!donwlaodUrl) return toast.error("please wiat uplaoding ...")
     await SaveAsCraft();
-    // console.log(input)
   };
 
   return (
@@ -91,7 +100,8 @@ const Upload = () => {
               name="proTitle"
               value={input.proTitle}
             />
-            <img src={image} alt="" className="w-full h-[500px] object-cover rounded-lg" />
+            <img src={image?.imageUrl} alt="" className="w-full h-[500px] object-cover rounded-lg" />
+            <span>{per === "100" ? "Image uploaded" : "file uplaoding ...." + per + "%"}</span>
             <Input name="proDesc" placeholder="write what inti thid design or add any details you like mention" onChange={handlechange} value={input.proDesc} />
           </div>
 
@@ -137,7 +147,7 @@ const Upload = () => {
           )}
         </div>
       ) : (
-        <ImageUplaod onImage={handleImageChange} />
+        <ImageUplaod onImage={(imageUrl: any) => setImage(imageUrl)} />
       )}
     </div>
   );

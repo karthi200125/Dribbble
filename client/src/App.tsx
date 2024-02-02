@@ -12,6 +12,7 @@ const Login = lazy(() => import('./Pages/Login'));
 const Account = lazy(() => import('./Pages/Account'));
 const Register = lazy(() => import('./Pages/Register'));
 const Home = lazy(() => import('./Pages/Home'));
+const Welcome = lazy(() => import('./Pages/Welcome'));
 
 function App() {
 
@@ -19,67 +20,20 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route
-          path="/login"
-          element={!user ? <Login /> : <Navigate to="/home" />}
-        />
-        <Route
-          path="/register"
-          element={!user ? <Register /> : <Navigate to="/home" />}
-        />
-        <Route
-          path="/"
-          element={!user ? <LandingPage /> : <Navigate to="/home" />} />
-        <Route
-          path="/home"
-          element={
-            <Suspense fallback={"loading..."}>
-              {user ? <Home /> : <Navigate to="/" />}
-            </Suspense>
-          }
-        />
-        <Route
-          path="/openpro/:id"
-          element={
-            <Suspense fallback={"loading..."}>
-              {user ? <OpenPro /> : <Navigate to="/" />}
-            </Suspense>
-          }
-        />
-        <Route
-          path="/profile/:id"
-          element={
-            <Suspense fallback={"loading..."}>
-              {user ? <Profile /> : <Navigate to="/" />}
-            </Suspense>
-          }
-        />
-        <Route
-          path="/upload/:id"
-          element={
-            <Suspense fallback={"loading..."}>
-              {user ? <Upload /> : <Navigate to="/" />}
-            </Suspense>
-          }
-        />
-        <Route
-          path="/search"
-          element={
-            <Suspense fallback={"loading..."}>
-              {user ? <Search /> : <Navigate to="/" />}
-            </Suspense>
-          }
-        />
-        <Route
-          path="/account/:id"
-          element={
-            <Suspense fallback={"loading..."}>
-              {user ? <Account /> : <Navigate to="/" />}
-            </Suspense>
-          }
-        />
-      </Routes>
+      <Suspense fallback={"laoding....."}>
+        <Routes>
+          <Route path="/login" element={!user ? <Login /> : <Navigate to="/home" />} />
+          <Route path="/register" element={!user ? <Register /> : <Navigate to="/home" />} />
+          <Route path="/" element={!user ? <LandingPage /> : <Navigate to="/home" />} />
+          <Route path="/home" element={user ? <Home /> : <Navigate to="/" />} />
+          <Route path="/openpro/:id" element={user ? <OpenPro /> : <Navigate to="/" />} />
+          <Route path="/profile/:id" element={user ? <Profile /> : <Navigate to="/" />} />
+          <Route path="/upload/:id" element={user ? <Upload /> : <Navigate to="/" />} />
+          <Route path="/search" element={user ? <Search /> : <Navigate to="/" />} />
+          <Route path="/account/:id" element={user ? <Account /> : <Navigate to="/" />} />
+          <Route path="/welcome" element={user ? <Welcome /> : <Navigate to="/" />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }

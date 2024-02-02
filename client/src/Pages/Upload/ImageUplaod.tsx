@@ -9,7 +9,7 @@ const ImageUplaod = ({ onImage }: any) => {
         if (file) {
             const imageUrl = URL.createObjectURL(file);
             setImage(imageUrl);
-            onImage(imageUrl)
+            onImage({ imageUrl, file })
         }
     };
 
@@ -24,7 +24,7 @@ const ImageUplaod = ({ onImage }: any) => {
                     className="w-[60px] h-[80px] object-cover"
                 />
                 <p>Drag and drop an image, or Browse</p>
-                <p>Minimum 1600px width recommended. Max 10MB each (20MB for videos)</p>                
+                <p>Minimum 1600px width recommended. Max 10MB each (20MB for videos)</p>
             </label>
         </div>
     )

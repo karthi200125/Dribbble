@@ -14,6 +14,8 @@ const Home = () => {
     const [FilterOpen, setFilterOpen] = useState(false);
     const { search } = useSelector((state: any) => state.search);
     const [Allprojects, setAllprojects] = useState([]);
+    const [cat, setCat] = useState("Discover")
+    const { user } = useSelector((state: any) => state.user)
 
     // Fetch all projects of the user
     const getAllProjects = async () => {
@@ -29,9 +31,11 @@ const Home = () => {
         getAllProjects()
     }, [])
 
-    const publishedProjects = Allprojects.filter((pro: any) => pro?.isPublished === true)
+    const Projects = Allprojects.filter((pro: any) => cat === "Discover" ?
+        pro?.isPublished === true && pro?.userId !== user?._id :
+        pro?.category === cat)
 
-    const filteredProjects = publishedProjects?.filter(
+    const filteredProjects = Projects?.filter(
         (project: any) =>
             project?.proTitle.toLowerCase().includes(search.toLowerCase()) ||
             project?.proDesc.toLowerCase().includes(search.toLowerCase())
@@ -42,11 +46,11 @@ const Home = () => {
             <Navbar />
             <div className="home w-100 h-100 ">
                 {search && <Search />}
-                <Categories onFilterOpen={() => setFilterOpen(!FilterOpen)} />
+                <Categories onFilterOpen={() => setFilterOpen(!FilterOpen)} onCat={(cat: any) => setCat(cat)} />
                 {FilterOpen && (
                     <div className="w-full px-[75px] mt-10 flex items-center flex-row gap-3 z-10">
-                        <Input name="tages" labelname="Tags" />
-                        <Input name="Color" labelname="Colors" />
+                        <Input name="tages" labelname="Tags" placeholder="Its just show not working"/>
+                        <Input name="Color" labelname="Colors" placeholder="Its just show not working"/>
                     </div>
                 )}
                 <Cards cards={filteredProjects} />

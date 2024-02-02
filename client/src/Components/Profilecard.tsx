@@ -5,7 +5,7 @@ import { logout } from "../Redux/AuthSlice"
 
 const Profilecard = () => {
 
-  const { user } = useSelector(state => state.user)
+  const { user } = useSelector((state: any) => state.user)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -15,7 +15,7 @@ const Profilecard = () => {
   }
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-between p-10 z-[999] bg-white">
+  <div className="hover:visibility-visible w-full h-full flex flex-col items-center justify-between p-10 z-[999] bg-white rounded-[20px]">
       <div className="flex items-center justify-center flex-col">
         <img src={"" || noProfile} alt=""
           className="w-[80px] h-[80px] object-cover rounded-full mb-2" />

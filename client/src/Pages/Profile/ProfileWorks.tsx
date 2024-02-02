@@ -26,10 +26,12 @@ const ProfileWorks = () => {
         getcreatedProjects()
     }, [params.id])
 
+    const publisheduserProjects = Createdprojects?.filter((pro: any) => pro?.isPublished === true)
+
     return (
         <div className="w-full h-full ">
             {Createdprojects?.length > 0 ?
-                <Cards cards={Createdprojects} profile={true} />
+                <Cards cards={publisheduserProjects} Delete={true} />
                 :
                 <div className="w-[450px] h-[300px] flex items-center justify-center flex-col gap-3 rounded-lg border-[1px] border-solid border-neutral-200 p-5">
                     <img src={traingle} alt="" className="w-[100px] h-[70px] object-fill" />

@@ -6,6 +6,7 @@ const userModel = new mongoose.Schema({
     password: { type: String, required: true },
     profilePic: { type: String },
     userTitle: { type: String },
+    country: { type: String },
     available: { type: Boolean, default: true },
     followers: [{
         type: Schema.Types.ObjectId,

@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
 import { RiFilter3Line } from "react-icons/ri";
-import Input from "./Inputs";
 
-const Categories = ({ onFilterOpen }: any) => {
+const Categories = ({ onFilterOpen, onCat }: any) => {
   const categories = [
     "Discover",
     "Animation",
@@ -17,11 +16,16 @@ const Categories = ({ onFilterOpen }: any) => {
   ];
   const [option, setOption] = useState("Following")
   const [selectOpen, setselectOpen] = useState(false)
+  const [category, setCategory] = useState("Discover")
 
   const HandleOpen = () => {
     onFilterOpen(onFilterOpen)
   }
 
+  const handleCatSet = (data: any) => {
+    onCat(data)
+    setCategory(data)
+  }
 
   return (
     <div className="w-full px-[75px] h-full flex items-center justify-between gap-20 mt-10">
@@ -40,7 +44,8 @@ const Categories = ({ onFilterOpen }: any) => {
       }
       <ul className="category flex items-center w-full flex-row justify-center gap-5 overflow-y-scroll scrollbar-hide">
         {categories.map((cat, i) => (
-          <li key={i} className={`font-semibold p-2 px-3 rounded-full hover:opacity-80 cursor-pointer hover:bg-neutral-130 transition`}>
+          <li key={i} className={`${cat === category && "bg-neutral-100"} font-semibold p-2 px-3 rounded-full hover:opacity-80 cursor-pointer hover:bg-neutral-130 transition`}
+            onClick={() => handleCatSet(cat)}>
             {cat}
           </li>
         ))}

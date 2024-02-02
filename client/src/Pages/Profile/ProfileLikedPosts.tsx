@@ -1,16 +1,16 @@
 import { memo, useEffect, useState } from "react"
 import toast from "react-hot-toast"
-import { useSelector } from "react-redux"
+import { useParams } from "react-router-dom"
 import Cards from "../../Components/Cards"
 import AxiosRequest from "../../Utils/AxiosRequest"
 
 const ProfileLikedPosts = () => {
-    const { user } = useSelector((state: any) => state.user)
     const [Likedprojects, setLikedprojects] = useState([])
+    const params = useParams()    
 
     const getLikedProjects = async () => {
         try {
-            const res = await AxiosRequest.get(`/project/getallpro`, { likedIds: user?.likedProjects });
+            const res = await AxiosRequest.post(`/project/getallpro`, { userId: params.id, like: true });
             setLikedprojects(res?.data);
         } catch (error: any) {
             toast.error(error?.response?.data?.message);
@@ -19,7 +19,8 @@ const ProfileLikedPosts = () => {
 
     useEffect(() => {
         getLikedProjects()
-    }, [])
+    }, [params.id])
+
 
     return (
         <div className="w-full h-full flex items-center justify-center">

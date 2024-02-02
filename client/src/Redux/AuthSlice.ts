@@ -30,8 +30,10 @@ const authSlice = createSlice({
       }
       localStorage.setItem('user', JSON.stringify(state.user));
     },
+
     followed: (state, action: PayloadAction<any>) => {
       const followed = state.user?.followed.includes(action.payload) || false;
+      console.log(followed)
       if (followed) {
         state.user!.followed = state.user!.followed.filter(project => project !== action.payload);
       } else {
@@ -39,6 +41,7 @@ const authSlice = createSlice({
       }
       localStorage.setItem('user', JSON.stringify(state.user));
     },
+
     save: (state, action: PayloadAction<any>) => {
       const saved = state.user?.savedProjects.includes(action.payload) || false;
       if (saved) {
@@ -55,6 +58,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { login, logout, like, save , followed } = authSlice.actions;
+export const { login, logout, like, save, followed } = authSlice.actions;
 
 export default authSlice.reducer;

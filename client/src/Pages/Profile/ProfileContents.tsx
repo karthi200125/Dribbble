@@ -3,11 +3,16 @@ import ProfileAbout from "./ProfileAbout"
 import ProfileDrafts from "./ProfileDrafts"
 import ProfileLikedPosts from "./ProfileLikedPosts"
 import ProfileWorks from "./ProfileWorks"
+import { useSelector } from "react-redux"
+import { useParams } from "react-router-dom"
 
 const ProfileContents = () => {
 
+    const { user } = useSelector((state: any) => state.user)
     const top = ["Work", "Boosted Shots", "Collections", "Liked Shots", "About", "Drafts"]
     const [option, setOption] = useState("Work")
+    const params = useParams()
+
 
 
     return (
@@ -23,7 +28,9 @@ const ProfileContents = () => {
 
             {/* content */}
             <div className=" w-full h-full flex items-center justify-center">
-                {option === 'Drafts' && <ProfileDrafts />}
+                {/* {user?._id === params.id && */}
+                    {option === 'Drafts' && <ProfileDrafts />
+                }
                 {option === 'About' && <ProfileAbout />}
                 {option === 'Liked Shots' && <ProfileLikedPosts />}
                 {option === 'Work' && <ProfileWorks />}

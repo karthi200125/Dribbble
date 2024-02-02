@@ -60,7 +60,7 @@ const OpenPro = () => {
   // Fetch all projects of the user
   const getAllProject = async () => {
     try {
-      const res = await AxiosRequest.get<Project[]>(`/project/getallpro`);
+      const res = await AxiosRequest.post<Project[]>(`/project/getallpro`);
       setAllprojects(res?.data);
     } catch (error: any) {
       console.log(error)

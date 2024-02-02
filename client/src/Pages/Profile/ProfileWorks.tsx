@@ -1,26 +1,35 @@
-import { memo } from "react"
-import Cards from "../../Components/Cards"
-import { useSelector } from "react-redux"
-import useCustomFetch from "../../Utils/CustomFetch"
+import { memo, useEffect, useState } from "react"
+import toast from "react-hot-toast"
+import { useNavigate, useParams } from "react-router-dom"
 import Button from "../../Components/Button"
+import Cards from "../../Components/Cards"
+import AxiosRequest from "../../Utils/AxiosRequest"
 import traingle from '../../assets/traingle.png'
-import { useNavigate } from "react-router-dom"
 
 const ProfileWorks = () => {
-    const { user } = useSelector((state: any) => state.user)
+
     const navigate = useNavigate()
 
-    // const { fetchResult } = useCustomFetch({
-    //     url: '/project/getallpro',
-    //     data: { likedIds: user?.likedProjects }
-    // })
+    const [Createdprojects, setCreatedprojects] = useState([])
+    const params = useParams()
 
-    const fetchResult = [];
+    const getcreatedProjects = async () => {
+        try {
+            const res = await AxiosRequest.post(`/project/getallpro`, { userId: params.id, create: true });
+            setCreatedprojects(res?.data);
+        } catch (error: any) {
+            toast.error(error?.response?.data?.message);
+        }
+    }
+
+    useEffect(() => {
+        getcreatedProjects()
+    }, [params.id])
 
     return (
         <div className="w-full h-full ">
-            {fetchResult?.length > 0 ?
-                <Cards cards={fetchResult} profile={true} />
+            {Createdprojects?.length > 0 ?
+                <Cards cards={Createdprojects} profile={true} />
                 :
                 <div className="w-[450px] h-[300px] flex items-center justify-center flex-col gap-3 rounded-lg border-[1px] border-solid border-neutral-200 p-5">
                     <img src={traingle} alt="" className="w-[100px] h-[70px] object-fill" />

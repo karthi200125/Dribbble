@@ -46,14 +46,14 @@ const Profile = () => {
     getUser();
   }, [params]);
 
-  const followed = user?.followed?.includes(Profileuser?._id);
+  const alreadyfollowed = user?.followed?.includes(Profileuser?._id);
 
-  // Handle like code
+  // Handle Follow code
   const { Crud: Follow } = useHandleCrud({
     url: `/user/userfollow`,
     method: "POST",
     data: { userId: Profileuser?._id, myid: user?._id },
-    successmsg: followed ? "user has been unfollowed" : "user has been followed",
+    successmsg: alreadyfollowed ? "user has been unfollowed" : "user has been followed",
     nav: `/profile/${Profileuser._id}`
   });
 
@@ -88,12 +88,12 @@ const Profile = () => {
             <h1 className="text-4xl font-bold capitalize">{Profileuser.username}</h1>
             <h1 className="text-5xl font-bold capitalize">{"developer"}</h1>
             <div className="w-full flex flex-row gap-5 items-center">
-              <span className="text-lg text-neutral-500">{Profileuser.followers} followers</span>
-              <span className="text-lg text-neutral-500">{Profileuser.followed} following</span>
+              <span className="text-lg text-neutral-500">{Profileuser?.followers?.length} followers</span>
+              <span className="text-lg text-neutral-500">{Profileuser?.followed?.length} following</span>
             </div>
             <div className="w-full flex flex-row gap-5">
               <Button>Get in Touch</Button>
-              <Button py="py-2" bg="transparent" border="neutral-200" onClick={handleFollow}>{followed ? "Following" : "Follow"}</Button>
+              <Button py="py-2" bg="transparent" border="neutral-200" onClick={handleFollow}>{alreadyfollowed ? "Following" : "Follow"}</Button>
               <Button py="py-2" bg="transparent" border="neutral-200" px="px-4"><IoIosMore /></Button>
             </div>
           </div>

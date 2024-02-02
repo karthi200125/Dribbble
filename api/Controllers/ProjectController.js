@@ -46,23 +46,30 @@ export const getProject = async (req, res, next) => {
 
 export const getAllProjects = async (req, res, next) => {
     try {
-        const { userId, likedIds } = req.body;
+        const { userId, like, create } = req.body;
+        const user = await UserModel.findById(userId);
         let allProjects;
-        if (userId) {
-            allProjects = await ProjectModel.find({ userId });
+
+        if (userId && like) {
+            const likedId = user.likedProjects;
+            allProjects = await ProjectModel.find({ _id: { $in: likedId } });
         }
-        else if (likedIds && likedIds.length > 0) {
-            allProjects = await ProjectModel.find({ _id: { $in: likedIds } });
+        else if (userId && create) {
+            const createdProjectids = user.createdProjects;
+            allProjects = await ProjectModel.find({ _id: { $in: createdProjectids } });
+        }
+        else if (userId) {
+            allProjects = await ProjectModel.find({ userId });
         }
         else {
             allProjects = await ProjectModel.find();
         }
+
         res.status(200).json(allProjects);
     } catch (error) {
         next(CreateError(error, req, "Get all projects failed"));
     }
 };
-
 
 export const saveProject = async (req, res, next) => {
     try {

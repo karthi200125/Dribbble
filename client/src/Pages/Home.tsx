@@ -18,7 +18,7 @@ const Home = () => {
     // Fetch all projects of the user
     const getAllProjects = async () => {
         try {
-            const res = await AxiosRequest.get(`/project/getallpro`);
+            const res = await AxiosRequest.post(`/project/getallpro`);
             setAllprojects(res?.data);
         } catch (error: any) {
             toast.error(error?.response?.data?.message);
@@ -29,7 +29,9 @@ const Home = () => {
         getAllProjects()
     }, [])
 
-    const filteredProjects = Allprojects?.filter(
+    const publishedProjects = Allprojects.filter((pro: any) => pro?.isPublished === true)
+
+    const filteredProjects = publishedProjects?.filter(
         (project: any) =>
             project?.proTitle.toLowerCase().includes(search.toLowerCase()) ||
             project?.proDesc.toLowerCase().includes(search.toLowerCase())

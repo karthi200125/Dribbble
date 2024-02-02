@@ -96,7 +96,7 @@ const Card = ({ data, Delete, profile }: CardProps) => {
           {!Delete &&
             <Button
               bg={liked ? "red-300" : "white"}
-              border={liked ? "red-300" : "neutral-200"}
+              border={liked ? "bg-red-300" : "neutral-200"}
               px="px-3"
               color={liked ? "text-red-500" : "black"}
               onClick={handlePorLike}

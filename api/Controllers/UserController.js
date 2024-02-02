@@ -32,7 +32,7 @@ export const getAllUsers = async (req, res, next) => {
 
 export const getUser = async (req, res, next) => {
     try {
-        const { id } = req.params;        
+        const { id } = req.params;
         const getUser = await UserModel.findById(id);
         res.status(200).json(getUser);
     } catch (error) {
@@ -43,10 +43,12 @@ export const getUser = async (req, res, next) => {
 export const userFollow = async (req, res, next) => {
     try {
         const { myid, userId } = req.body;
-        console.log(req.body)
-        const isAlreadyFollowed = await UserModel.findById(userId);
-
-        if (isAlreadyFollowed) {
+        const user = await UserModel.findById(myid);
+        
+        const isAlreadyFollowed = user.followed.includes(userId)
+        console.log(isAlreadyFollowed)
+        
+        if (!isAlreadyFollowed) {
             await UserModel.findByIdAndUpdate(myid, { $push: { followed: userId } });
             await UserModel.findByIdAndUpdate(userId, { $push: { followers: myid } });
             res.status(200).json("User has been followed");
@@ -56,7 +58,7 @@ export const userFollow = async (req, res, next) => {
             res.status(200).json("User has been unfollowed");
         }
     } catch (error) {
-        next(createError(error, req, "User follow failed"));
+        next(CreateError(error, req, "User follow failed"));
     }
 };
 

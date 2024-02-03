@@ -46,13 +46,17 @@ export const getProject = async (req, res, next) => {
 
 export const getAllProjects = async (req, res, next) => {
     try {
-        const { userId, like, create } = req.body;
+        const { userId, like, create , save } = req.body;        
         const user = await UserModel.findById(userId);
         let allProjects;
 
         if (userId && like) {
             const likedId = user.likedProjects;
             allProjects = await ProjectModel.find({ _id: { $in: likedId } });
+        }
+        else if (userId && save) {
+            const savedId = user.savedProjects;
+            allProjects = await ProjectModel.find({ _id: { $in: savedId } });
         }
         else if (userId && create) {
             const createdProjectids = user.createdProjects;

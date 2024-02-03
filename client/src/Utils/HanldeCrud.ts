@@ -15,11 +15,12 @@ interface CrudProps {
 }
 
 const useHandleCrud = ({ url, method, data, nav, successmsg, disp }: CrudProps) => {
-    const [result, setResult] = useState({});
+    const [result, setResult] = useState<any>();
     const [err, setErr] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
+    const token = localStorage.getItem("access_token")
 
     const Crud = async () => {
         try {
@@ -29,24 +30,25 @@ const useHandleCrud = ({ url, method, data, nav, successmsg, disp }: CrudProps) 
                 method,
                 data,
                 headers: {
-                    Authorization: `Bearer ${""}`,
+                    Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
             });
-            setResult(res.data);
+            setResult(res?.data);            
             toast.success(`${successmsg}`);
             navigate(`${nav}`);
             if (disp) {
-                dispatch(disp(res?.data));
+                dispatch(disp( res?.data ));
             }
         } catch (error: any) {
             setErr(error);
-            toast.error(error.message || "An error occurred");
+            toast.error(error.response.data.message );            
+            console.log(error)
         } finally {
             setIsLoading(false);
         }
     };
-
+        
     return { result, err, isLoading, Crud };
 };
 

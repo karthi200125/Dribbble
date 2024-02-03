@@ -8,7 +8,7 @@ interface ButtonProps {
   isLoading?: boolean;
   border?: string;
   color?: string;
-  w?: string;
+  w?: string;  
   children: ReactNode;
 }
 
@@ -26,7 +26,7 @@ const Button = ({ bg, onClick, py, border, color, w, children, px, isLoading }: 
       onClick={onClick}
       disabled={isLoading}
     >
-      <span className="font-bold">{isLoading ? "please wait..." : children}</span>
+      <span className="font-bold text-sm md:text-md ">{isLoading ? "please wait..." : children}</span>
     </button>
   )
 }

@@ -30,7 +30,7 @@ const ProfileAbout = () => {
     }, [params])
 
     return (
-        <div className="w-[60%] h-full flex flex-row gap-10 ">
+        <div className="w-full md:w-[60%] h-full flex flex-col-reverse md:flex-row gap-10 ">
             <div className="w-full flex items-start flex-col gap-2 ">
                 <ul className="flex flex-col gap-5">
                     <li>Biography</li>

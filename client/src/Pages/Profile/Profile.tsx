@@ -10,6 +10,7 @@ import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import useHandleCrud from "../../Utils/HanldeCrud"
 import { followed } from "../../Redux/AuthSlice"
+import Title from "../../Components/Title"
 
 interface ProfileProps {
   _id: string;
@@ -26,10 +27,10 @@ const Profile = () => {
   const params = useParams()
   const [Profileuser, setProfileuser] = useState<ProfileProps>({})
   const dispatch = useDispatch()
-
   const navigate = useNavigate();
+
   const handleClick = () => {
-    navigate(`/account/${user._id}`)
+    navigate(`/account/${user._id}`, { state: { edit: true } })
   }
 
   // Fetch the user details
@@ -67,12 +68,13 @@ const Profile = () => {
   return (
     <div className="w-full h-screen">
       <Navbar />
-      <div className="w-full h-full p-20">
+      <Title title={`${Profileuser.username} | Dribbble` } />
+      <div className="w-full h-full p-[20px] md:p-20">
         {user?._id === params.id ?
-          <div className="h-[200px] w-full  flex items-center justify-center flex-row gap-10">
-            <img src={Profileuser?.profilePic || noprofile} alt="" className="w-[120px] h-[120px] object-cover rounded-full" />
-            <div className="flex items-start flex-col gap-3">
-              <h1 className="text-3xl font-bold">{Profileuser?.username}</h1>
+          <div className="h-[300px] md:h-[200px] w-full  flex items-start md:items-center justify-center flex-col md:flex-row gap-10 ">
+            <img src={Profileuser?.profilePic || noprofile} alt="" className="w-[100px] md:w-[120px] h-[100px] md:h-[120px] object-contain rounded-full " />
+            <div className="flex items-start flex-col gap-3 mt-[-30px] md:mt-[0px]">
+              <h1 className="text-3xl font-bold capitalize">{Profileuser?.username}</h1>
               <span>india</span>
               <div className="flex flex-row items-center gap-3">
                 <Button bg="transparent" border="neutral-200" color="black" onClick={handleClick}>
@@ -84,7 +86,7 @@ const Profile = () => {
           </div>
           :
           <div className="w-full h-[400px]  flex flex-col gap-5">
-            <img src={Profileuser.profilePic} alt={Profileuser.username} className="w-[100px] h-[100px] object-cover rounded-full bg-green-400" />
+            <img src={Profileuser.profilePic} alt={Profileuser.username} className="w-[100px] h-[100px] object-contain rounded-full " />
             <h1 className="text-4xl font-bold capitalize">{Profileuser.username}</h1>
             <h1 className="text-5xl font-bold capitalize">{"developer"}</h1>
             <div className="w-full flex flex-row gap-5 items-center">

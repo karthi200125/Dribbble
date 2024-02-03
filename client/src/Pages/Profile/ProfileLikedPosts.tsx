@@ -32,7 +32,7 @@ const ProfileLikedPosts = () => {
                         className="w-[350px] h-[350px] object-cover"
                     />
                     <h1 className="text-2xl font-bold">Express your appreciation</h1>
-                    <p className="text-center w-[40%] text-neutral-400">Show your appreciation for other's work by liking the shots you love. We'll collect all of your likes here for you to revisit anytime.</p>
+                    <p className="text-center w-[100%] md:w-[40%] text-neutral-400">Show your appreciation for other's work by liking the shots you love. We'll collect all of your likes here for you to revisit anytime.</p>
                 </div>
             }
         </div>

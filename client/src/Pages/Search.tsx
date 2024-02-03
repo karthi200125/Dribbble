@@ -19,9 +19,9 @@ const Search = () => {
   }
 
   return (
-    <div className="w-full h-full flex items-center  justify-center relative flex-col">
+    <div className="w-full h-full flex items-center  justify-center relative flex-col px-5">
       <div className="absolute top-0 left-0 h-[80px] w-full bg-gradient-to-r from-purple-100  to-cyan-100 z-[-1]"></div>
-      <div className="w-[600px] rounded-xl h-[70px] shadow-lg bg-white flex items-center justify-between px-5 flex-row border-[1px] border-solid border-neutral-200 mt-10">
+      <div className="w-full md:w-[600px] rounded-xl h-[65px] shadow-lg bg-white flex items-center justify-between px-5 flex-row mt-10">
         <CiSearch size={25} />
         <input
           type="text"
@@ -45,10 +45,10 @@ const Search = () => {
           </div>
         </div>
         {selectOpen &&
-          <div className="absolute mt-[220px] ml-[400px] flex items-start flex-col p-3 rounded-md border-[1px] border-solid border-neutral-100 bg-white z-10 gap-1">
-            <span className={`p-2  w-full rounded-md  cursor-pointer hover:bg-neutral-100 `} onClick={() => setOption("Following")}>Following</span>
-            <span className={`p-2  w-full rounded-md  cursor-pointer hover:bg-neutral-100 `} onClick={() => setOption("Popular")}>Popular</span>
-            <span className={`p-2  w-full rounded-md  cursor-pointer hover:bg-neutral-100 `} onClick={() => setOption("Note & not worthy")}>New & Note worthy</span>
+          <div className="absolute w-[150px] bg-white mt-[250px] ml-[150px] md:ml-[400px] flex items-start flex-col p-3 rounded-md border-[2px] border-solid border-neutral-100  z-10 gap-1">
+            <span className={`p-2  w-full rounded-md  cursor-pointer hover:bg-neutral-100 `} onClick={() => setOption("Shorts")}>Shorts</span>
+            <span className={`p-2  w-full rounded-md  cursor-pointer hover:bg-neutral-100 `} onClick={() => setOption("Members")}>Members</span>
+            <span className={`p-2  w-full rounded-md  cursor-pointer hover:bg-neutral-100 `} onClick={() => setOption("teams")}>Teams</span>
           </div>
         }
 

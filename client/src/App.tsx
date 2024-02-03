@@ -2,6 +2,8 @@ import './App.css';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import { useSelector } from 'react-redux';
+import { jwtDecode } from 'jwt-decode';
+import Loading from './Components/Loading';
 
 const OpenPro = lazy(() => import('./Pages/Project/OpenPro'));
 const Profile = lazy(() => import('./Pages/Profile/Profile'));
@@ -14,16 +16,27 @@ const Register = lazy(() => import('./Pages/Register'));
 const Home = lazy(() => import('./Pages/Home'));
 const Welcome = lazy(() => import('./Pages/Welcome'));
 
-function App() {
+interface DecodeToken {
+  exp: any;
+}
 
-  const { user } = useSelector((state: any) => state.user)
+function App() {
+  const { user } = useSelector((state: any) => state.user);
+  const token: any = localStorage.getItem("access_token");
+  const isTokenValid = token && jwtDecode<DecodeToken>(token).exp > Date.now() / 1000;
+
+  if (!isTokenValid) {
+    localStorage.removeItem('search')
+    localStorage.removeItem('access_token')
+    localStorage.removeItem('user')
+  }
 
   return (
     <BrowserRouter>
-      <Suspense fallback={"laoding....."}>
+      <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/login" element={!user ? <Login /> : <Navigate to="/home" />} />
-          <Route path="/register" element={!user ? <Register /> : <Navigate to="/home" />} />
+          <Route path="/register" element={!user ? <Register /> : <Navigate to="/welcome" />} />
           <Route path="/" element={!user ? <LandingPage /> : <Navigate to="/home" />} />
           <Route path="/home" element={user ? <Home /> : <Navigate to="/" />} />
           <Route path="/openpro/:id" element={user ? <OpenPro /> : <Navigate to="/" />} />
@@ -31,7 +44,7 @@ function App() {
           <Route path="/upload/:id" element={user ? <Upload /> : <Navigate to="/" />} />
           <Route path="/search" element={user ? <Search /> : <Navigate to="/" />} />
           <Route path="/account/:id" element={user ? <Account /> : <Navigate to="/" />} />
-          <Route path="/welcome" element={user ? <Welcome /> : <Navigate to="/" />} />
+          <Route path="/welcome" element={user ? <Welcome /> : <Navigate to="/" />} />          
         </Routes>
       </Suspense>
     </BrowserRouter>

@@ -9,6 +9,8 @@ import Input from "../Components/Inputs";
 import Navbar from "../Components/Navbar";
 import AxiosRequest from "../Utils/AxiosRequest";
 import Search from "./Search";
+import Title from "../Components/Title";
+
 
 const Home = () => {
     const [FilterOpen, setFilterOpen] = useState(false);
@@ -44,21 +46,25 @@ const Home = () => {
     return (
         <div className="w-full h-screen ">
             <Navbar />
+            <Title title="Dribbble - Discover projects" />
             <div className="home w-100 h-100 ">
                 {search && <Search />}
                 <Categories onFilterOpen={() => setFilterOpen(!FilterOpen)} onCat={(cat: any) => setCat(cat)} />
                 {FilterOpen && (
-                    <div className="w-full px-[75px] mt-10 flex items-center flex-row gap-3 z-10">
-                        <Input name="tages" labelname="Tags" placeholder="Its just show not working"/>
-                        <Input name="Color" labelname="Colors" placeholder="Its just show not working"/>
+                    <div className="w-full px-[10px] md:px-[75px] mt-10 flex items-center flex-col md:flex-row gap-3 z-10">
+                        <Input name="tages" labelname="Tags" placeholder="Its just show not working" />
+                        <Input name="Color" labelname="Colors" placeholder="Its just show not working" />
                     </div>
                 )}
                 <Cards cards={filteredProjects} />
                 <FooterBtm />
 
+
                 <div className="absolute bottom-8 right-8 w-[50px] h-[50px] rounded-full bg-neutral-400 hover:bg-neutral-600 cursor-pointer flex items-center justify-center text-white">
                     <IoMdArrowUp size={25} />
                 </div>
+
+
             </div>
         </div>
     );

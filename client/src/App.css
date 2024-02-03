@@ -39,37 +39,21 @@ input:focus {
   outline: none;
 }
 
-.logoslide {
-  width: 200%;
-  display: flex;
-  gap: 30px;
-  overflow: hidden;
-  white-space: nowrap;
-  animation: bannermove 20s linear infinite;
-}
-
-.logo-item {
-  width: 280px;
-  height: 350px;
-  border-radius: 30px;
-}
-
-@keyframes bannermove {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
 .glow {
   width: 8px;
   height: 8px;
   background-color: rgb(7, 187, 7);
   border-radius: 50%;
   animation: glow 1s infinite;
+}
+
+.input:hover {
+  box-shadow: 0 0 10px 2px rgba(255, 0, 0, 0.2);
+}
+
+.input:focus {
+  box-shadow: 0 0 10px 2px rgba(255, 0, 0, 0.2);
+  outline: green;
 }
 
 @keyframes glow {
@@ -82,5 +66,49 @@ input:focus {
   }
 
   100% {
-    box-shadow: 0 0 2px 1px rgb(7, 187, 7);  }
+    box-shadow: 0 0 2px 1px rgb(7, 187, 7);
+  }
+}
+
+/* image lsider */
+.slider {
+  height: 350px;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  width: 100%;  
+}
+
+.slider .slidetrack {
+  -webkit-animation: scroll 30s linear infinite;
+  animation: scroll 30s linear infinite;
+  display: flex;
+  width: calc(250px * 8);
+  gap: 40px;
+}
+
+.slider .slide img {
+  width: 100%;
+  height: 350px;
+  border-radius: 20px;  
+}
+
+@-webkit-keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(-350px * 2));
+  }
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(-350px * 2));
+  }
 }

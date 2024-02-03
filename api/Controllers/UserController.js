@@ -3,11 +3,11 @@ import UserModel from '../Models/UserModel.js';
 
 export const userUpdate = async (req, res, next) => {
     try {
-        const { id } = req.params;
+        const { id } = req.params;                
         const updatedUser = await UserModel.findByIdAndUpdate(id, { $set: req.body }, { new: true });
         res.status(200).json(updatedUser);
     } catch (error) {
-        next(CreateError(error, req, "User update failed"));
+        next(CreateError(500, "User update failed"));
     }
 };
 
@@ -17,7 +17,7 @@ export const userDelete = async (req, res, next) => {
         await UserModel.findByIdAndDelete(id);
         res.status(200).json("User has been deleted");
     } catch (error) {
-        next(CreateError(error, req, "User account delete failed"));
+        next(CreateError(500, "User account delete failed"));
     }
 };
 
@@ -44,10 +44,10 @@ export const userFollow = async (req, res, next) => {
     try {
         const { myid, userId } = req.body;
         const user = await UserModel.findById(myid);
-        
+
         const isAlreadyFollowed = user.followed.includes(userId)
         console.log(isAlreadyFollowed)
-        
+
         if (!isAlreadyFollowed) {
             await UserModel.findByIdAndUpdate(myid, { $push: { followed: userId } });
             await UserModel.findByIdAndUpdate(userId, { $push: { followers: myid } });
@@ -61,5 +61,6 @@ export const userFollow = async (req, res, next) => {
         next(CreateError(error, req, "User follow failed"));
     }
 };
+
 
 

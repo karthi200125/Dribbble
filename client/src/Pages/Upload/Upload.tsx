@@ -12,12 +12,14 @@ import Input from "../../Components/Inputs";
 import useHandleCrud from "../../Utils/HanldeCrud";
 import { useUplaod } from "../../Utils/UplaodFile";
 import ImageUplaod from "./ImageUplaod";
+import UploadBar from "../../Components/UploadBar";
+import Title from "../../Components/Title";
 
 interface ImageProps {
   imageUrl: string;
   file: {
     name: any;
-  }; 
+  };
 }
 
 const Upload = () => {
@@ -76,22 +78,23 @@ const Upload = () => {
 
   return (
     <div className={`${barOpen ? "w-[80%]" : "w-full"} h-screen flex flex-col gap-5 bg-neutral-50`}>
+      <Title title="Dribble Create Project" />
       {/* upload nav*/}
-      <div className="w-full flex flex-row items-center justify-between p-6">
-        <Button bg="transparent" border="neutral-200" py="py-2" onClick={() => navigate('/home')}>
+      <div className="w-full flex flex-row items-center justify-between p-2 md:p-6">
+        <Button bg="transparent" border="neutral-200" py="py-1 md:py-2" onClick={() => navigate('/home')}>
           cancel
         </Button>
         <div className="flex flex-row gap-5 items-center">
-          <Button bg="neutral-100" color="text-black" onClick={HandleSaveasCreaft} isLoading={savecraftloading}>
-            save as craft
+          <Button bg="neutral-100" color="text-black" onClick={HandleSaveasCreaft} isLoading={savecraftloading} py="py-1 md:py-2">
+            save
           </Button>
-          <Button onClick={HandleContinue} isLoading={isLoading}>continue</Button>
+          <Button onClick={HandleContinue} isLoading={isLoading} py="py-1 md:py-2">continue</Button>
         </div>
       </div>
 
       {image ? (
         <div className={`w-full h-screen flex items-center justify-start flex-col gap-5`}>
-          <div className="top w-[1050px] flex items-center flex-col gap-3">
+          <div className="top w-full md:w-[1050px] flex items-center flex-col gap-3 p-2 md:p-0">
             <input
               type="text"
               placeholder="Give me name"
@@ -100,9 +103,9 @@ const Upload = () => {
               name="proTitle"
               value={input.proTitle}
             />
-            <img src={image?.imageUrl} alt="" className="w-full h-[500px] object-cover rounded-lg" />
-            <span>{per === "100" ? "Image uploaded" : "file uplaoding ...." + per + "%"}</span>
-            <Input name="proDesc" placeholder="write what inti thid design or add any details you like mention" onChange={handlechange} value={input.proDesc} />
+            <img src={image?.imageUrl} alt="" className="w-full h-[300px] md:h-[500px] object-cover rounded-lg" />
+            {per && <UploadBar per={per} />}
+            <Input name="proDesc" placeholder="write what in this design or add any details you like mention" onChange={handlechange} value={input.proDesc} />
           </div>
 
           <div className="relative w-full h-[2px] bg-neutral-300 mt-10">
@@ -111,7 +114,7 @@ const Upload = () => {
               onClick={handleBaropen}
             >
               <FaPlus />
-              insert Block
+              <span className="hidden md:block">insert Block</span>
             </span>
           </div>
 

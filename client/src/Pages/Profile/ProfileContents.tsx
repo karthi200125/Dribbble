@@ -5,21 +5,20 @@ import ProfileLikedPosts from "./ProfileLikedPosts"
 import ProfileWorks from "./ProfileWorks"
 import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
+import ProfileSavedPosts from "./ProfileSavedPosts"
 
 const ProfileContents = () => {
 
     const { user } = useSelector((state: any) => state.user)
-    const top = ["Work", "Boosted Shots", "Collections", "Liked Shots", "About", "Drafts"]
+    const top = ["Work", "BoostedShots", "Collections", "LikedShots", "About", "Drafts"]
     const [option, setOption] = useState("Work")
     const params = useParams()
-
-
 
     return (
         <div className="w-full h-full mt-5 flex flex-col gap-10 ">
             <div className="flex flex-row gap-5 items-center">
                 {top.map((item, i) => (
-                    <div key={i} className={`font-semibold p-2 px-3 rounded-full hover:opacity-80 cursor-pointer hover:bg-neutral-130 transition ${item === option && "bg-neutral-100"}`} onClick={() => setOption(item)}>
+                    <div key={i} className={`font-semibold p-3 px-3 rounded-full hover:opacity-80 cursor-pointer hover:bg-neutral-130 transition ${item === option && "bg-neutral-100"}`} onClick={() => setOption(item)}>
                         {item}
                     </div>
                 ))}
@@ -28,11 +27,12 @@ const ProfileContents = () => {
 
             {/* content */}
             <div className=" w-full h-full flex items-center justify-center">
-                {/* {user?._id === params.id && */}
-                    {option === 'Drafts' && <ProfileDrafts />
+                {user?._id === params.id &&
+                    option === 'Drafts' && <ProfileDrafts />
                 }
                 {option === 'About' && <ProfileAbout />}
-                {option === 'Liked Shots' && <ProfileLikedPosts />}
+                {option === 'LikedShots' && <ProfileLikedPosts />}
+                {option === 'Collections' && <ProfileSavedPosts />}
                 {option === 'Work' && <ProfileWorks />}
             </div>
 

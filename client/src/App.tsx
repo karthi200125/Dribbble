@@ -31,12 +31,15 @@ function App() {
     localStorage.removeItem('user')
   }
 
+  const google = user?.fromGoogle
+
   return (
     <BrowserRouter>
       <Suspense fallback={<Loading />}>
         <Routes>
-          <Route path="/login" element={!user ? <Login /> : <Navigate to="/home" />} />
-          <Route path="/register" element={!user ? <Register /> : <Navigate to="/welcome" />} />
+          <Route path="/login" element={!user && <Login />} />
+          {/* <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} /> */}
+          <Route path="/register" element={!user && <Register />} />
           <Route path="/" element={!user ? <LandingPage /> : <Navigate to="/home" />} />
           <Route path="/home" element={user ? <Home /> : <Navigate to="/" />} />
           <Route path="/openpro/:id" element={user ? <OpenPro /> : <Navigate to="/" />} />
@@ -44,7 +47,7 @@ function App() {
           <Route path="/upload/:id" element={user ? <Upload /> : <Navigate to="/" />} />
           <Route path="/search" element={user ? <Search /> : <Navigate to="/" />} />
           <Route path="/account/:id" element={user ? <Account /> : <Navigate to="/" />} />
-          <Route path="/welcome" element={user ? <Welcome /> : <Navigate to="/" />} />          
+          <Route path="/welcome" element={user ? <Welcome /> : <Navigate to="/" />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

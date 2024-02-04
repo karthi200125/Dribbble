@@ -1,6 +1,5 @@
 import { memo, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +7,8 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import { like, save } from '../Redux/AuthSlice';
 import AxiosRequest from "../Utils/AxiosRequest";
 import useHandleCrud from "../Utils/HanldeCrud";
+import likeIcon from '../assets/like.png';
+import likedIcon from '../assets/liked.png';
 import saveIcon from '../assets/save.ico';
 import savedIcon from '../assets/saved.png';
 import Button from "./Button";
@@ -36,7 +37,7 @@ const Card = ({ data, Delete, profile }: CardProps) => {
   const pathname = location.pathname;
   const params = useParams()
   const dispatch = useDispatch();
-  const [postuser, setPostuser] = useState<UserData>({});  
+  const [postuser, setPostuser] = useState<UserData>({});
 
   // Delete Project
   const { Crud } = useHandleCrud({
@@ -97,57 +98,49 @@ const Card = ({ data, Delete, profile }: CardProps) => {
   };
 
   return (
-    <div className="card" >
-      <Link to={`/openpro/${data._id}`} state={{ ...data, postuser: postuser }} className="group imagecon h-[210px] overflow-hidden rounded-lg relative cursor-pointer">
+    <div className="card " >
+      <Link to={`/openpro/${data._id}`} state={{ ...data, postuser: postuser }} className="group imagecon h-[210px] overflow-hidden rounded-lg relative cursor-pointer ">
         <img
           src={data.proImage}
           alt={data.proTitle}
           className="object-cover rounded-lg h-[210px] w-full"
         />
         <div className="hidden group-hover:flex absolute bg-gradient-to-b from-[rgba(0,0,0,0.005)] to-[rgba(0,0,0,0.7)] bottom-0 left-0 w-full items-center justify-between h-20 p-4 transition duration-300 ease-in-out gap-2">
-          <h1 className="w-[50%] text-white text-[20px] font-bold cursor-pointer whitespace-nowrap pr-3">
-            {data.proTitle}
+          <h1 className="w-[60%] text-white text-[20px] font-bold cursor-pointer whitespace-nowrap pr-3 flex items-center gap-1">
+            <span className="w-[100%] overflow-hidden">{data.proTitle}</span>
+            <span className="">...</span>
           </h1>
-          {!Delete &&
-            <Button
-              bg={saved ? "red-300" : "white"}
-              border={saved ? "bg-red-300" : "neutral-200"}
-              px="px-3"
-              color={saved ? "text-red-500" : "black"}
-              onClick={handleProSave}
-            >
-              <img src={saved ? savedIcon : saveIcon} alt="" className="w-[22px] h-[22px] object-cover" />
-            </Button>
-          }
-          {!Delete &&
-            <Button
-              bg={liked ? "red-300" : "white"}
-              border={liked ? "bg-red-300" : "neutral-200"}
-              px="px-3"
-              color={liked ? "text-red-500" : "black"}
-              onClick={handlePorLike}
-            >
-              <CiHeart size={20} />
-            </Button>
-          }
+          <div className="flex items-center gap-1">
+            {!Delete &&
+              <Button bg={"white"} border={"neutral-200"} px="px-2" py="py-2" color={saved ? "text-red-500" : "black"} onClick={handleProSave}>
+                <img src={saved ? savedIcon : saveIcon} alt="" className="w-[20px] h-[20px] object-cover" />
+              </Button>
+            }
+            {!Delete &&
+              <Button bg={"white"} border={"neutral-200"} px="px-2" py="py-2" color={liked ? "text-red-500" : "black"} onClick={handlePorLike}>
+                <img src={liked ? likedIcon : likeIcon} alt="" className="w-[20px] h-[20px] object-cover" />
+              </Button>
+            }
+          </div>
         </div>
       </Link>
       {!Delete &&
         <>
           {pathname !== `/openpro/${data?._id}` &&
             <div className="flex items-center flex-row justify-between p-2">
-              <Link to={`/profile/${ postuser?._id}`} className="flex items-center flex-row gap-2 cursor-pointer">
+              <Link to={`/profile/${postuser?._id}`} className="flex items-center flex-row gap-2 cursor-pointer">
                 <img
                   src={postuser?.profilePic}
                   alt={postuser?.username}
-                  className="w-[30px] h-[30px] rounded-full object-contain"
+                  loading="lazy"
+                  className="w-[30px] h-[30px] rounded-full object-cover"
                 />
                 <span>{postuser?.username}</span>
                 <div className="bg-[rgba(0,0,0,0.25)] text-white rounded-[5px] h-4 px-1 flex items-center justify-center text-[12px]">pro</div>
               </Link>
               <div className="flex items-center justify-between flex-row gap-2 text-neutral-400">
                 <div className="flex items-center flex-row gap-1">
-                  <FaHeart className="cursor-pointer hover:text-red-400 transition" />
+                  <FaHeart className={`cursor-pointer ${liked && "text-red-400"} hover:text-red-400 transition`} />
                   <p className="text-[12px]">{data?.likedUsers?.length}</p>
                 </div>
                 <div className="flex items-center flex-row gap-1">

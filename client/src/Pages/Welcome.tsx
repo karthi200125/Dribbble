@@ -23,7 +23,7 @@ const Welcome = () => {
     const { Crud, isLoading } = useHandleCrud({
         url: `/user/userupdate/${user?._id}`,
         method: "PUT",
-        data: { profilePic: donwlaodUrl, country: country },
+        data: { profilePic: donwlaodUrl ? donwlaodUrl : user?.profilePic, country: country },
         successmsg: "Profile has been uploaded",
         nav: '/home',
         disp: login
@@ -31,7 +31,7 @@ const Welcome = () => {
 
 
     const HanldeProfileUpdate = async () => {
-        if (!file) return toast.error("select profile image")
+        if (!user?.profilePic && !donwlaodUrl) return toast.error("Select a profile image");
         if (!country) return toast.error("write country name")
         await Crud();
     };
@@ -46,12 +46,18 @@ const Welcome = () => {
                 <div className="w-full flex flex-row gap-10 h-[230px] ">
                     <input type="file" id="profileimg" className="hidden" onChange={handleImageChange} />
                     {donwlaodUrl ?
-                        <img src={donwlaodUrl} alt="" className="w-[180px] h-[180px] object-contain rounded-full" />
+                        <img src={donwlaodUrl} alt="" className="w-[180px] h-[180px] object-cover rounded-full" />
                         :
                         <label className="w-[180px] h-[180px] rounded-full border-[3px] border-solid border-neutral-200 flex items-center justify-center mt-5 cursor-pointer hover:border-red-400" htmlFor="profileimg">
                             {per ? <span className="font-bold">Image upload {per}%</span>
                                 :
-                                <IoCameraOutline size={25} className="text-neutral-400" />
+                                <>
+                                    {user?.profilePic ?
+                                        <img src={user?.profilePic} alt="" className="w-[180px] h-[180px] object-contain rounded-full" />
+                                        :
+                                        <IoCameraOutline size={25} className="text-neutral-400" />
+                                    }
+                                </>
                             }
                         </label>
                     }

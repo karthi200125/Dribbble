@@ -1,24 +1,26 @@
 import { memo, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { CiHeart } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "../../Components/Button";
 import Cards from "../../Components/Cards";
+import Title from "../../Components/Title";
 import { like, save } from "../../Redux/AuthSlice";
 import AxiosRequest from "../../Utils/AxiosRequest";
 import useHandleCrud from "../../Utils/HanldeCrud";
 import noprofile from '../../assets/noprofile.png';
 import saveIcon from '../../assets/save.ico';
 import savedIcon from '../../assets/saved.png';
-import Title from "../../Components/Title";
+import likeIcon from '../../assets/like.png';
+import likedIcon from '../../assets/liked.png';
 
 interface Project {
   _id: string;
   proTitle: string;
   proImage: string;
   userId: string;
+  proDesc: string;
 }
 
 interface User {
@@ -34,7 +36,7 @@ const OpenPro = () => {
   const dispatch = useDispatch();
   const params = useParams<{ id: string }>();
   const [postuser, setPostuser] = useState<User>({ _id: '', username: '' });
-  const [project, setProject] = useState<Project>({ _id: '', proTitle: '', proImage: '', userId: '' });
+  const [project, setProject] = useState<Project>({ _id: '', proTitle: '', proImage: '', userId: '', proDesc: "" });
 
   const [Allprojects, setAllprojects] = useState<Project[]>([]);
 
@@ -112,6 +114,8 @@ const OpenPro = () => {
     dispatch(save(project?._id));
   };
 
+  const alreadyfollowed = user?.followed?.includes(project?.userId);
+
   return (
     <div className="w-full h-screen flex justify-start items-center flex-col">
       <Title title={`${project.proTitle}`} />
@@ -126,24 +130,24 @@ const OpenPro = () => {
             <div className="flex flex-row gap-5">
               <img src={postuser?.profilePic || noprofile}
                 alt=""
-                className="w-[50px] h-[50px] object-contain rounded-full"
+                className="w-[50px] h-[50px] object-cover rounded-full"
               />
               <div>
-                <span className="text-[15px] font-bold capitalize">{postuser?.username}</span>
+                <Link to={`/profile/${postuser?._id}`} className="text-[15px] font-bold capitalize">{postuser?.username}</Link>
                 <div className="text-[12px] flex items-center flex-row gap-2">
                   {postuser?.available &&
                     <span className="glow"></span>
                   }
                   <p className={postuser?.available ? "text-green-500" : "text-red-500"}>{postuser?.available ? "Available for working" : "not available for work"}</p>
-                  <span>follwoing</span>
+                  <span>{alreadyfollowed ? "follwoing" : "Follow"}</span>
                 </div>
               </div>
             </div>
             <div className="flex flex-row gap-3 items-center ">
-              <Button border={liked ? "red-300" : "neutral-200"} px="px-3" bg={liked ? "red-300" : "transparent"} onClick={handlePorLike}>
-                <CiHeart size={20} />
+              <Button border={"neutral-200"} px="px-3" bg={"transparent"} onClick={handlePorLike}>
+                <img src={liked ? likedIcon : likeIcon} alt="" className="w-[22px] h-[22px] object-cover" />
               </Button>
-              <Button border={saved ? "red-300" : "neutral-200"} px="px-3" bg={saved ? "red-300" : "transparent"} onClick={handleProSave}>
+              <Button border={"neutral-200"} px="px-3" bg={"transparent"} onClick={handleProSave}>
                 <img src={saved ? savedIcon : saveIcon} alt="" className="w-[22px] h-[22px] object-cover" />
               </Button>
               <Button py="py-2">get in touch</Button>
@@ -158,18 +162,19 @@ const OpenPro = () => {
         {/* display contents */}
         <div className="w-[1000px] h-full flex flex-col gap-10">
           <img src={project?.proImage} alt="" className="w-full h-screen rounded-xl" />
+          <span className="w-full text-neutral-500 text-xl text-center">{project?.proDesc}</span>
         </div>
 
         {/* about project user */}
         <div className=" w-full h-[3px] bg-neutral-300 relative mt-20">
           <span className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 px-5 bg-white">
             <img src={postuser?.profilePic || noprofile} alt=""
-              className="w-[70px] h-[70px] object-contain rounded-full"
+              className="w-[70px] h-[70px] object-cover rounded-full"
             />
           </span>
         </div>
         <div className="flex items-center justify-center flex-col gap-3 mt-10">
-          <h1 className="text-xl font-bold capitalize">{postuser?.username}</h1>
+          <Link to={`/profile/${postuser?._id}`} className="text-xl font-bold capitalize">{postuser?.username}</Link>
           <p className="text-neutral-400">designer and developer</p>
           <Button >get on touch</Button>
         </div>

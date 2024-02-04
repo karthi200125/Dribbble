@@ -83,7 +83,7 @@ input:focus {
   -webkit-animation: scroll 30s linear infinite;
   animation: scroll 30s linear infinite;
   display: flex;
-  width: calc(250px * 8);
+  width: calc(350px * 16);
   gap: 40px;
 }
 
@@ -99,7 +99,7 @@ input:focus {
   }
 
   100% {
-    transform: translateX(calc(-350px * 2));
+    transform: translateX(calc(-350px * 4));
   }
 }
 
@@ -109,6 +109,6 @@ input:focus {
   }
 
   100% {
-    transform: translateX(calc(-350px * 2));
+    transform: translateX(calc(-350px * 4));
   }
 }

@@ -7,6 +7,8 @@ import Input from "../Components/Inputs"
 import Title from "../Components/Title"
 import { login } from "../Redux/AuthSlice"
 import AxiosRequest from "../Utils/AxiosRequest"
+import { signInWithPopup } from 'firebase/auth'
+import { app, auth, provider } from "../Utils/FireBase";
 
 const Login = () => {
 
@@ -29,7 +31,7 @@ const Login = () => {
         try {
             setisLoading(true)
             const res = await AxiosRequest.post('/auth/login', input)
-            dispatch(login(res.data))            
+            dispatch(login(res.data))
             toast.success("user has been login successfully")
             naivigate('/home')
             localStorage.setItem('access_token', res.data.token);
@@ -38,6 +40,25 @@ const Login = () => {
         } finally {
             setisLoading(false)
         }
+    }
+
+    // google login
+    const signInWithGoole = async () => {
+        signInWithPopup(auth, provider).then((result) => {
+            AxiosRequest.post('/auth/google', {
+                username: result.user.displayName,
+                email: result.user.email,
+                profilePic: result.user.photoURL,
+            }).then((res) => {
+                const nav = res.data.reg                                
+                nav ? naivigate('/welcome') : naivigate('/home')
+                localStorage.setItem('access_token', res.data.token);
+                dispatch(login(res.data))
+                toast.success("Google login successfull")                
+            })
+        }).catch((err) => {
+            toast.error("Google login failed")
+        })
     }
 
     return (
@@ -54,7 +75,7 @@ const Login = () => {
             <div className="h-full flex items-start md:ml-[150px] justify-center flex-col p-5">
                 <div className="w-[320px] md:w-[400px] h-[500px] flex items-center flex-col  justify-between ">
                     <h1 className="w-full text-start text-2xl font-bold">Sign in to Dribbble</h1>
-                    <Button w="w-full" py="py-4" bg="transparent" border="neutral-200">
+                    <Button w="w-full" py="py-4" bg="transparent" border="neutral-200" onClick={signInWithGoole}>
                         {/* <img src={google} alt="" className="w-[30px] h-[30px] object-contain rounded-full" /> */}
                         <span >Sign in With Google</span>
                     </Button>

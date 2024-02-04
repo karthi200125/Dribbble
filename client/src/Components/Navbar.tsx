@@ -4,6 +4,7 @@ import SearchBar from "./SearchBar"
 import User from "./User"
 import { useSelector } from "react-redux"
 import { CiSearch } from "react-icons/ci"
+import { memo } from "react"
 
 const Navbar = () => {
 
@@ -47,4 +48,4 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+export default memo(Navbar)

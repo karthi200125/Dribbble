@@ -8,6 +8,8 @@ import Inputs from "../Components/Inputs";
 import Title from "../Components/Title";
 import { login } from "../Redux/AuthSlice";
 import AxiosRequest from "../Utils/AxiosRequest";
+import { auth, provider } from "../Utils/FireBase";
+import { signInWithPopup } from "firebase/auth";
 
 const Register = () => {
     const [reOpen, setRegOpen] = useState(false);
@@ -44,6 +46,25 @@ const Register = () => {
         }
     };
 
+    // google login
+    const signInWithGoole = async () => {
+        signInWithPopup(auth, provider).then((result) => {
+            AxiosRequest.post('/auth/google', {
+                username: result.user.displayName,
+                email: result.user.email,
+                profilePic: result.user.photoURL,
+            }).then((res) => {
+                const nav = res.data.reg
+                nav ? naivigate('/welcome') : naivigate('/home')
+                localStorage.setItem('access_token', res.data.token);
+                dispatch(login(res.data))
+                toast.success("Google login successfull")
+            })
+        }).catch((err) => {
+            toast.error("Google login failed")
+        })
+    }
+
     return (
         <div className="w-full h-screen flex flex-row relative">
             <Title title="Sign up | Dribbble" />
@@ -64,7 +85,7 @@ const Register = () => {
                 {!reOpen ?
                     <div className="w-[100%] md:w-[400px] h-[380px] flex items-center flex-col justify-between ">
                         <h1 className="w-full text-start text-2xl font-bold">Sign up to Dribbble</h1>
-                        <Button w="w-full" py="py-4" >
+                        <Button w="w-full" py="py-4" onClick={signInWithGoole}>
                             {/* <img src={google} alt="" className="w-[30px] h-[30px] object-contain" /> */}
                             <span>Sign Up With Google</span>
                         </Button>

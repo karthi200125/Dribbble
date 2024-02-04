@@ -77,7 +77,7 @@ const Account = () => {
                     <div className="flex items-center flex-col-reverse md:flex-row justify-between gap-5">
                         <div className="flex items-center gap-8 flex-row">
                             <img src={user?.profilePic} alt=""
-                                className="w-[50px] h-[50px] object-contain rounded-full"
+                                className="w-[50px] h-[50px] object-cover rounded-full"
                             />
                             <div>
                                 <h1 className="text-[20px] font-bold">{`${user?.username} / ${edit ? "Edit Profile" : "gereal"}`}</h1>
@@ -92,7 +92,7 @@ const Account = () => {
                     </div>
 
                     <div className="flex flex-row gap-5">
-                        <div className="hidden md:block flex flex-col gap-4 w-[33%] h-full">
+                        <div className="hidden md:flex flex-col gap-4 w-[33%] h-full">
                             <ul className="flex flex-col gap-2">
                                 <li className="font-bold">General</li>
                                 <li className="text-neutral-400">Edit Profile</li>
@@ -112,7 +112,7 @@ const Account = () => {
                         {edit ?
                             <div className="w-full h-full flex flex-col gap-5">
                                 <div className="w-full flex items-center flex-row gap-5">
-                                    <img src={donwlaodUrl || user?.profilePic} alt="" className="w-[100px] h-[100px] object-contain rounded-full" />
+                                    <img src={donwlaodUrl || user?.profilePic} alt="" className="w-[100px] h-[100px] object-cover rounded-full" />
                                     <div className="flex flex-col gap-3">
                                         <input type="file" id="profileimg" onChange={handleImageChange} />
                                         {per && <UploadBar per={per} />}

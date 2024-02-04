@@ -64,15 +64,14 @@ const Profile = () => {
   };
 
 
-
   return (
     <div className="w-full h-screen">
       <Navbar />
-      <Title title={`${Profileuser.username} | Dribbble` } />
+      <Title title={`${Profileuser.username} | Dribbble`} />
       <div className="w-full h-full p-[20px] md:p-20">
         {user?._id === params.id ?
           <div className="h-[300px] md:h-[200px] w-full  flex items-start md:items-center justify-center flex-col md:flex-row gap-10 ">
-            <img src={Profileuser?.profilePic || noprofile} alt="" className="w-[100px] md:w-[120px] h-[100px] md:h-[120px] object-contain rounded-full " />
+            <img src={Profileuser?.profilePic || noprofile} alt="" className="w-[100px] md:w-[120px] h-[100px] md:h-[120px] object-cover rounded-full " />
             <div className="flex items-start flex-col gap-3 mt-[-30px] md:mt-[0px]">
               <h1 className="text-3xl font-bold capitalize">{Profileuser?.username}</h1>
               <span>india</span>
@@ -86,7 +85,7 @@ const Profile = () => {
           </div>
           :
           <div className="w-full h-[400px]  flex flex-col gap-5">
-            <img src={Profileuser.profilePic} alt={Profileuser.username} className="w-[100px] h-[100px] object-contain rounded-full " />
+            <img src={Profileuser.profilePic} alt={Profileuser.username} className="w-[100px] h-[100px] object-cover rounded-full " />
             <h1 className="text-4xl font-bold capitalize">{Profileuser.username}</h1>
             <h1 className="text-5xl font-bold capitalize">{"developer"}</h1>
             <div className="w-full flex flex-row gap-5 items-center">

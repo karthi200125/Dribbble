@@ -15,13 +15,13 @@ const Profilecard = () => {
   }
 
   return (
-  <div className="hover:visibility-visible w-full h-full flex flex-col items-center justify-between p-10 z-[999] bg-white rounded-[20px]">
+  <div className="hover:visibility-visible w-full h-full flex flex-col items-center justify-between p-10 rounded-[20px] bg-white">
       <div className="flex items-center justify-center flex-col">
         <img src={user.profilePic || noProfile} alt=""
-          className="w-[80px] h-[80px] object-contain rounded-full mb-2" />
-        <span>{user?.username}</span>
+          className="w-[80px] h-[80px] object-cover rounded-full mb-2" />
+        <span className="font-bold capitalize">{user?.username}</span>
       </div>
-      <div className=" w-full flex items-start justify-center flex-col  gap-4">
+      <div className=" w-full flex items-start justify-center flex-col  gap-4 ">
         <Link to={`/upload/${user?._id}`} className="cursor-pointer hover:opacity-80 text-neutral-700">Upload design work</Link>
         <Link to='/' className="cursor-pointer hover:opacity-80 text-neutral-700">Work preferences</Link>
         <Link to={`/account/${user?._id}`} className="cursor-pointer hover:opacity-80 text-neutral-700">Settings</Link>

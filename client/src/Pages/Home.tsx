@@ -17,15 +17,19 @@ const Home = () => {
     const { search } = useSelector((state: any) => state.search);
     const [Allprojects, setAllprojects] = useState([]);
     const [cat, setCat] = useState("Discover")
+    const [isLoading, setisLoading] = useState(false)
     const { user } = useSelector((state: any) => state.user)
 
     // Fetch all projects of the user
     const getAllProjects = async () => {
         try {
+            setisLoading(true)
             const res = await AxiosRequest.post(`/project/getallpro`);
             setAllprojects(res?.data);
         } catch (error: any) {
             toast.error(error?.response?.data?.message);
+        } finally {
+            setisLoading(false)
         }
     };
 
@@ -56,7 +60,7 @@ const Home = () => {
                         <Input name="Color" labelname="Colors" placeholder="Its just show not working" />
                     </div>
                 )}
-                <Cards cards={filteredProjects} />
+                <Cards cards={filteredProjects} isLoading={isLoading} />
                 <FooterBtm />
 
 

@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import Button from "../../Components/Button"
 import Cards from "../../Components/Cards"
 import AxiosRequest from "../../Utils/AxiosRequest"
@@ -11,6 +11,7 @@ const ProfileDrafts = () => {
     const { user } = useSelector((state: any) => state.user)
     const navigate = useNavigate()
     const [Allprojects, setAllprojects] = useState([]);
+    const params = useParams()
 
     const getAllProjects = async () => {
         try {
@@ -37,7 +38,9 @@ const ProfileDrafts = () => {
                     <h1 className="text-2xl font-bold">Create your first project</h1>
                     <p>Show off your best work. Get feedback, likes</p>
                     <p>and be a part of a growing community.</p>
-                    <Button py="py-2" onClick={() => navigate('/upload/12')}>create your first projet</Button>
+                    {params.id === user?._id &&
+                        <Button py="py-2" onClick={() => navigate(`/upload/${user?._id}`)}>create your first projet</Button>
+                    }
                 </div>
             }
         </div>

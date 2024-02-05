@@ -6,11 +6,17 @@ const ProjectModel = new mongoose.Schema({
     proDesc: { type: String },
     proImage: { type: String },
     proVideo: { type: String },
+    proLink: { type: String },
     category: { type: String, default: "Discover" },
     isPublished: { type: Boolean, default: false },
+    commentON: { type: Boolean, default: true },
     likedUsers: [{
         type: Schema.Types.ObjectId,
         ref: 'User'
+    }],
+    projectComments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment'
     }],
 }, { timestamps: true });
 

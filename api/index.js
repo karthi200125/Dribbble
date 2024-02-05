@@ -6,6 +6,7 @@ dotenv.config();
 import AuthRoute from './Routes/AuthRoute.js'
 import UserRoute from './Routes/UserRoute.js'
 import ProjectRoute from './Routes/ProjectRoute.js'
+import CommentRoute from './Routes/CommmetRoutes.js'
 import { NextError } from './Utils/NextError.js';
 import cookieParser from 'cookie-parser';
 
@@ -23,6 +24,7 @@ mongoose.connect(process.env.MONGODB_URL)
 app.use('/api/auth', AuthRoute)
 app.use('/api/user', UserRoute)
 app.use('/api/project', ProjectRoute)
+app.use('/api/comment', CommentRoute)
 
 // Error middle ware
 app.use(NextError)

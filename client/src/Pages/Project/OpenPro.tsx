@@ -14,6 +14,12 @@ import saveIcon from '../../assets/save.ico';
 import savedIcon from '../../assets/saved.png';
 import likeIcon from '../../assets/like.png';
 import likedIcon from '../../assets/liked.png';
+import Image from "../../Components/Image";
+import { FaRegComment } from "react-icons/fa";
+import { FiUpload } from "react-icons/fi";
+import { BsExclamationCircle } from "react-icons/bs";
+import Comment from "./Comment";
+import { IoCloseSharp } from "react-icons/io5";
 
 interface Project {
   _id: string;
@@ -21,6 +27,8 @@ interface Project {
   proImage: string;
   userId: string;
   proDesc: string;
+  proLink: string;
+  projectComments?: any;
 }
 
 interface User {
@@ -36,7 +44,8 @@ const OpenPro = () => {
   const dispatch = useDispatch();
   const params = useParams<{ id: string }>();
   const [postuser, setPostuser] = useState<User>({ _id: '', username: '' });
-  const [project, setProject] = useState<Project>({ _id: '', proTitle: '', proImage: '', userId: '', proDesc: "" });
+  const [project, setProject] = useState<Project>({ _id: '', proTitle: '', proImage: '', userId: '', proDesc: "", proLink: '', projectComments: '' });
+  const [Copen, setCopen] = useState(false)
 
   const [Allprojects, setAllprojects] = useState<Project[]>([]);
 
@@ -85,8 +94,7 @@ const OpenPro = () => {
     url: `/project/likeproject/${project?._id}`,
     method: "POST",
     data: { userId: user?._id },
-    successmsg: liked ? "Post has been Disliked" : "Post has been liked",
-    nav: `/openpro/${project?._id}`
+    successmsg: liked ? "Post has been Disliked" : "Post has been liked",    
   });
 
   const handlePorLike = async () => {
@@ -105,8 +113,7 @@ const OpenPro = () => {
     url: `/project/saveproject/${project?._id}`,
     method: "POST",
     data: { userId: user?._id },
-    successmsg: liked ? "Post has been unSaved" : "Post has been Saved",
-    nav: `/openpro/${project._id}`
+    successmsg: saved ? "Post has been unSaved" : "Post has been Saved",    
   });
 
   const handleProSave = async () => {
@@ -117,7 +124,7 @@ const OpenPro = () => {
   const alreadyfollowed = user?.followed?.includes(project?.userId);
 
   return (
-    <div className="w-full h-screen flex justify-start items-center flex-col">
+    <div className={`${Copen ? 'w-[75%]' : 'w-full'}  h-screen flex justify-start items-center flex-col`}>
       <Title title={`${project.proTitle}`} />
       <div className="w-full flex items-center justify-end bg-black h-[40px] text-white px-3 absolute top-0 z-10">
         <IoMdClose size={25} className="text-neutral-300 hover:text-white cursor-pointer" onClick={() => navigate('/home')} />
@@ -128,9 +135,8 @@ const OpenPro = () => {
           <h1 className="text-2xl font-semibold capitalize">{project?.proTitle}</h1>
           <div className="w-full flex justify-between">
             <div className="flex flex-row gap-5">
-              <img src={postuser?.profilePic || noprofile}
-                alt=""
-                className="w-[50px] h-[50px] object-cover rounded-full"
+              <Image src={postuser?.profilePic || noprofile}
+                imgclass="w-[50px] h-[50px] object-cover rounded-full "
               />
               <div>
                 <Link to={`/profile/${postuser?._id}`} className="text-[15px] font-bold capitalize">{postuser?.username}</Link>
@@ -145,10 +151,10 @@ const OpenPro = () => {
             </div>
             <div className="flex flex-row gap-3 items-center ">
               <Button border={"neutral-200"} px="px-3" bg={"transparent"} onClick={handlePorLike}>
-                <img src={liked ? likedIcon : likeIcon} alt="" className="w-[22px] h-[22px] object-cover" />
+                <Image src={liked ? likedIcon : likeIcon} imgclass="w-[22px] h-[22px] object-cover" />
               </Button>
               <Button border={"neutral-200"} px="px-3" bg={"transparent"} onClick={handleProSave}>
-                <img src={saved ? savedIcon : saveIcon} alt="" className="w-[22px] h-[22px] object-cover" />
+                <Image src={saved ? savedIcon : saveIcon} imgclass="w-[22px] h-[22px] object-cover" />
               </Button>
               <Button py="py-2">get in touch</Button>
             </div>
@@ -161,16 +167,17 @@ const OpenPro = () => {
 
         {/* display contents */}
         <div className="w-[1000px] h-full flex flex-col gap-10">
-          <img src={project?.proImage} alt="" className="w-full h-screen rounded-xl" />
+          <Image src={project?.proImage} imgclass="w-full h-screen rounded-xl shadow-xl" />
           <span className="w-full text-neutral-500 text-xl text-center">{project?.proDesc}</span>
+          {project?.proLink &&
+            <a className="w-full text-center underline cursor-pointer text-rose-500 font-bold" href={project?.proLink}>{project?.proTitle} Link</a>
+          }
         </div>
 
         {/* about project user */}
         <div className=" w-full h-[3px] bg-neutral-300 relative mt-20">
           <span className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 px-5 bg-white">
-            <img src={postuser?.profilePic || noprofile} alt=""
-              className="w-[70px] h-[70px] object-cover rounded-full"
-            />
+            <Image src={postuser?.profilePic || noprofile} imgclass="w-[70px] h-[70px] object-cover rounded-full" />
           </span>
         </div>
         <div className="flex items-center justify-center flex-col gap-3 mt-10">
@@ -185,9 +192,28 @@ const OpenPro = () => {
             <p className="font-bold">More by {postuser?.username}</p>
             <Link to={`/profile/${postuser._id}`}>View profile</Link>
           </div>
-          <Cards cards={userPublishedProjects} />
+          <Cards cards={userPublishedProjects} Delete={true} />
         </div>
       </div>
+
+      <div className="absolute w-[50px] h-[150px] top-[35%] right-10 flex flex-col items-center justify-between">
+        <div className="relative" onClick={() => setCopen(!Copen)}>
+          <span className="absolute top-[-5px] right-[-5px] w-[20px] h-[20px] rounded-full text-[10px] border-[1px] border-solid border-neutral-200 bg-white flex items-center justify-center">{project?.projectComments?.length}</span>
+          <Button bg="white" color="black" px="px-3" py="py-3" border="neutral-200"><FaRegComment /></Button>
+        </div>
+        <Button bg="white" color="black" px="px-3" py="py-3" border="neutral-200"><FiUpload /></Button>
+        <Button bg="white" color="black" px="px-3" py="py-3" border="neutral-200"><BsExclamationCircle /></Button>
+      </div>
+
+      {Copen && (
+        <div className={`transition-transform duration-300 transform ${Copen ? 'translate-x-0' : 'translate-x-full'} w-[25%] h-screen fixed right-0 top-0 border-l-[1px] border-solid border-neutral-200 bg-white p-10`}>
+          <div className="w-[30px] h-[30px] rounded-full border-[1px] border-solid border-neutral-200 absolute top-[10%] left-[-15px] flex items-center justify-center bg-white cursor-pointer" onClick={() => setCopen(false)}>
+            <IoCloseSharp />
+          </div>
+          <Comment project={project} />
+        </div>
+      )}
+
 
     </div>
   )

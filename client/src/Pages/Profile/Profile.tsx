@@ -11,21 +11,13 @@ import toast from "react-hot-toast"
 import useHandleCrud from "../../Utils/HanldeCrud"
 import { followed } from "../../Redux/AuthSlice"
 import Title from "../../Components/Title"
-
-interface ProfileProps {
-  _id: string;
-  username: string;
-  profilePic: string;
-  userTitle: string;
-  followers: string;
-  followed: string;
-}
+import Image from "../../Components/Image"
 
 const Profile = () => {
 
   const { user } = useSelector((state: any) => state.user)
   const params = useParams()
-  const [Profileuser, setProfileuser] = useState<ProfileProps>({})
+  const [Profileuser, setProfileuser] = useState<any>({})
   const dispatch = useDispatch()
   const navigate = useNavigate();
 
@@ -55,23 +47,22 @@ const Profile = () => {
     method: "POST",
     data: { userId: Profileuser?._id, myid: user?._id },
     successmsg: alreadyfollowed ? "user has been unfollowed" : "user has been followed",
-    nav: `/profile/${Profileuser._id}`
   });
 
   const handleFollow = async () => {
     await Follow();
     dispatch(followed(Profileuser?._id));
+    navigate(`/profile/${Profileuser._id}`)
   };
 
-
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-full">
       <Navbar />
       <Title title={`${Profileuser.username} | Dribbble`} />
       <div className="w-full h-full p-[20px] md:p-20">
         {user?._id === params.id ?
           <div className="h-[300px] md:h-[200px] w-full  flex items-start md:items-center justify-center flex-col md:flex-row gap-10 ">
-            <img src={Profileuser?.profilePic || noprofile} alt="" className="w-[100px] md:w-[120px] h-[100px] md:h-[120px] object-cover rounded-full " />
+            <Image src={Profileuser?.profilePic || noprofile} imgclass="w-[100px] md:w-[120px] h-[100px] md:h-[120px] rounded-full " />
             <div className="flex items-start flex-col gap-3 mt-[-30px] md:mt-[0px]">
               <h1 className="text-3xl font-bold capitalize">{Profileuser?.username}</h1>
               <span>india</span>

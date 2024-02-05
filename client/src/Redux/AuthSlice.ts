@@ -6,6 +6,7 @@ interface AuthState {
     savedProjects: any[];
     followed: any[];
     followers: any[];
+    createdProjects: any[];
   } | null;
 }
 
@@ -51,6 +52,15 @@ const authSlice = createSlice({
       }
       localStorage.setItem('user', JSON.stringify(state.user));
     },
+    createproject: (state, action: PayloadAction<any>) => {
+      const created = state.user?.createdProjects.includes(action.payload) || false;      
+      if (created) {
+        state.user!.createdProjects = state.user!.createdProjects.filter(project => project !== action.payload);
+      } else {
+        state.user!.createdProjects.push(action.payload);
+      }
+      localStorage.setItem('user', JSON.stringify(state.user));
+    },    
     logout: (state) => {
       state.user = null;
       localStorage.removeItem('user');
@@ -60,6 +70,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { login, logout, like, save, followed } = authSlice.actions;
+export const { login, logout, like, save, followed , createproject } = authSlice.actions;
 
 export default authSlice.reducer;

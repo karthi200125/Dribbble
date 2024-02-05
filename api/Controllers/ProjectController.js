@@ -1,11 +1,12 @@
 import { CreateError } from "../Utils/CreateError.js";
 import ProjectModel from '../Models/ProjectModel.js';
 import UserModel from "../Models/UserModel.js";
+import CommentModel from "../Models/CommentModel.js";
 
 export const createProject = async (req, res, next) => {
     try {
-        const { proTitle, proDesc, proImage, userId, isPublished } = req.body;
-        const newProject = await ProjectModel.create({ proTitle, proDesc, proImage, isPublished, userId });
+        const { proTitle, proDesc, proImage, userId, isPublished , category } = req.body;
+        const newProject = await ProjectModel.create({ proTitle, proDesc, proImage, isPublished, userId , category });
         await UserModel.findByIdAndUpdate(userId, { $push: { createdProjects: newProject._id } });
         res.status(200).json(newProject);
     } catch (error) {
@@ -16,8 +17,9 @@ export const createProject = async (req, res, next) => {
 export const deleteProject = async (req, res, next) => {
     try {
         const { id } = req.params;
-        await ProjectModel.findByIdAndDelete(id);
+        const deletedProject = await ProjectModel.findByIdAndDelete(id);
         await UserModel.findByIdAndUpdate(req.body.userId, { $pull: { createdProjects: id } });
+        await CommentModel.deleteMany({ _id: { $in: deletedProject.projectComments } });
         res.status(200).json("Project has been deleted");
     } catch (error) {
         next(CreateError(error, req, "Delete project failed"));
@@ -46,7 +48,7 @@ export const getProject = async (req, res, next) => {
 
 export const getAllProjects = async (req, res, next) => {
     try {
-        const { userId, like, create , save } = req.body;        
+        const { userId, like, create, save } = req.body;
         const user = await UserModel.findById(userId);
         let allProjects;
 

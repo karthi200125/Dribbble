@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import Button from "../Components/Button"
+import Image from "../Components/Image"
 import Input from "../Components/Inputs"
 import Navbar from "../Components/Navbar"
+import Title from "../Components/Title"
 import UploadBar from "../Components/UploadBar"
 import { login, logout } from "../Redux/AuthSlice"
 import useHandleCrud from "../Utils/HanldeCrud"
 import { useUplaod } from "../Utils/UplaodFile"
-import Title from "../Components/Title"
 
 const Account = () => {
 
@@ -24,6 +25,7 @@ const Account = () => {
         available: user?.available || false
     })
     const [isOn, setIsOn] = useState(user?.available || false);
+    const navigate = useNavigate()
 
     const handleImageChange = (event: any) => {
         setFile(event.target.files?.[0])
@@ -34,7 +36,7 @@ const Account = () => {
     };
 
     // edit profile
-    const { UploadFile, donwlaodUrl, per } = useUplaod({ file })
+    const { UploadFile, donwlaodUrl, per } = useUplaod({ file , image:undefined })
     useEffect(() => { file && UploadFile(); }, [file]);
 
     const { isLoading, Crud } = useHandleCrud({
@@ -42,8 +44,7 @@ const Account = () => {
         method: "PUT",
         data: { ...input, available: isOn ? true : false, profilePic: donwlaodUrl ? donwlaodUrl : user.profilePic },
         successmsg: "user updated succesfully",
-        disp: login,
-        nav: `/account/${user?._id}`
+        disp: login,        
     });
 
     const { Crud: deleteUser } = useHandleCrud({
@@ -51,16 +52,17 @@ const Account = () => {
         method: "DELETE",
         data: input,
         successmsg: "user Account deleted successfully deleted",
-        disp: logout,
-        nav: "/"
+        disp: logout,        
     });
 
     const handleUpdate = async () => {
         await Crud();
+        navigate(`/account/${user?._id}`)
     }
 
     const handleDelete = async () => {
         await deleteUser();
+        navigate('/')
     }
 
     const handleClick = () => {
@@ -76,8 +78,8 @@ const Account = () => {
 
                     <div className="flex items-center flex-col-reverse md:flex-row justify-between gap-5">
                         <div className="flex items-center gap-8 flex-row">
-                            <img src={user?.profilePic} alt=""
-                                className="w-[50px] h-[50px] object-cover rounded-full"
+                            <Image src={user?.profilePic} 
+                                imgclass="w-[50px] h-[50px] object-cover rounded-full"
                             />
                             <div>
                                 <h1 className="text-[20px] font-bold">{`${user?.username} / ${edit ? "Edit Profile" : "gereal"}`}</h1>
@@ -112,7 +114,7 @@ const Account = () => {
                         {edit ?
                             <div className="w-full h-full flex flex-col gap-5">
                                 <div className="w-full flex items-center flex-row gap-5">
-                                    <img src={donwlaodUrl || user?.profilePic} alt="" className="w-[100px] h-[100px] object-cover rounded-full" />
+                                    <Image src={donwlaodUrl || user?.profilePic} imgclass="w-[100px] h-[100px] object-cover rounded-full" />
                                     <div className="flex flex-col gap-3">
                                         <input type="file" id="profileimg" onChange={handleImageChange} />
                                         {per && <UploadBar per={per} />}

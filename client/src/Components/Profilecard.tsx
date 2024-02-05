@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom"
 import noProfile from '../assets/noprofile.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from "../Redux/AuthSlice"
+import Image from "./Image"
 
 const Profilecard = () => {
 
@@ -15,10 +16,9 @@ const Profilecard = () => {
   }
 
   return (
-  <div className="hover:visibility-visible w-full h-full flex flex-col items-center justify-between p-10 rounded-[20px] bg-white">
+    <div className="hover:visibility-visible w-full h-full flex flex-col items-center justify-between p-10 rounded-[20px] bg-white">
       <div className="flex items-center justify-center flex-col">
-        <img src={user.profilePic || noProfile} alt=""
-          className="w-[80px] h-[80px] object-cover rounded-full mb-2" />
+        <Image src={user.profilePic || noProfile} imgclass="rounded-full mb-2 w-[80px] h-[80px]" />
         <span className="font-bold capitalize">{user?.username}</span>
       </div>
       <div className=" w-full flex items-start justify-center flex-col  gap-4 ">

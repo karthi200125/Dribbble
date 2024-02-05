@@ -1,19 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { CiImageOn } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa";
 import { GoVideo } from "react-icons/go";
 import { LuGalleryHorizontal } from "react-icons/lu";
 import { RxText } from "react-icons/rx";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Button from "../../Components/Button";
 import Input from "../../Components/Inputs";
+import Title from "../../Components/Title";
+import UploadBar from "../../Components/UploadBar";
 import useHandleCrud from "../../Utils/HanldeCrud";
 import { useUplaod } from "../../Utils/UplaodFile";
 import ImageUplaod from "./ImageUplaod";
-import UploadBar from "../../Components/UploadBar";
-import Title from "../../Components/Title";
+import { createproject } from "../../Redux/AuthSlice";
 
 interface ImageProps {
   imageUrl: string;
@@ -25,7 +26,9 @@ interface ImageProps {
 const Upload = () => {
   const [image, setImage] = useState<ImageProps>();
   const [barOpen, setBarOpen] = useState(false);
+  const [cat, setCat] = useState('Discover');
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const { user } = useSelector((state: any) => state.user);
 
@@ -33,6 +36,7 @@ const Upload = () => {
     proTitle: "",
     proDesc: "",
     proImage: "",
+    proLink: "",
   });
 
   const handleBaropen = () => {
@@ -43,38 +47,53 @@ const Upload = () => {
     setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const { UploadFile, donwlaodUrl, per } = useUplaod({ image })
-  useEffect(() => { image && UploadFile(); }, [image]);
+  const { UploadFile, donwlaodUrl, per } = useUplaod({ image, file: undefined })
 
-  const { isLoading, Crud } = useHandleCrud({
+  const { isLoading, Crud, result } = useHandleCrud({
     url: "/project/createpro",
     method: "POST",
-    data: { ...input, isPublished: true, userId: user?._id, proImage: donwlaodUrl },
+    data: { ...input, isPublished: true, userId: user?._id, proImage: donwlaodUrl, category: cat },
     successmsg: "project has been published",
-    nav: `/profile/${user?._id}`,
   });
 
   const { isLoading: savecraftloading, Crud: SaveAsCraft } = useHandleCrud({
     url: "/project/createpro",
     method: "POST",
-    data: { ...input, isPublished: false, userId: user?._id, proImage: donwlaodUrl },
+    data: { ...input, isPublished: false, userId: user?._id, proImage: donwlaodUrl, category: cat },
     successmsg: "project has been saved as craft",
-    nav: `/profile/${user?._id}`,
   });
-
+  
   const HandleContinue = async () => {
     if (!input.proTitle) return toast.error("fill Project Title")
     if (!input.proDesc) return toast.error("fill Project Desciption")
-    if (!donwlaodUrl) return toast.error("please wiat uplaoding ...")
+    if (!donwlaodUrl) return toast.error("uplaod Image")  
     await Crud();
+    navigate(`/profile/${user?._id}`)
+    dispatch(createproject(result._id))
   };
+
+  console.log("result", result)
 
   const HandleSaveasCreaft = async () => {
     if (!input.proTitle) return toast.error("fill Project Title")
     if (!input.proDesc) return toast.error("fill Project Desciption")
-    if (!donwlaodUrl) return toast.error("please wiat uplaoding ...")
+    if (!donwlaodUrl) return toast.error("uplaod Image")
     await SaveAsCraft();
+    navigate(`/profile/${user?._id}`)
   };
+
+  // select category
+  const categories = [
+    "Discover",
+    "Animation",
+    "Branding",
+    "Illustration",
+    "Mobile",
+    "Print",
+    "ProductDesign",
+    "Typography",
+    "WebDesign",
+  ];
 
   return (
     <div className={`${barOpen ? "w-[80%]" : "w-full"} h-screen flex flex-col gap-5 bg-neutral-50`}>
@@ -93,8 +112,8 @@ const Upload = () => {
       </div>
 
       {image ? (
-        <div className={`w-full h-screen flex items-center justify-start flex-col gap-5`}>
-          <div className="top w-full md:w-[1050px] flex items-center flex-col gap-3 p-2 md:p-0">
+        <div className={`w-full h-screen flex items-center justify-start flex-col gap-5 `}>
+          <div className="top w-full md:w-[1050px] flex items-center flex-col gap-10 p-2 md:p-0">
             <input
               type="text"
               placeholder="Give me name"
@@ -104,8 +123,20 @@ const Upload = () => {
               value={input.proTitle}
             />
             <img src={image?.imageUrl} alt="" className="w-full h-[300px] md:h-[500px] object-cover rounded-lg" />
-            {per && <UploadBar per={per} />}
-            <Input name="proDesc" placeholder="write what in this design or add any details you like mention" onChange={handlechange} value={input.proDesc} />
+            {per ?
+              <UploadBar per={per} />
+              :
+              <Button onClick={UploadFile}>Uplaod Image</Button>}
+            <Input name="proDesc" labelname="Project Description" placeholder="write what in this design or add any details you like mention" onChange={handlechange} value={input.proDesc} />
+            <div className="w-full flex -items-center justify-between flex-row gap-10">
+              <Input name="proLink" labelname="Project Link if any" placeholder="Paster Your project link here" onChange={handlechange} value={input.proLink} />
+              <select className="w-full border-[1px] border-solid border-neutral-200 px-5 rounded-xl focus:border-rose-400" name="cat" id="cat" onChange={(e) => setCat(e.target.value)}>
+                <option value="">Select category</option>
+                {categories.map((cat: string) => (
+                  <option value={cat} key={cat} >{cat}</option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <div className="relative w-full h-[2px] bg-neutral-300 mt-10">

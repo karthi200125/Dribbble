@@ -29,7 +29,7 @@ const LExplore = () => {
   return (
     <div className="w-full flex items-center flex-col justify-center bg-white pt-10 pb-20">
       <h1 className="w-full text-4xl md:text-6xl mb-8 text-center md:text-center ">Explore inspiring designs</h1>
-      <Cards cards={publishedProjects} />
+      <Cards cards={publishedProjects} cardlength={12}/>
       <Button bg="transparent" border="border-black" py="py-4" onClick={()=> navigate('/login')}>Browse more inspiration</Button>
     </div>
   )

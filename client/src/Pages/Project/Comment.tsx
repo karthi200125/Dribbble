@@ -1,13 +1,14 @@
-import { FiUpload } from "react-icons/fi"
-import Button from "../../Components/Button"
-import { BsExclamationCircle } from "react-icons/bs"
-import { IoLockClosed } from "react-icons/io5"
-import Image from "../../Components/Image"
-import { IoMdSend } from "react-icons/io"
-import { Link } from "react-router-dom"
-import { useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
+import { BsExclamationCircle } from "react-icons/bs"
+import { FiUpload } from "react-icons/fi"
+import { IoMdSend } from "react-icons/io"
+import { IoLockClosed } from "react-icons/io5"
+import { useSelector } from "react-redux"
+import { Link } from "react-router-dom"
+import Button from "../../Components/Button"
+import Image from "../../Components/Image"
+import Toolt from "../../Components/Tooltip"
 import AxiosRequest from "../../Utils/AxiosRequest"
 import useHandleCrud from "../../Utils/HanldeCrud"
 
@@ -60,8 +61,12 @@ const Comment = ({ project }: any) => {
   return (
     <div className="mt-10 w-full h-full flex flex-col gap-10">
       <div className="w-full flex items-center justify-between bg-white">
-        <Button bg="transparent" px="px-3" py="py-3" border="neutral-200"><FiUpload /></Button>
-        <Button bg="transparent" px="px-3" py="py-3" border="neutral-200"><BsExclamationCircle /></Button>
+        <Toolt msg="Share" position="bottom" id="share">
+          <Button bg="transparent" px="px-3" py="py-3" border="neutral-200"><FiUpload /></Button>
+        </Toolt>
+        <Toolt msg="Shot details" position="bottom" id="shot">
+          <Button bg="transparent" px="px-3" py="py-3" border="neutral-200"><BsExclamationCircle /></Button>
+        </Toolt>
       </div>
 
       {!project?.commentON &&
@@ -77,10 +82,13 @@ const Comment = ({ project }: any) => {
       <div className="comments w-full h-full flex flex-col gap-5  overflow-x-scroll">
         {getcomments?.length > 0 ?
           getcomments?.map((cmt: any) => (
-            <div key={cmt._id} className="w-full flex flex-row gap-3 items-start relative">
-              <Image src={cmt.profilePic} imgclass="w-[35px] h-[35px] rounded-full" />
+
+            <div key={cmt._id} className="w-full flex flex-row gap-3 items-start relative">              
+                <Image src={cmt.profilePic} imgclass="w-[35px] h-[35px] rounded-full" />              
               <div className="w-full">
-                <Link to={`/profile/${cmt?.userId}`} className="font-bold text-md hover:opacity-50">{cmt.username}</Link>
+                <Toolt msg={`${cmt.username}`} position="left" id="commentuser">
+                  <Link to={`/profile/${cmt?.userId}`} className="font-bold text-md hover:opacity-50">{cmt.username}</Link>
+                </Toolt>
                 <p className="text-neutral-400">{cmt.comment}</p>
                 <span className="text-neutral-400 ">1 min ago</span>
               </div>
@@ -94,11 +102,14 @@ const Comment = ({ project }: any) => {
         }
       </div>
 
-      <div className="absolute bottom-0 left-0 w-full h-[70px] bg-white flex items-center justify-between gap-5 px-5 border-[1px] border-solid border-neutreal-200">
-        <input type="text" placeholder="comment this post" className="w-full" onChange={(e) => setComment(e.target.value)} />
-        <Button onClick={handlecreateCmt}>{isLoading ? "send..." : <IoMdSend />} </Button>
-      </div>
-    </div>
+      {
+        project?.commentON &&
+        <div className="absolute bottom-0 left-0 w-full h-[70px] bg-white flex items-center justify-between gap-5 px-5 border-[1px] border-solid border-neutreal-200">
+          <input type="text" placeholder="comment this post" className="w-full" onChange={(e) => setComment(e.target.value)} />
+          <Button onClick={handlecreateCmt}>{isLoading ? "send..." : <IoMdSend />} </Button>
+        </div>
+      }
+    </div >
   )
 }
 

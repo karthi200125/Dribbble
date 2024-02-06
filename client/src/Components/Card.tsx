@@ -4,7 +4,9 @@ import { FaHeart } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import Model from "../Pages/Model";
 import { like, save } from '../Redux/AuthSlice';
+import { closeModel, openModel } from "../Redux/ModelSlice";
 import AxiosRequest from "../Utils/AxiosRequest";
 import useHandleCrud from "../Utils/HanldeCrud";
 import likeIcon from '../assets/like.png';
@@ -43,7 +45,7 @@ const Card = ({ data, Delete, profile }: CardProps) => {
   const navigate = useNavigate()
 
   // Delete Project
-  const { result, Crud } = useHandleCrud({
+  const { isLoading: deletLoading, Crud } = useHandleCrud({
     url: `/project/deletepro/${data?._id}`,
     method: "DELETE",
     data: { userId: user?._id },
@@ -53,6 +55,7 @@ const Card = ({ data, Delete, profile }: CardProps) => {
   const HanldeDeleteDraft = async (e: any) => {
     e.stopPropagation()
     await Crud();
+    dispatch(closeModel())
   };
 
   // Fetch the user details
@@ -105,12 +108,22 @@ const Card = ({ data, Delete, profile }: CardProps) => {
   const handleProSave = async (e: any) => {
     e.stopPropagation()
     await HandleSave();
-    dispatch(save(data?._id));
+    dispatch(save(data?._id))
   };
 
   const cardClick = () => {
     navigate(`/openpro/${data._id}`, { state: { ...data, postuser: postuser } })
   }
+
+  const deleteProjectBody = (
+    <div className="w-full flex flex-col gap-5">
+      <p className="w-full text-center">'Are you sure you want delete that' <span className="font-bold">"{data?.proTitle}"</span> shot</p>
+      <div className="w-full flex items-center justify-between flex-row ">
+        <Button bg="transparent" border="neutral-200" onClick={() => dispatch(closeModel())}>Cancel</Button>
+        <Button onClick={HanldeDeleteDraft} isLoading={deletLoading} >Delete</Button>
+      </div>
+    </div>
+  )
 
   return (
     <div className="card " >
@@ -168,11 +181,16 @@ const Card = ({ data, Delete, profile }: CardProps) => {
                 </div>
               </div>
             </div>
+
           }
         </>
       }
       {Delete && (params.id === user?._id) &&
-        <div className="w-full text-end text-neutral-600 cursor-pointer p-4 hover:text-red-500" onClickCapture={HanldeDeleteDraft}>Delete</div>
+        <div className="w-full flex flex-row items-center justify-between">
+          <Model title="Delete Shot" bodyContent={deleteProjectBody} />
+          <div className=" font-bold cursor-pointer p-4 hover:opacity-50" onClick={() => navigate(`/openpro/${data?._id}`, { state: { proEdit: true } })}>update</div>
+          <div className="font-bold text-neutral-600 cursor-pointer p-4 hover:text-red-500" onClick={() => dispatch(openModel())}>Delete</div>
+        </div>
       }
     </div >
   );

@@ -7,9 +7,10 @@ interface CardsProps {
     Delete?: any;
     profile?: any;
     isLoading?: boolean;
+    cardlength?: number;
 }
 
-const Cards = ({ cards, Delete, profile, isLoading }: CardsProps) => {
+const Cards = ({ cards, Delete, profile, isLoading , cardlength }: CardsProps) => {
     
     return (
         <div className="w-full">
@@ -23,7 +24,7 @@ const Cards = ({ cards, Delete, profile, isLoading }: CardsProps) => {
                 <>
                     {cards?.length > 0 ? (
                         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 3xl:grid-cols-5 gap-10 p-[20px] md:p-[75px] items-center">
-                            {cards.map((card: any) => (
+                            {cards.slice(0, cardlength || cards?.length).map((card: any) => (
                                 <Card key={card?._id} data={card} Delete={Delete} profile={profile} />
                             ))}
                         </div>

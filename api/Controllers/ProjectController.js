@@ -5,8 +5,8 @@ import CommentModel from "../Models/CommentModel.js";
 
 export const createProject = async (req, res, next) => {
     try {
-        const { proTitle, proDesc, proImage, userId, isPublished , category } = req.body;
-        const newProject = await ProjectModel.create({ proTitle, proDesc, proImage, isPublished, userId , category });
+        const { proTitle, proDesc, proImage, userId, isPublished , category , proLink , commentON} = req.body;
+        const newProject = await ProjectModel.create({ proTitle, proDesc, proImage, isPublished, userId , category , proLink  , commentON});
         await UserModel.findByIdAndUpdate(userId, { $push: { createdProjects: newProject._id } });
         res.status(200).json(newProject);
     } catch (error) {
@@ -38,7 +38,7 @@ export const updateProject = async (req, res, next) => {
 
 export const getProject = async (req, res, next) => {
     try {
-        const { id } = req.params;
+        const { id } = req.params;        
         const getProject = await ProjectModel.findById(id);
         res.status(200).json(getProject);
     } catch (error) {

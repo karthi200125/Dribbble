@@ -12,6 +12,7 @@ import useHandleCrud from "../../Utils/HanldeCrud"
 import { followed } from "../../Redux/AuthSlice"
 import Title from "../../Components/Title"
 import Image from "../../Components/Image"
+import profileDefault from "../../assets/profileDefaultimage.jpg"
 
 const Profile = () => {
 
@@ -75,18 +76,23 @@ const Profile = () => {
             </div>
           </div>
           :
-          <div className="w-full h-[400px]  flex flex-col gap-5">
-            <img src={Profileuser.profilePic} alt={Profileuser.username} className="w-[100px] h-[100px] object-cover rounded-full " />
-            <h1 className="text-4xl font-bold capitalize">{Profileuser.username}</h1>
-            <h1 className="text-5xl font-bold capitalize">{"developer"}</h1>
-            <div className="w-full flex flex-row gap-5 items-center">
-              <span className="text-lg text-neutral-500">{Profileuser?.followers?.length} followers</span>
-              <span className="text-lg text-neutral-500">{Profileuser?.followed?.length} following</span>
+          <div className="w-full h-[400px]  flex flex-row justify-between items-center">
+            <div className="w-full h-full flex flex-col gap-5">
+              <img src={Profileuser.profilePic} alt={Profileuser.username} className="w-[100px] h-[100px] object-cover rounded-full " />
+              <h1 className="text-4xl font-bold capitalize">{Profileuser.username}</h1>
+              <h1 className="text-5xl font-bold capitalize">{"developer"}</h1>
+              <div className="w-full flex flex-row gap-5 items-center">
+                <span className="text-lg text-neutral-500">{Profileuser?.followers?.length} followers</span>
+                <span className="text-lg text-neutral-500">{Profileuser?.followed?.length} following</span>
+              </div>
+              <div className="w-full flex flex-row gap-5">
+                <Button>Get in Touch</Button>
+                <Button py="py-2" bg="transparent" border="neutral-200" onClick={handleFollow}>{alreadyfollowed ? "Following" : "Follow"}</Button>
+                <Button py="py-2" bg="transparent" border="neutral-200" px="px-4"><IoIosMore /></Button>
+              </div>
             </div>
-            <div className="w-full flex flex-row gap-5">
-              <Button>Get in Touch</Button>
-              <Button py="py-2" bg="transparent" border="neutral-200" onClick={handleFollow}>{alreadyfollowed ? "Following" : "Follow"}</Button>
-              <Button py="py-2" bg="transparent" border="neutral-200" px="px-4"><IoIosMore /></Button>
+            <div className="w-[70%] h-full bg-red rounded-3xl overflow-hidden shadow-2xl">
+              <Image src={Profileuser?.profileThumbnailimg || profileDefault} imgclass="w-full h-full" />
             </div>
           </div>
         }

@@ -6,7 +6,7 @@ import { GoVideo } from "react-icons/go";
 import { LuGalleryHorizontal } from "react-icons/lu";
 import { RxText } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../Components/Button";
 import Input from "../../Components/Inputs";
 import Title from "../../Components/Title";
@@ -15,6 +15,9 @@ import useHandleCrud from "../../Utils/HanldeCrud";
 import { useUplaod } from "../../Utils/UplaodFile";
 import ImageUplaod from "./ImageUplaod";
 import { createproject } from "../../Redux/AuthSlice";
+import Model from "../Model";
+import { closeModel, openModel } from "../../Redux/ModelSlice";
+import Image from "../../Components/Image";
 
 interface ImageProps {
   imageUrl: string;
@@ -24,18 +27,21 @@ interface ImageProps {
 }
 
 const Upload = () => {
-  const [image, setImage] = useState<ImageProps>();
+  const location = useLocation()
+  const proEdit = location?.state?.proEdit
+  const [image, setImage] = useState<ImageProps>(proEdit?.proImage || '');
   const [barOpen, setBarOpen] = useState(false);
   const [cat, setCat] = useState('Discover');
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
+  const [isOn, setIsOn] = useState(true);
+  const [file, setfile] = useState<any>(undefined);
   const { user } = useSelector((state: any) => state.user);
 
   const [input, setInput] = useState({
-    proTitle: "",
-    proDesc: "",
-    proImage: "",
+    proTitle: proEdit?.proTitle || "",
+    proDesc: proEdit?.proDesc || "",
+    proImage: proEdit?.proImage || "",
     proLink: "",
   });
 
@@ -47,38 +53,32 @@ const Upload = () => {
     setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const { UploadFile, donwlaodUrl, per } = useUplaod({ image, file: undefined })
+  const { UploadFile, donwlaodUrl, per } = useUplaod({ image, file })
 
   const { isLoading, Crud, result } = useHandleCrud({
-    url: "/project/createpro",
-    method: "POST",
-    data: { ...input, isPublished: true, userId: user?._id, proImage: donwlaodUrl, category: cat },
-    successmsg: "project has been published",
+    url: proEdit ? `/project/updatepro/${proEdit?._id}` : "/project/createpro",
+    method: proEdit ? "PUT" : "POST",
+    data: { ...input, isPublished: true, userId: user?._id, proImage: donwlaodUrl, category: cat, commentON: isOn ? true : false, proLink: input?.proLink },
+    successmsg: proEdit ? "project has been updated" : "project has been published",
   });
 
   const { isLoading: savecraftloading, Crud: SaveAsCraft } = useHandleCrud({
     url: "/project/createpro",
     method: "POST",
-    data: { ...input, isPublished: false, userId: user?._id, proImage: donwlaodUrl, category: cat },
+    data: { ...input, isPublished: false, userId: user?._id, proImage: donwlaodUrl, category: cat, commentON: isOn ? true : false, proLink: input?.proLink },
     successmsg: "project has been saved as craft",
   });
-  
+
   const HandleContinue = async () => {
-    if (!input.proTitle) return toast.error("fill Project Title")
-    if (!input.proDesc) return toast.error("fill Project Desciption")
-    if (!donwlaodUrl) return toast.error("uplaod Image")  
     await Crud();
+    dispatch(closeModel())
     navigate(`/profile/${user?._id}`)
     dispatch(createproject(result._id))
   };
 
-  console.log("result", result)
-
   const HandleSaveasCreaft = async () => {
-    if (!input.proTitle) return toast.error("fill Project Title")
-    if (!input.proDesc) return toast.error("fill Project Desciption")
-    if (!donwlaodUrl) return toast.error("uplaod Image")
     await SaveAsCraft();
+    dispatch(closeModel())
     navigate(`/profile/${user?._id}`)
   };
 
@@ -95,6 +95,61 @@ const Upload = () => {
     "WebDesign",
   ];
 
+  // model body cotent
+  const bodycontent = (
+    <div className="flex flex-row gap-10 items-start">
+      <div className="">
+        <span className=" font-bold">Thumbnail preview</span>
+        <Image src={donwlaodUrl} imgclass="w-[350px] h-[220px] rounded-xl mt-2 shadow-xl" />
+      </div>
+      <div className="w-full flex flex-col gap-1 ">
+        <Input labelname="Tags" placeholder="Add tags..." />
+        <span className="text-neutral-400">Suggested:design,illustration,ui,branding,logo,graphic design,vector,ux,typography,app</span>
+        {/* feed back flip */}
+        <div className="flex items-center mt-5">
+          <span className={`mr-2 w-[220px] font-bold`}>Looking for feedback</span>
+          <label className="flex items-center cursor-pointer">
+            <div className={`relative w-12 h-6 transition duration-300 ease-in-out ${isOn ? 'bg-rose-200' : 'bg-gray-200'} rounded-full`}>
+              <div
+                className={`absolute w-6 h-6 transition duration-300 ease-in-out transform ${isOn ? 'translate-x-full' : 'translate-x-0'} ${isOn ? "bg-rose-400" : "bg-gray-400"} rounded-full shadow-md`}
+              ></div>
+            </div>
+            <input type="checkbox" className="hidden" onClick={() => setIsOn(!isOn)} />
+          </label>
+        </div>
+        {/* line */}
+        <span className="w-full h-[1px] bg-neutral-200 m-5"></span>
+        <div className="w-full flex flex-row items-center justify-between p-2 md:p-6">
+          <Button bg="transparent" border="neutral-200" py="py-1 md:py-2" onClick={() => dispatch(closeModel())}>
+            cancel
+          </Button>
+          <div className="flex flex-row gap-5 items-center">
+            {!proEdit &&
+              <Button bg="neutral-100" color="text-black" onClick={HandleSaveasCreaft} isLoading={savecraftloading} py="py-1 md:py-2">
+                save
+              </Button>
+            }
+            <Button onClick={HandleContinue} isLoading={isLoading} py="py-1 md:py-2">continue</Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
+  const firstContinue = () => {
+    if (!input.proTitle) return toast.error("Write Project Title")
+    if (!input.proDesc) return toast.error("Write Project Desciption")
+    if (proEdit ? "" : !donwlaodUrl) return toast.error(proEdit ? "" : "uplaod Image First")
+    dispatch(openModel())
+  }
+
+  const firstSaveasdraft = () => {
+    dispatch(openModel())
+    if (!input.proTitle) return toast.error("Write Project Title")
+    if (!input.proDesc) return toast.error("Write Project Desciption")
+    if (!donwlaodUrl) return toast.error("uplaod Image First")
+  }
+
   return (
     <div className={`${barOpen ? "w-[80%]" : "w-full"} h-screen flex flex-col gap-5 bg-neutral-50`}>
       <Title title="Dribble Create Project" />
@@ -104,10 +159,10 @@ const Upload = () => {
           cancel
         </Button>
         <div className="flex flex-row gap-5 items-center">
-          <Button bg="neutral-100" color="text-black" onClick={HandleSaveasCreaft} isLoading={savecraftloading} py="py-1 md:py-2">
+          <Button bg="neutral-100" color="text-black" onClick={firstSaveasdraft} py="py-1 md:py-2">
             save
           </Button>
-          <Button onClick={HandleContinue} isLoading={isLoading} py="py-1 md:py-2">continue</Button>
+          <Button onClick={firstContinue} py="py-1 md:py-2">continue</Button>
         </div>
       </div>
 
@@ -122,11 +177,18 @@ const Upload = () => {
               name="proTitle"
               value={input.proTitle}
             />
-            <img src={image?.imageUrl} alt="" className="w-full h-[300px] md:h-[500px] object-cover rounded-lg" />
+            <img src={file ? URL.createObjectURL(file) : image?.imageUrl || proEdit?.proImage} alt="" className="w-full h-[300px] md:h-[500px] object-cover rounded-lg" />
+            {proEdit &&
+              <>
+                <input type="file" id="changeEditImage" className="hidden" onChange={(e: any) => setfile(e.target.files[0])} />
+                <label htmlFor="changeEditImage" className="font-bold cursor-pointer">Change Project Image</label>
+              </>
+            }
             {per ?
               <UploadBar per={per} />
               :
-              <Button onClick={UploadFile}>Uplaod Image</Button>}
+              <Button onClick={UploadFile}> Uplaod Image</Button>
+            }
             <Input name="proDesc" labelname="Project Description" placeholder="write what in this design or add any details you like mention" onChange={handlechange} value={input.proDesc} />
             <div className="w-full flex -items-center justify-between flex-row gap-10">
               <Input name="proLink" labelname="Project Link if any" placeholder="Paster Your project link here" onChange={handlechange} value={input.proLink} />
@@ -183,6 +245,7 @@ const Upload = () => {
       ) : (
         <ImageUplaod onImage={(imageUrl: any) => setImage(imageUrl)} />
       )}
+      <Model title="Final Touches" subtitle="" bodyContent={bodycontent} w="w-[900px]" />
     </div>
   );
 };

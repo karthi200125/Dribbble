@@ -42,7 +42,7 @@ function App() {
           <Route path="/register" element={!user && <Register />} />
           <Route path="/" element={!user ? <LandingPage /> : <Navigate to="/home" />} />
           <Route path="/home" element={user ? <Home /> : <Navigate to="/" />} />
-          <Route path="/openpro/:id" element={user ? <OpenPro /> : <Navigate to="/" />} />
+          <Route path="/openpro/:id" element={user ? <OpenPro /> : <Navigate to="/" />} />          
           <Route path="/profile/:id" element={user ? <Profile /> : <Navigate to="/" />} />
           <Route path="/upload/:id" element={user ? <Upload /> : <Navigate to="/" />} />
           <Route path="/search" element={user ? <Search /> : <Navigate to="/" />} />

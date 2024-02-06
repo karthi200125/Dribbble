@@ -2,7 +2,7 @@ import { memo, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Button from "../../Components/Button";
 import Cards from "../../Components/Cards";
 import Title from "../../Components/Title";
@@ -20,6 +20,8 @@ import { FiUpload } from "react-icons/fi";
 import { BsExclamationCircle } from "react-icons/bs";
 import Comment from "./Comment";
 import { IoCloseSharp } from "react-icons/io5";
+import Toolt from "../../Components/Tooltip";
+import { MdOutlineModeEditOutline } from "react-icons/md";
 
 interface Project {
   _id: string;
@@ -46,6 +48,8 @@ const OpenPro = () => {
   const [postuser, setPostuser] = useState<User>({ _id: '', username: '' });
   const [project, setProject] = useState<Project>({ _id: '', proTitle: '', proImage: '', userId: '', proDesc: "", proLink: '', projectComments: '' });
   const [Copen, setCopen] = useState(false)
+  const location = useLocation()
+  const proEdit = location.state.proEdit
 
   const [Allprojects, setAllprojects] = useState<Project[]>([]);
 
@@ -94,7 +98,7 @@ const OpenPro = () => {
     url: `/project/likeproject/${project?._id}`,
     method: "POST",
     data: { userId: user?._id },
-    successmsg: liked ? "Post has been Disliked" : "Post has been liked",    
+    successmsg: liked ? "Post has been Disliked" : "Post has been liked",
   });
 
   const handlePorLike = async () => {
@@ -113,7 +117,7 @@ const OpenPro = () => {
     url: `/project/saveproject/${project?._id}`,
     method: "POST",
     data: { userId: user?._id },
-    successmsg: saved ? "Post has been unSaved" : "Post has been Saved",    
+    successmsg: saved ? "Post has been unSaved" : "Post has been Saved",
   });
 
   const handleProSave = async () => {
@@ -192,30 +196,43 @@ const OpenPro = () => {
             <p className="font-bold">More by {postuser?.username}</p>
             <Link to={`/profile/${postuser._id}`}>View profile</Link>
           </div>
-          <Cards cards={userPublishedProjects} Delete={true} />
+          <Cards cards={userPublishedProjects} Delete={true} cardlength={4} />
         </div>
       </div>
 
-      <div className="absolute w-[50px] h-[150px] top-[35%] right-10 flex flex-col items-center justify-between">
+      <div className={`absolute w-[50px] ${proEdit ? "h-[200px]" : "h-[150px]"}  top-[35%] right-10 flex flex-col items-center justify-between`}>
         <div className="relative" onClick={() => setCopen(!Copen)}>
-          <span className="absolute top-[-5px] right-[-5px] w-[20px] h-[20px] rounded-full text-[10px] border-[1px] border-solid border-neutral-200 bg-white flex items-center justify-center">{project?.projectComments?.length}</span>
-          <Button bg="white" color="black" px="px-3" py="py-3" border="neutral-200"><FaRegComment /></Button>
+          <Toolt msg="Feedback" position="left" id="feedback">
+            <span className="absolute top-[-5px] right-[-5px] w-[20px] h-[20px] rounded-full text-[10px] border-[1px] border-solid border-neutral-200 bg-white flex items-center justify-center font-bold">{project?.projectComments?.length}</span>
+            <Button bg="white" color="black" px="px-3" py="py-3" border="neutral-200"><FaRegComment /></Button>
+          </Toolt>
         </div>
-        <Button bg="white" color="black" px="px-3" py="py-3" border="neutral-200"><FiUpload /></Button>
-        <Button bg="white" color="black" px="px-3" py="py-3" border="neutral-200"><BsExclamationCircle /></Button>
+        <Toolt msg="Share!" position="left" id="share">
+          <Button bg="white" color="black" px="px-3" py="py-3" border="neutral-200"><FiUpload /></Button>
+        </Toolt>
+        <Toolt msg="Shot details" position="left" id="shoatd">
+          <Button bg="white" color="black" px="px-3" py="py-3" border="neutral-200"><BsExclamationCircle /></Button>
+        </Toolt>
+        {proEdit &&
+          <Toolt msg="Edit" position="left" id="edit">
+            <Button bg="white" color="black" px="px-3" py="py-3" border="neutral-200" onClick={() => navigate(`/upload/${user?._id}`, { state: { proEdit: project } })}><MdOutlineModeEditOutline /></Button>
+          </Toolt>
+        }
       </div>
 
-      {Copen && (
-        <div className={`transition-transform duration-300 transform ${Copen ? 'translate-x-0' : 'translate-x-full'} w-[25%] h-screen fixed right-0 top-0 border-l-[1px] border-solid border-neutral-200 bg-white p-10`}>
-          <div className="w-[30px] h-[30px] rounded-full border-[1px] border-solid border-neutral-200 absolute top-[10%] left-[-15px] flex items-center justify-center bg-white cursor-pointer" onClick={() => setCopen(false)}>
-            <IoCloseSharp />
+      {
+        Copen && (
+          <div className={`transition-transform duration-300 transform ${Copen ? 'translate-x-0' : 'translate-x-full'} w-[25%] h-screen fixed right-0 top-0 border-l-[1px] border-solid border-neutral-200 bg-white p-10`}>
+            <div className="w-[30px] h-[30px] rounded-full border-[1px] border-solid border-neutral-200 absolute top-[10%] left-[-15px] flex items-center justify-center bg-white cursor-pointer" onClick={() => setCopen(false)}>
+              <IoCloseSharp />
+            </div>
+            <Comment project={project} />
           </div>
-          <Comment project={project} />
-        </div>
-      )}
+        )
+      }
 
 
-    </div>
+    </div >
   )
 }
 

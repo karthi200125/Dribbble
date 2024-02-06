@@ -6,18 +6,20 @@ import { useUplaod } from "../Utils/UplaodFile";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { login } from "../Redux/AuthSlice";
+import { useNavigate } from "react-router-dom";
 
 const Welcome = () => {
 
     const { user } = useSelector((state: any) => state.user)
     const [file, setFile] = useState<any>()
     const [country, setcountry] = useState<string>()
+    const navigate = useNavigate()
 
     const handleImageChange = (event: any) => {
         setFile(event.target.files?.[0])
     };
 
-    const { UploadFile, donwlaodUrl, per } = useUplaod({ file })
+    const { UploadFile, donwlaodUrl, per } = useUplaod({ file, image: undefined })
     useEffect(() => { file && UploadFile(); }, [file]);
 
     const { Crud, isLoading } = useHandleCrud({
@@ -25,7 +27,6 @@ const Welcome = () => {
         method: "PUT",
         data: { profilePic: donwlaodUrl ? donwlaodUrl : user?.profilePic, country: country },
         successmsg: "Profile has been uploaded",
-        nav: '/home',
         disp: login
     });
 
@@ -34,6 +35,7 @@ const Welcome = () => {
         if (!user?.profilePic && !donwlaodUrl) return toast.error("Select a profile image");
         if (!country) return toast.error("write country name")
         await Crud();
+        navigate('/home')
     };
 
     return (

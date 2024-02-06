@@ -1,3 +1,4 @@
+import { formatDistanceToNow } from "date-fns"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { BsExclamationCircle } from "react-icons/bs"
@@ -60,7 +61,7 @@ const Comment = ({ project }: any) => {
 
   return (
     <div className="mt-10 w-full h-full flex flex-col gap-10">
-      <div className="w-full flex items-center justify-between bg-white">
+      <div className="w-full flex items-center justify-between bg-white border-b-[1px] border-solid border-neutral-200 pb-5">
         <Toolt msg="Share" position="bottom" id="share">
           <Button bg="transparent" px="px-3" py="py-3" border="neutral-200"><FiUpload /></Button>
         </Toolt>
@@ -89,12 +90,13 @@ const Comment = ({ project }: any) => {
                 <Toolt msg={`${cmt.username}`} position="left" id="commentuser">
                   <Link to={`/profile/${cmt?.userId}`} className="font-bold text-md hover:opacity-50">{cmt.username}</Link>
                 </Toolt>
-                <p className="text-neutral-400">{cmt.comment}</p>
-                <span className="text-neutral-400 ">1 min ago</span>
+                <p >{cmt.comment}</p>
+                <span className="text-neutral-400 text-[12px]">{formatDistanceToNow(cmt?.createdAt, { addSuffix: true })}</span>
               </div>
               {user?._id === cmt?.userId &&
-                <span className="absoluet top-0 right-0 font-bold cursor-pointer" onClick={() => commentDelet(cmt._id)}>x</span>
+                <span className="absoluet top-0 right-0 font-bold cursor-pointer hover:opacity-50" onClick={() => commentDelet(cmt._id)}>x</span> 
               }
+              
             </div>
           ))
           :

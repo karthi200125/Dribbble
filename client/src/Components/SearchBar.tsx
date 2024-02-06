@@ -7,10 +7,7 @@ import { searchredux } from "../Redux/SearchSlice";
 const SearchBar = () => {
 
   const { search } = useSelector((state: any) => state.search)
-  const dispatch = useDispatch()
-
-  // console.log("search", search)
-
+  const dispatch = useDispatch()  
   const location = useLocation();
   const pathname = location.pathname;
   const navigate = useNavigate();
@@ -23,7 +20,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className={`hidden md:flex flex items-center ${pathname !== '/' ? "bg-neutral-100" : "bg-white"} p-3 rounded-full gap-2`}>
+    <div className={`hidden md:flex items-center ${pathname !== '/' ? "bg-neutral-100" : "bg-white"} p-3 rounded-full gap-2`}>
       <CiSearch className="" size={25} />
       <input
         type="text"

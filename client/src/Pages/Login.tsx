@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { signInWithPopup } from 'firebase/auth'
+import { useCallback, useState } from "react"
 import toast from "react-hot-toast"
 import { useDispatch } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
@@ -7,8 +8,7 @@ import Input from "../Components/Inputs"
 import Title from "../Components/Title"
 import { login } from "../Redux/AuthSlice"
 import AxiosRequest from "../Utils/AxiosRequest"
-import { signInWithPopup } from 'firebase/auth'
-import { app, auth, provider } from "../Utils/FireBase";
+import { auth, provider } from "../Utils/FireBase"
 
 const Login = () => {
 
@@ -19,10 +19,11 @@ const Login = () => {
         email: "",
         password: ""
     });
+    const [showpassword, setshowpassword] = useState(false);
 
-    const handleChange = (e: any) => {
+    const handleChange = useCallback((e: any) => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    };
+    }, []);
 
 
     const handleLogin = async () => {
@@ -43,23 +44,23 @@ const Login = () => {
     }
 
     // google login
-    const signInWithGoole = async () => {
+    const signInWithGoole = useCallback(async () => {
         signInWithPopup(auth, provider).then((result) => {
             AxiosRequest.post('/auth/google', {
                 username: result.user.displayName,
                 email: result.user.email,
                 profilePic: result.user.photoURL,
             }).then((res) => {
-                const nav = res.data.reg                                
+                const nav = res.data.reg
                 nav ? naivigate('/welcome') : naivigate('/home')
                 localStorage.setItem('access_token', res.data.token);
                 dispatch(login(res.data))
-                toast.success("Google login successfull")                
+                toast.success("Google login successfull")
             })
-        }).catch((err) => {
+        }).catch(() => {
             toast.error("Google login failed")
         })
-    }
+    }, [])
 
     return (
         <div className="w-full h-screen flex flex-row relative">
@@ -83,10 +84,14 @@ const Login = () => {
                         <span className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-3 text-sm md:text-md text-neutral-400">or sign in with email</span>
                     </div>
                     <Input labelname="UserName or Email" type="email" onChange={handleChange} value={input.email} name="email" />
-                    <Input labelname="Password" type="password" onChange={handleChange} value={input.password} name="password" />
-                    <Button w="w-full" py="py-4" onClick={handleLogin} isLoading={isLoading}>Signin</Button>
+                    <Input labelname="Password" type={showpassword ? "text" : "password"} onChange={handleChange} value={input.password} name="password" />
+                    <div className="w-full flex items-center gap-5">
+                        <input type="checkbox" onChange={() => setshowpassword(!showpassword)} className='cursor-pointer w-[15px] h-[15px]'/>
+                        <span className='font-bold'>show password</span>
+                    </div>
+                    <Button w="w-full" py="py-4" onClick={handleLogin} isLoading={isLoading}>Sign In</Button>
                     <div className="text-neutral-600 text-[15px] cursor-pointer">Dont have an account?
-                        <Link to="/register" className="underline">Sign Up</Link>
+                        <Link to="/register" className="underline ml-3 font-bold">Sign Up</Link>
                     </div>
                 </div>
             </div>

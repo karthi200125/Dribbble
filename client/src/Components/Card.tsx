@@ -1,11 +1,11 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { FaHeart } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Model from "../Pages/Model";
-import { like, save } from '../Redux/AuthSlice';
+import { createproject, like, save } from '../Redux/AuthSlice';
 import { closeModel, openModel } from "../Redux/ModelSlice";
 import AxiosRequest from "../Utils/AxiosRequest";
 import useHandleCrud from "../Utils/HanldeCrud";
@@ -45,40 +45,41 @@ const Card = ({ data, Delete, profile }: CardProps) => {
   const navigate = useNavigate()
 
   // Delete Project
-  const { isLoading: deletLoading, Crud } = useHandleCrud({
+  const { isLoading: deletLoading, Crud, result } = useHandleCrud({
     url: `/project/deletepro/${data?._id}`,
     method: "DELETE",
     data: { userId: user?._id },
     successmsg: "Project has been deleted successfully"
   });
 
-  const HanldeDeleteDraft = async (e: any) => {
+  const HanldeDeleteDraft = useCallback(async (e: any) => {
     e.stopPropagation()
     await Crud();
     dispatch(closeModel())
-  };
+    dispatch(createproject(result))
+  }, [Crud, dispatch])
 
   // Fetch the user details
-  const getUser = async () => {
+  const getUser = useCallback(async () => {
     try {
       const res = await AxiosRequest.get<UserData>(`/user/getuser/${data?.userId}`);
       setPostuser(res?.data);
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
     }
-  };
+  }, [data])
 
   useEffect(() => {
     getUser();
   }, []);
 
   const [count, setCount] = useState(data?.likedUsers?.length);
+  const liked = useMemo(() => user?.likedProjects?.includes(data?._id), [user, data])
+  const saved = useMemo(() => user?.savedProjects?.includes(data?._id), [user, data])
 
-  const LikeCount = () => {
+  const LikeCount = useCallback(() => {
     setCount((prevCount: any) => (liked ? prevCount - 1 : prevCount + 1));
-  };
-
-  const liked = user?.likedProjects?.includes(data?._id);
+  }, [liked])
 
   // Handle like code
   const { Crud: HandleLike } = useHandleCrud({
@@ -88,14 +89,14 @@ const Card = ({ data, Delete, profile }: CardProps) => {
     successmsg: liked ? "Post has been Disliked" : "Post has been liked",
   });
 
-  const handlePorLike = async (e: any) => {
+  const handlePorLike = useCallback(async (e: any) => {
     e.stopPropagation()
     await HandleLike();
     LikeCount()
     dispatch(like(data?._id));
-  };
+  }, [HandleLike, LikeCount, data, dispatch])
 
-  const saved = user?.savedProjects?.includes(data?._id);
+
 
   // Handle saved code
   const { Crud: HandleSave } = useHandleCrud({
@@ -105,17 +106,17 @@ const Card = ({ data, Delete, profile }: CardProps) => {
     successmsg: liked ? "Post has been unSaved" : "Post has been Saved",
   });
 
-  const handleProSave = async (e: any) => {
+  const handleProSave = useCallback(async (e: any) => {
     e.stopPropagation()
     await HandleSave();
     dispatch(save(data?._id))
-  };
+  }, [HandleSave, data, dispatch])
 
-  const cardClick = () => {
+  const cardClick = useCallback(() => {
     navigate(`/openpro/${data._id}`, { state: { ...data, postuser: postuser } })
-  }
+  }, [navigate, data, postuser])
 
-  const deleteProjectBody = (
+  const deleteProjectBody = useMemo(() => (
     <div className="w-full flex flex-col gap-5">
       <p className="w-full text-center">'Are you sure you want delete that' <span className="font-bold">"{data?.proTitle}"</span> shot</p>
       <div className="w-full flex items-center justify-between flex-row ">
@@ -123,7 +124,7 @@ const Card = ({ data, Delete, profile }: CardProps) => {
         <Button onClick={HanldeDeleteDraft} isLoading={deletLoading} >Delete</Button>
       </div>
     </div>
-  )
+  ), [data, deletLoading, dispatch, HanldeDeleteDraft])
 
   return (
     <div className="card " >

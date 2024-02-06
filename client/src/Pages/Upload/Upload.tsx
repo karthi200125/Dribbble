@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import { CiImageOn } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa";
@@ -45,9 +45,9 @@ const Upload = () => {
     proLink: "",
   });
 
-  const handleBaropen = () => {
-    setBarOpen(!barOpen);
-  };
+  const handleBaropen = useCallback(() => {
+    setBarOpen((prevBarOpen) => !prevBarOpen);
+  }, []);
 
   const handlechange = (e: any) => {
     setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -73,7 +73,7 @@ const Upload = () => {
     await Crud();
     dispatch(closeModel())
     navigate(`/profile/${user?._id}`)
-    dispatch(createproject(result._id))
+    dispatch(createproject(result?._id))
   };
 
   const HandleSaveasCreaft = async () => {
@@ -100,13 +100,13 @@ const Upload = () => {
     <div className="flex flex-row gap-10 items-start">
       <div className="">
         <span className=" font-bold">Thumbnail preview</span>
-        <Image src={donwlaodUrl} imgclass="w-[350px] h-[220px] rounded-xl mt-2 shadow-xl" />
+        <Image src={donwlaodUrl} imgclass="w-[350px] h-[220px] rounded-xl mt-5 shadow-xl" />
       </div>
       <div className="w-full flex flex-col gap-1 ">
         <Input labelname="Tags" placeholder="Add tags..." />
-        <span className="text-neutral-400">Suggested:design,illustration,ui,branding,logo,graphic design,vector,ux,typography,app</span>
+        <span className="text-neutral-400 text-[15px]">Suggested:design,illustration,ui,branding,logo,graphic design,vector,ux,typography,app</span>
         {/* feed back flip */}
-        <div className="flex items-center mt-5">
+        <div className="flex items-center mt-10">
           <span className={`mr-2 w-[220px] font-bold`}>Looking for feedback</span>
           <label className="flex items-center cursor-pointer">
             <div className={`relative w-12 h-6 transition duration-300 ease-in-out ${isOn ? 'bg-rose-200' : 'bg-gray-200'} rounded-full`}>
@@ -118,7 +118,7 @@ const Upload = () => {
           </label>
         </div>
         {/* line */}
-        <span className="w-full h-[1px] bg-neutral-200 m-5"></span>
+        <span className="w-full h-[1px] bg-neutral-200 m-10"></span>
         <div className="w-full flex flex-row items-center justify-between p-2 md:p-6">
           <Button bg="transparent" border="neutral-200" py="py-1 md:py-2" onClick={() => dispatch(closeModel())}>
             cancel
@@ -136,19 +136,19 @@ const Upload = () => {
     </div>
   )
 
-  const firstContinue = () => {
-    if (!input.proTitle) return toast.error("Write Project Title")
-    if (!input.proDesc) return toast.error("Write Project Desciption")
-    if (proEdit ? "" : !donwlaodUrl) return toast.error(proEdit ? "" : "uplaod Image First")
-    dispatch(openModel())
-  }
+  const firstContinue = useCallback(() => {
+    if (!input.proTitle) return toast.error("Write Project Title");
+    if (!input.proDesc) return toast.error("Write Project Desciption");
+    if (proEdit ? "" : !donwlaodUrl) return toast.error(proEdit ? "" : "uplaod Image First");
+    dispatch(openModel());
+  }, [input.proTitle, input.proDesc, proEdit, donwlaodUrl]);
 
-  const firstSaveasdraft = () => {
-    dispatch(openModel())
-    if (!input.proTitle) return toast.error("Write Project Title")
-    if (!input.proDesc) return toast.error("Write Project Desciption")
-    if (!donwlaodUrl) return toast.error("uplaod Image First")
-  }
+  const firstSaveasdraft = useCallback(() => {
+    dispatch(openModel());
+    if (!input.proTitle) return toast.error("Write Project Title");
+    if (!input.proDesc) return toast.error("Write Project Desciption");
+    if (!donwlaodUrl) return toast.error("uplaod Image First");
+  }, [input.proTitle, input.proDesc, donwlaodUrl]);
 
   return (
     <div className={`${barOpen ? "w-[80%]" : "w-full"} h-screen flex flex-col gap-5 bg-neutral-50`}>

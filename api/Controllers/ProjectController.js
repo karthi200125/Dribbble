@@ -20,7 +20,7 @@ export const deleteProject = async (req, res, next) => {
         const deletedProject = await ProjectModel.findByIdAndDelete(id);
         await UserModel.findByIdAndUpdate(req.body.userId, { $pull: { createdProjects: id } });
         await CommentModel.deleteMany({ _id: { $in: deletedProject.projectComments } });
-        res.status(200).json("Project has been deleted");
+        res.status(200).json(id);
     } catch (error) {
         next(CreateError(error, req, "Delete project failed"));
     }
@@ -54,21 +54,21 @@ export const getAllProjects = async (req, res, next) => {
 
         if (userId && like) {
             const likedId = user.likedProjects;
-            allProjects = await ProjectModel.find({ _id: { $in: likedId } });
+            allProjects = await ProjectModel.find({ _id: { $in: likedId } }).sort({ createdAt: -1 });
         }
         else if (userId && save) {
             const savedId = user.savedProjects;
-            allProjects = await ProjectModel.find({ _id: { $in: savedId } });
+            allProjects = await ProjectModel.find({ _id: { $in: savedId } }).sort({ createdAt: -1 });
         }
         else if (userId && create) {
             const createdProjectids = user.createdProjects;
-            allProjects = await ProjectModel.find({ _id: { $in: createdProjectids } });
+            allProjects = await ProjectModel.find({ _id: { $in: createdProjectids } }).sort({ createdAt: -1 });
         }
         else if (userId) {
             allProjects = await ProjectModel.find({ userId });
         }
-        else {
-            allProjects = await ProjectModel.find();
+        else {            
+            allProjects = await ProjectModel.find().sort({ createdAt: -1 });
         }
 
         res.status(200).json(allProjects);

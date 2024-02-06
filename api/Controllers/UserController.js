@@ -3,7 +3,8 @@ import UserModel from '../Models/UserModel.js';
 
 export const userUpdate = async (req, res, next) => {
     try {
-        const { id } = req.params;                
+        const { id } = req.params; 
+        console.log(req.body)               
         const updatedUser = await UserModel.findByIdAndUpdate(id, { $set: req.body }, { new: true });
         res.status(200).json(updatedUser);
     } catch (error) {

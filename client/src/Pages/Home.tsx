@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { IoMdArrowUp } from "react-icons/io";
 import { useSelector } from "react-redux";
@@ -21,17 +21,18 @@ const Home = () => {
     const { user } = useSelector((state: any) => state.user)
 
     // Fetch all projects of the user
-    const getAllProjects = async () => {
+    const getAllProjects = useCallback(async () => {
         try {
-            setisLoading(true)
+            setisLoading(true);
             const res = await AxiosRequest.post(`/project/getallpro`);
             setAllprojects(res?.data);
         } catch (error: any) {
             toast.error(error?.response?.data?.message);
         } finally {
-            setisLoading(false)
+            setisLoading(false);
         }
-    };
+    }, []);
+
 
     useEffect(() => {
         getAllProjects()

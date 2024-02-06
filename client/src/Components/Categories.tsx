@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { FiChevronDown } from "react-icons/fi";
 import { RiFilter3Line } from "react-icons/ri";
 import { TiTick } from "react-icons/ti";
 
 const Categories = ({ onFilterOpen, onCat }: any) => {
-  const categories = [
+  const categories = useMemo(() => [
     "Discover",
     "Animation",
     "Branding",
@@ -14,24 +14,25 @@ const Categories = ({ onFilterOpen, onCat }: any) => {
     "ProductDesign",
     "Typography",
     "WebDesign",
-  ];
-  const [option, setOption] = useState("Following")
-  const [selectOpen, setselectOpen] = useState(false)
-  const [category, setCategory] = useState("Discover")
+  ], []);
 
-  const HandleOpen = () => {
-    onFilterOpen(onFilterOpen)
-  }
+  const [option, setOption] = useState("Following");
+  const [selectOpen, setSelectOpen] = useState(false);
+  const [category, setCategory] = useState("Discover");
 
-  const handleCatSet = (data: any) => {
-    onCat(data)
-    setCategory(data)
-  }
+  const handleOpen = useCallback(() => {
+    onFilterOpen(onFilterOpen);
+  }, [onFilterOpen]);
+
+  const handleCatSet = useCallback((data: any) => {
+    onCat(data);
+    setCategory(data);
+  }, [onCat]);
 
   return (
     <div className="w-full px-[10px] md:px-[75px] h-full flex items-center justify-between gap-10 mt-10 pb-[20px] md:pb-[0px] border-b-[1px] border-solid border-neutral-150 md:border-none">
-      <div className="flex items-center px-4 p-2 justify-center gap-4 border-[1px] border-solid border-neutral-200 rounded-md relative cursor-pointer shadow-md" onClick={() => setselectOpen(!selectOpen)}>
-        <span >{option}</span>
+      <div className="flex items-center px-4 p-2 justify-center gap-4 border-[1px] border-solid border-neutral-200 rounded-md relative cursor-pointer shadow-md" onClick={() => setSelectOpen(!selectOpen)}>
+        <span>{option}</span>
         <div className={`transition duration-300 ${selectOpen && "rotate-[180deg]"}`}>
           <FiChevronDown />
         </div>
@@ -51,7 +52,7 @@ const Categories = ({ onFilterOpen, onCat }: any) => {
           </li>
         ))}
       </ul>
-      <div className="flex items-center flex-row gap-2 p-2 border-[1px] border-solid border-neutral-100 rounded-full px-3 cursor-pointer" onClick={HandleOpen}>
+      <div className="flex items-center flex-row gap-2 p-2 border-[1px] border-solid border-neutral-100 rounded-full px-3 cursor-pointer" onClick={handleOpen}>
         <RiFilter3Line />
         <span>Filter</span>
       </div>

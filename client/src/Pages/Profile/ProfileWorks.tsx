@@ -26,7 +26,7 @@ const ProfileWorks = () => {
 
     useEffect(() => {
         getcreatedProjects()
-    }, [params.id])
+    }, [params.id, user?.createdProjects])
 
     const publisheduserProjects = Createdprojects?.filter((pro: any) => pro?.isPublished === true)
 
@@ -37,7 +37,7 @@ const ProfileWorks = () => {
                 :
                 <div className="w-[450px] h-[300px] flex items-center justify-center flex-col gap-3 rounded-lg border-[1px] border-solid border-neutral-200 p-5">
                     <img src={traingle} alt="" className="w-[100px] h-[70px] object-fill" />
-                    <h1 className="text-2xl font-bold">{params.id === user?._id ? "Upload your first shot" :"user haven't created any yet!"}</h1>
+                    <h1 className="text-2xl font-bold">{params.id === user?._id ? "Upload your first shot" : "user haven't created any yet!"}</h1>
                     {params.id === user?._id &&
                         <>
                             <p>Show off your best work. Get feedback, likes</p>

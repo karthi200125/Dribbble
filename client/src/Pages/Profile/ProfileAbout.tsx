@@ -4,14 +4,16 @@ import { GoPerson } from "react-icons/go"
 import { useParams } from "react-router-dom"
 import Button from "../../Components/Button"
 import AxiosRequest from "../../Utils/AxiosRequest"
+import { formatDistanceToNow } from "date-fns"
 
 interface User {
     followers: [];
     followed: [];
     country: string;
+    createdAt: any;
 }
 
-const ProfileAbout = () => {    
+const ProfileAbout = () => {
     const [abourUser, setabourUser] = useState<User>()
     const params = useParams()
 
@@ -28,6 +30,15 @@ const ProfileAbout = () => {
     useEffect(() => {
         getUser()
     }, [params])
+
+    const monthNames = [
+        "Jan", "Feb", "Mar", "Apr", "May", "June",
+        "July", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+
+    const date = new Date(abourUser?.createdAt)
+    const month = date.getMonth();
+    const year = date.getFullYear()    
 
     return (
         <div className="w-full md:w-[60%] h-full flex flex-col-reverse md:flex-row gap-10 ">
@@ -52,7 +63,7 @@ const ProfileAbout = () => {
                 </div>
                 <div className="w-full p-10 bg-neutral-100 rounded-lg flex flex-col gap-3">
                     <div className="flex flex-row gap-2 items-center"><CiLocationOn />{abourUser?.country}</div>
-                    <div className="flex flex-row gap-2 items-center"><GoPerson />member since sep 2023</div>
+                    <div className="flex flex-row gap-2 items-center"><GoPerson />Member since {monthNames[month]} ,  {year}</div>
                 </div>
             </div>
         </div>

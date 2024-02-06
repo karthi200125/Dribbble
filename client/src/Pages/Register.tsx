@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import { RiArrowDropLeftLine } from "react-icons/ri";
 import { useDispatch } from "react-redux";
@@ -22,10 +22,11 @@ const Register = () => {
         email: "",
         password: ""
     });
+    const [showpassword, setshowpassword] = useState(false);
 
-    const handleChange = (e: any) => {
+    const handleChange = useCallback((e: any) => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    };
+    }, []);
 
     const handleCreate = async () => {
         if (!input.password) return toast.error("enter password")
@@ -47,7 +48,7 @@ const Register = () => {
     };
 
     // google login
-    const signInWithGoole = async () => {
+    const signInWithGoole = useCallback(async () => {
         signInWithPopup(auth, provider).then((result) => {
             AxiosRequest.post('/auth/google', {
                 username: result.user.displayName,
@@ -60,10 +61,10 @@ const Register = () => {
                 dispatch(login(res.data))
                 toast.success("Google login successfull")
             })
-        }).catch((err) => {
+        }).catch(() => {
             toast.error("Google login failed")
         })
-    }
+    }, [])
 
     return (
         <div className="w-full h-screen flex flex-row relative">
@@ -100,7 +101,7 @@ const Register = () => {
                             and our default <span className="underline">Notification Settings.</span>
                         </p>
                         <div className="text-neutral-600 text-[13px] cursor-pointer">Already have an account?
-                            <Link to='/login' className="underline">Sign In</Link>
+                            <Link to='/login' className="underline ml-3 font-bold">Sign In</Link>
                         </div>
                     </div>
                     :
@@ -111,14 +112,15 @@ const Register = () => {
                             <Inputs labelname="User Name" name="username" onChange={handleChange} value={input.username} />
                         </div>
                         <Inputs labelname="Email" type="email" name="email" onChange={handleChange} value={input.email} />
-                        <Inputs labelname="Password" type="password" placeholder="6+ characters" name="password" onChange={handleChange} value={input.password} />
-                        <div className="agree flex flex-row items-center gap-3">
-                            <input type="checkbox" />
-                            <p>I agree with Dribbble's Terms of Service, Privacy Policy, and default Notification Settings.</p>
+                        <Inputs labelname="Password" type={showpassword ? "text" : "password"} placeholder="6+ characters" name="password" onChange={handleChange} value={input.password} />
+                        <div className="w-full flex items-center gap-5">
+                            <input type="checkbox" onChange={() => setshowpassword(!showpassword)} className='cursor-pointer w-[15px] h-[15px]' />
+                            <span className='font-bold'>show password</span>
                         </div>
+                        
                         <Button w="w-full" py="py-4" onClick={handleCreate} isLoading={isLoading}>Create Account</Button>
                         <div className="text-neutral-600 text-[13px] cursor-pointer">Already have an account?
-                            <Link to='/login' className="underline">Sign In</Link>
+                            <Link to='/login' className="underline ml-3 font-bold">Sign In</Link>
                         </div>
                         <p className="text-neutral-400 text-[10px]">This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.</p>
                     </div>

@@ -13,7 +13,6 @@ const Search = () => {
   const [selectOpen, setselectOpen] = useState(false)
   const [searchItem, setsearchItem] = useState(search || '')
 
-
   const handleClick = () => {
     dispatch(searchredux(searchItem))
   }

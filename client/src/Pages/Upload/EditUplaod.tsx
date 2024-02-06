@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { CiImageOn } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa";
 import { GoVideo } from "react-icons/go";
@@ -19,10 +19,10 @@ const EditUpload = ({ image, onBaropen }: EditUploadProps) => {
     proImage: "https://cdn.dribbble.com/userupload/12800480/file/original-83091a66329bfffa0249884917126b32.png?resize=320x240&vertical=center"
   })
 
-  const handleBaropen = () => {
-    setBarOpen(!barOpen)
-    onBaropen(!barOpen)
-  }
+  const handleBaropen = useCallback(() => {
+    setBarOpen(prev => !prev);
+    onBaropen(!barOpen);
+  }, [barOpen, onBaropen]);
 
   const handlechange = (e: any) => {
     setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }))

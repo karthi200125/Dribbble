@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { IoMdClose } from "react-icons/io"
 import { useDispatch, useSelector } from "react-redux";
 import { closeModel } from "../Redux/ModelSlice";
@@ -15,9 +15,9 @@ const Model = ({ title, subtitle, bodyContent, w }: modelProp) => {
     const dispatch = useDispatch()
     const { model } = useSelector((state: any) => state.model)
 
-    const handleModelClose = () => {
-        dispatch(closeModel())
-    }
+    const handleModelClose = useCallback(() => {
+        dispatch(closeModel());
+    }, [dispatch]);
 
     return (
         <div className={`${model ? "" : "hidden"} model fixed w-full h-screen flex items-center justify-center left-0 top-0`}>

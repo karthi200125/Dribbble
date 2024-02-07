@@ -1,8 +1,8 @@
-import './App.css';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 import { Suspense, lazy } from 'react';
 import { useSelector } from 'react-redux';
-import { jwtDecode } from 'jwt-decode';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import './App.css';
 import Loading from './Components/Loading';
 
 const OpenPro = lazy(() => import('./Pages/Project/OpenPro'));
@@ -31,14 +31,12 @@ function App() {
     localStorage.removeItem('user')
   }
 
-  const google = user?.fromGoogle
 
   return (
     <BrowserRouter>
       <Suspense fallback={<Loading />}>
         <Routes>
-          <Route path="/login" element={!user && <Login />} />
-          {/* <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} /> */}
+          <Route path="/login" element={!user && <Login />} />          
           <Route path="/register" element={!user && <Register />} />
           <Route path="/" element={!user ? <LandingPage /> : <Navigate to="/home" />} />
           <Route path="/home" element={user ? <Home /> : <Navigate to="/" />} />

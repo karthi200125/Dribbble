@@ -1,14 +1,10 @@
-import { useState } from "react";
 
 const ImageUplaod = ({ onImage }: any) => {
-
-    const [image, setImage] = useState<string | null>(null);
-
+    
     const handleImageChange = (event: any) => {
         const file = event.target.files?.[0];
         if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            setImage(imageUrl);
+            const imageUrl = URL.createObjectURL(file);            
             onImage({ imageUrl, file })
         }
     };

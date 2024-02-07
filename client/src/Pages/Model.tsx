@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react"
-import { IoMdClose } from "react-icons/io"
+import { useCallback } from "react";
+import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModel } from "../Redux/ModelSlice";
 

@@ -4,7 +4,6 @@ import { GoPerson } from "react-icons/go"
 import { useParams } from "react-router-dom"
 import Button from "../../Components/Button"
 import AxiosRequest from "../../Utils/AxiosRequest"
-import { formatDistanceToNow } from "date-fns"
 
 interface User {
     followers: [];

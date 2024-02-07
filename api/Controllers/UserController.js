@@ -1,10 +1,12 @@
 import { CreateError } from '../Utils/CreateError.js';
 import UserModel from '../Models/UserModel.js';
+import ProjectModel from '../Models/ProjectModel.js';
+import CommentModel from '../Models/CommentModel.js';
 
 export const userUpdate = async (req, res, next) => {
     try {
-        const { id } = req.params; 
-        console.log(req.body)               
+        const { id } = req.params;
+        console.log(req.body)
         const updatedUser = await UserModel.findByIdAndUpdate(id, { $set: req.body }, { new: true });
         res.status(200).json(updatedUser);
     } catch (error) {
@@ -12,10 +14,13 @@ export const userUpdate = async (req, res, next) => {
     }
 };
 
+
 export const userDelete = async (req, res, next) => {
     try {
-        const { id } = req.params;
-        await UserModel.findByIdAndDelete(id);
+        const { id } = req.params;        
+        await UserModel.findByIdAndDelete(id);        
+        await ProjectModel.deleteMany({ userId: id });        
+        await CommentModel.deleteMany({ userId: id });
         res.status(200).json("User has been deleted");
     } catch (error) {
         next(CreateError(500, "User account delete failed"));

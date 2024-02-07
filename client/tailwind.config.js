@@ -6,7 +6,12 @@ export default {
     "./src/App.css"
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        DeepSkyBlue: '#00bfff',
+        RoyalBlue: '#4169e1',
+      },
+    },
   },
   plugins: [],
 }

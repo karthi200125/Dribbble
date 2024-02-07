@@ -120,4 +120,75 @@ input:focus {
 }
 
 
+.menu {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
 
+.menu div {
+  width: 25px;
+  height: 40px;
+  position: relative;
+}
+
+.menu span {
+  background-color: black;
+  height: 2px;
+  width: 100%;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.3s, width 0.3s;
+  border-radius: 30px;
+}
+
+.menu .line1 {
+  transform: translate(-50%, -8px);
+}
+
+.menu .line2 {
+  transform: translate(-50%, 0px);
+}
+
+.menu .line3 {
+  transform: translate(-50%, 8px);
+  width: 60%;
+}
+
+.openmenu .line1 {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.openmenu .line3 {
+  transform: translate(-50%, -50%) rotate(-45deg);
+  width: 100%;
+}
+
+.openmenu .line2 {
+  width: 0;
+}
+
+.mobnavcontent {
+  position: fixed;
+  top: 0;
+  height: 70vh;
+  width: 100%;
+  background-color: white;
+  z-index: 9;  
+  margin-top: 100px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.24);
+}
+
+.close {
+  left: -100%;
+  transition: 0.2s ease-in-out;
+}
+
+.open {
+  left: 0%;        
+  transition: 0.2s ease-in-out;
+}

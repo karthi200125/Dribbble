@@ -16,7 +16,7 @@ const Cards = memo(({ cards, Delete, profile, isLoading, cardlength }: CardsProp
             <Card key={card?._id} data={card} Delete={Delete} profile={profile} />
         ))
     ), [cards, cardlength, Delete, profile]);
-
+    
     return (
         <div className="w-full">
             {isLoading ? (

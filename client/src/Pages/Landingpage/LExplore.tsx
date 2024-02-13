@@ -9,14 +9,18 @@ const LExplore = () => {
 
   const [Allprojects, setAllprojects] = useState([]);
   const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(false)
 
   // Fetch all projects of the user
   const getAllProjects = async () => {
     try {
+      setIsLoading(true)
       const res = await AxiosRequest.post(`/project/getallpro`);
       setAllprojects(res?.data);
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -29,8 +33,8 @@ const LExplore = () => {
   return (
     <div className="w-full flex items-center flex-col justify-center bg-white pt-10 pb-20">
       <h1 className="w-full text-4xl md:text-6xl mb-8 text-center md:text-center ">Explore inspiring designs</h1>
-      <Cards cards={publishedProjects} cardlength={12}/>
-      <Button bg="transparent" border="border-black" py="py-4" onClick={()=> navigate('/login')}>Browse more inspiration</Button>
+      <Cards cards={publishedProjects} cardlength={12} isLoading={isLoading} />
+      <Button bg="transparent" border="border-black" py="py-4" onClick={() => navigate('/login')}>Browse more inspiration</Button>
     </div>
   )
 }

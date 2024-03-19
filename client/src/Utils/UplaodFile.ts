@@ -10,7 +10,7 @@ interface UplaodProps {
 export const useUplaod = ({ image, file }: UplaodProps) => {
     const [per, setPer] = useState<any>()
     const [donwlaodUrl, setDonwlaodUrl] = useState<any>()
-
+    
     const UploadFile = () => {
         try {
             const storage = getStorage(app);

@@ -8,8 +8,7 @@ const ImageUplaod = ({ onImage }: any) => {
             onImage({ imageUrl, file })
         }
     };
-
-
+    
     return (
         <div className="flex items-center justify-start gap-10 flex-col w-full h-full">
             <h1 className="text-2xl md:text-3xl text-center font-bold">What have you been working on?</h1>

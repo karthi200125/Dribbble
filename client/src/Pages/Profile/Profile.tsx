@@ -55,7 +55,7 @@ const Profile = () => {
     dispatch(followed(Profileuser?._id));
     navigate(`/profile/${Profileuser._id}`)
   };
-
+  
   return (
     <div className="w-full h-full">
       <Navbar />

@@ -16,7 +16,7 @@ const ProfileContents = () => {
 
     return (
         <div className="w-full h-full mt-5 flex flex-col gap-10 ">
-            <div className="flex flex-row md:gap-5 gap-2 items-center overflow-x-scroll">
+            <div className="flex flex-row md:gap-5 gap-2 items-center md:overflow-hidden overflow-x-scroll">
                 {top.map((item, i) => (
                     <div key={i} className={`font-semibold p-3 px-3 rounded-full hover:opacity-80 cursor-pointer hover:bg-neutral-130 transition ${item === option && "bg-neutral-100"}`} onClick={() => setOption(item)}>
                         {item}

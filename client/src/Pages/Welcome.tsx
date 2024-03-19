@@ -22,6 +22,8 @@ const Welcome = () => {
     const { UploadFile, donwlaodUrl, per } = useUplaod({ file, image: undefined })
     useEffect(() => { file && UploadFile(); }, [file]);
 
+    console.log(donwlaodUrl, per)
+
     const { Crud, isLoading } = useHandleCrud({
         url: `/user/userupdate/${user?._id}`,
         method: "PUT",

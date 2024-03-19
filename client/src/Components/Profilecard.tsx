@@ -17,13 +17,13 @@ const Profilecard = () => {
 
   return (
     <div className="hover:visibility-visible w-full h-full flex flex-col items-center justify-between p-10 rounded-[20px] bg-white">
-      <div className="flex items-center justify-center flex-col">
+      <Link to={`/profile/${user?._id}`} className="flex items-center justify-center flex-col">
         <Image src={user.profilePic || noProfile} imgclass="rounded-full mb-2 w-[80px] h-[80px]" />
         <span className="font-bold capitalize">{user?.username}</span>
-      </div>
+      </Link>
       <div className=" w-full flex items-start justify-center flex-col  gap-4 ">
         <Link to={`/upload/${user?._id}`} className="cursor-pointer hover:opacity-80 text-neutral-700">Upload design work</Link>
-        <Link to='/' className="cursor-pointer hover:opacity-80 text-neutral-700">Work preferences</Link>
+        <Link to='/home' className="cursor-pointer hover:opacity-80 text-neutral-700">Work preferences</Link>
         <Link to={`/account/${user?._id}`} className="cursor-pointer hover:opacity-80 text-neutral-700">Settings</Link>
         <span className="h-[1px] bg-neutral-300 w-full"></span>
         <span className="cursor-pointer hover:opacity-80 text-neutral-700" onClick={handleLogout}>Sign Out</span>

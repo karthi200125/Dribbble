@@ -136,7 +136,7 @@ const OpenPro = () => {
       <div className={`${Copen ? 'w-[75%]' : 'w-full'}  h-screen flex justify-start items-center flex-col`}>
         <Title title={`${project.proTitle}`} />
 
-        <div className="w-full mt-20 flex items-center justify-center bg-white sticky top-[40px] z-10 p-3">
+        <div className="w-full md:mt-20 mt-5 flex items-center justify-center bg-white sticky top-[40px] z-10 p-3">
           <div className="w-[1000px] h-[100px] flex flex-col gap-5 ">
             <h1 className="text-2xl font-semibold capitalize">{project?.proTitle}</h1>
             <div className="w-full flex justify-between">
@@ -150,7 +150,7 @@ const OpenPro = () => {
                     {postuser?.available &&
                       <span className="glow"></span>
                     }
-                    <p className={postuser?.available ? "text-green-500" : "text-red-500"}>{postuser?.available ? "Available for working" : "not available for work"}</p>
+                    <p className={`text-[10px] ${postuser?.available ? "text-green-500" : "text-red-500"}`}>{postuser?.available ? "Available for working" : "not available for work"}</p>
                     <span>{alreadyfollowed ? "follwoing" : "Follow"}</span>
                   </div>
                 </div>
@@ -162,17 +162,19 @@ const OpenPro = () => {
                 <Button border={"neutral-200"} px="px-3" bg={"transparent"} onClick={handleProSave}>
                   <Image src={saved ? savedIcon : saveIcon} imgclass="w-[22px] h-[22px] object-cover" />
                 </Button>
-                <Button py="py-2">get in touch</Button>
+                <div className="md:flex hidden">
+                  <Button py="py-2" >get in touch</Button>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* display projects image , video and text */}
-        <div className="w-[1200px] mt-20 flex flex-col gap-5 items-center justify-center">
+        <div className="md:w-[1200px]  mt-20 flex flex-col gap-5 items-center justify-center ">
 
           {/* display contents */}
-          <div className="w-[1000px] h-full flex flex-col gap-10">
+          <div className="md:w-[1000px] w-full p-2 h-full flex flex-col gap-10">
             <Image src={project?.proImage} imgclass="w-full h-screen rounded-xl shadow-xl" />
             <span className="w-full text-neutral-500 text-xl text-center">{project?.proDesc}</span>
             {project?.proLink &&
@@ -194,7 +196,7 @@ const OpenPro = () => {
 
           {/* more deigns */}
           <div className="w-full flex flex-col ">
-            <div className="w-full flex justify-between items-center mt-10">
+            <div className="w-full p-2 flex justify-between items-center mt-10">
               <p className="font-bold">More by {postuser?.username}</p>
               <Link to={`/profile/${postuser._id}`}>View profile</Link>
             </div>
@@ -202,7 +204,7 @@ const OpenPro = () => {
           </div>
         </div>
 
-        <div className={`absolute w-[50px] ${proEdit ? "h-[200px]" : "h-[150px]"}  top-[35%] right-10 flex flex-col items-center justify-between`}>
+        <div className={`absolute w-[50px] ${proEdit ? "h-[200px]" : "h-[150px]"}  md:top-[35%] top-[50%] md:right-10 right-2 flex flex-col items-center justify-between`}>
           <div className="relative" onClick={() => setCopen(!Copen)}>
             <Toolt msg="Feedback" position="left" id="feedback">
               <span className="absolute top-[-5px] right-[-5px] w-[20px] h-[20px] rounded-full text-[10px] border-[1px] border-solid border-neutral-200 bg-white flex items-center justify-center font-bold">{project?.projectComments?.length}</span>
@@ -224,7 +226,7 @@ const OpenPro = () => {
 
         {
           Copen && (
-            <div className={`transition-transform duration-300 transform ${Copen ? 'translate-x-0' : 'translate-x-full'} w-[25%] h-screen fixed right-0 top-0 border-l-[1px] border-solid border-neutral-200 bg-white p-10`}>
+            <div className={`transition-transform duration-300 transform ${Copen ? 'translate-x-0' : 'translate-x-full'} md:w-[25%] w-[90%] md:z-1 z-10 h-screen fixed right-0 top-0 border-l-[1px] border-solid border-neutral-200 bg-white p-10`}>
               <div className="w-[30px] h-[30px] rounded-full border-[1px] border-solid border-neutral-200 absolute top-[10%] left-[-15px] flex items-center justify-center bg-white cursor-pointer" onClick={() => setCopen(false)}>
                 <IoCloseSharp />
               </div>

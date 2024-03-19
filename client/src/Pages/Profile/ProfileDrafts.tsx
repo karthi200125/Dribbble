@@ -33,11 +33,11 @@ const ProfileDrafts = () => {
             {Allprojects?.length > 0 ?
                 <Cards cards={getDreaftedprojectsOnly} Delete={true} />
                 :
-                <div className="w-[450px] h-[300px] flex items-center justify-center flex-col gap-3 rounded-lg border-[1px] border-solid border-neutral-200 p-5">
+                <div className="md:w-[450px] w-full md:h-[300px] h-max flex items-center justify-center flex-col gap-3 rounded-lg border-[1px] border-solid border-neutral-200 p-5">
                     <img src={traingle} alt="" className="w-[100px] h-[70px] object-fill" />
-                    <h1 className="text-2xl font-bold">Create your first project</h1>
-                    <p>Show off your best work. Get feedback, likes</p>
-                    <p>and be a part of a growing community.</p>
+                    <h1 className="text-2xl font-bold text-center">Create your first project</h1>
+                    <p className="text-center">Show off your best work. Get feedback, likes</p>
+                    <p className="text-center">and be a part of a growing community.</p>
                     {params.id === user?._id &&
                         <Button py="py-2" onClick={() => navigate(`/upload/${user?._id}`)}>create your first projet</Button>
                     }

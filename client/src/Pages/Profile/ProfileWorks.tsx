@@ -35,13 +35,13 @@ const ProfileWorks = () => {
             {Createdprojects?.length > 0 ?
                 <Cards cards={publisheduserProjects} Delete={true} />
                 :
-                <div className="w-[450px] h-[300px] flex items-center justify-center flex-col gap-3 rounded-lg border-[1px] border-solid border-neutral-200 p-5">
+                <div className="md:w-[450px] w-full md:h-[300px] h-max flex items-center justify-center flex-col gap-3 rounded-lg border-[1px] border-solid border-neutral-200 p-5">
                     <img src={traingle} alt="" className="w-[100px] h-[70px] object-fill" />
-                    <h1 className="text-2xl font-bold">{params.id === user?._id ? "Upload your first shot" : "user haven't created any yet!"}</h1>
+                    <h1 className="text-2xl font-bold text-center">{params.id === user?._id ? "Upload your first shot" : "user haven't created any yet!"}</h1>
                     {params.id === user?._id &&
                         <>
-                            <p>Show off your best work. Get feedback, likes</p>
-                            <p>and be a part of a growing community.</p>
+                            <p className="text-center">Show off your best work. Get feedback, likes</p>
+                            <p className="text-center">and be a part of a growing community.</p>
                         </>
                     }
                     {params.id === user?._id &&

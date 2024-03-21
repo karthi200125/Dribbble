@@ -2,23 +2,24 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/
 import { useState } from "react";
 import { app } from "./FireBase";
 
-interface UplaodProps {
+interface UploadProps {
     image: any;
     file: any;
 }
 
-export const useUplaod = ({ image, file }: UplaodProps) => {
-    const [per, setPer] = useState<any>()
-    const [donwlaodUrl, setDonwlaodUrl] = useState<any>()
-    
+export const useUpload = ({ image, file }: UploadProps) => { 
+    console.log(file, image);
+    const [per, setPer] = useState<any>();
+    const [donwlaodUrl, setDownloadUrl] = useState<string | null>(null); 
+
     const UploadFile = () => {
         try {
             const storage = getStorage(app);
-            const fileName = new Date().getTime() + file ? file.name : image?.file?.name;
+            const fileName = new Date().getTime() + (file ? file.name : image?.file?.name); 
             const storageRef = ref(storage, fileName);
-            const uplaodTask = uploadBytesResumable(storageRef, file ? file : image?.file);
+            const uploadTask = uploadBytesResumable(storageRef, file ? file : image?.file);
 
-            uplaodTask.on('state_changed',
+            uploadTask.on('state_changed',
                 (snapshot) => {
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     setPer(Math.round(progress).toString());
@@ -33,16 +34,22 @@ export const useUplaod = ({ image, file }: UplaodProps) => {
                             break;
                     }
                 },
-                () => { },
+                (error) => {
+                    console.error('Error uploading file:', error); 
+                },
                 async () => {
-                    const downloadURL = await getDownloadURL(uplaodTask.snapshot.ref);
-                    setDonwlaodUrl(downloadURL)
+                    try {
+                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                        setDownloadUrl(downloadURL);
+                    } catch (error) {
+                        console.error('Error getting download URL:', error); 
+                    }
                 }
             );
         } catch (error) {
-            console.error(error);
+            console.error('Error uploading file:', error);
         }
     }
 
-    return { per, UploadFile, donwlaodUrl }
+    return { per, UploadFile, donwlaodUrl };
 }

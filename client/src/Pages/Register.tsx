@@ -49,6 +49,7 @@ const Register = () => {
 
     // google login
     const signInWithGoole = useCallback(async () => {
+        setisLoading(true);
         signInWithPopup(auth, provider).then((result) => {
             AxiosRequest.post('/auth/google', {
                 username: result.user.displayName,
@@ -63,6 +64,8 @@ const Register = () => {
             })
         }).catch(() => {
             toast.error("Google login failed")
+        }).finally(() => {
+            setisLoading(false);
         })
     }, [])
 
@@ -88,7 +91,7 @@ const Register = () => {
                         <h1 className="w-full text-start text-2xl font-bold">Sign up to Dribbble</h1>
                         <Button w="w-full" py="py-4" onClick={signInWithGoole}>
                             {/* <img src={google} alt="" className="w-[30px] h-[30px] object-contain" /> */}
-                            <span>Sign Up With Google</span>
+                            <span >{isLoading ? "PLease Wait....." : "Sign Up With Google"}</span>
                         </Button>
                         <div className="relative w-full h-[1px] bg-neutral-300">
                             <span className="absolute left-1/2 top-1/2 transdiv -translate-x-1/2 -translate-y-1/2 bg-white px-3">or</span>
@@ -117,7 +120,7 @@ const Register = () => {
                             <input type="checkbox" onChange={() => setshowpassword(!showpassword)} className='cursor-pointer w-[15px] h-[15px]' />
                             <span className='font-bold'>show password</span>
                         </div>
-                        
+
                         <Button w="w-full" py="py-4" onClick={handleCreate} isLoading={isLoading}>Create Account</Button>
                         <div className="text-neutral-600 text-[13px] cursor-pointer">Already have an account?
                             <Link to='/login' className="underline ml-3 font-bold">Sign In</Link>

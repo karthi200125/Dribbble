@@ -2,7 +2,7 @@ import { IoCameraOutline } from "react-icons/io5"
 import Button from "../Components/Button"
 import useHandleCrud from "../Utils/HanldeCrud";
 import { useSelector } from "react-redux";
-import { useUplaod } from "../Utils/UplaodFile";
+import { useUpload } from "../Utils/UplaodFile";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { login } from "../Redux/AuthSlice";
@@ -19,10 +19,8 @@ const Welcome = () => {
         setFile(event.target.files?.[0])
     };
 
-    const { UploadFile, donwlaodUrl, per } = useUplaod({ file, image: undefined })
+    const { UploadFile, donwlaodUrl, per } = useUpload({ file, image: undefined })
     useEffect(() => { file && UploadFile(); }, [file]);
-
-    console.log(donwlaodUrl, per)
 
     const { Crud, isLoading } = useHandleCrud({
         url: `/user/userupdate/${user?._id}`,

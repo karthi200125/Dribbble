@@ -9,7 +9,7 @@ import Title from "../Components/Title"
 import UploadBar from "../Components/UploadBar"
 import { login, logout } from "../Redux/AuthSlice"
 import useHandleCrud from "../Utils/HanldeCrud"
-import { useUplaod } from "../Utils/UplaodFile"
+import { useUpload } from "../Utils/UplaodFile"
 
 const Account = () => {
 
@@ -37,7 +37,7 @@ const Account = () => {
     }, []);
 
     // edit profile
-    const { UploadFile, donwlaodUrl, per } = useUplaod({ file, image: undefined })
+    const { UploadFile, donwlaodUrl, per } = useUpload({ file, image: undefined })
     useEffect(() => { file && UploadFile(); }, [file]);
 
     const { isLoading, Crud } = useHandleCrud({

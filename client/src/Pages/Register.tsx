@@ -90,7 +90,6 @@ const Register = () => {
                     <div className="w-[100%] md:w-[400px] h-[380px] flex items-center flex-col justify-between ">
                         <h1 className="w-full text-start text-2xl font-bold">Sign up to PixelPulse</h1>
                         <Button w="w-full" py="py-4" onClick={signInWithGoole}>
-                            {/* <img src={google} alt="" className="w-[30px] h-[30px] object-contain" /> */}
                             <span >{isLoading ? "PLease Wait....." : "Sign Up With Google"}</span>
                         </Button>
                         <div className="relative w-full h-[1px] bg-neutral-300">

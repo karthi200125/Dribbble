@@ -80,7 +80,7 @@ const Login = () => {
             />
             <Link to='/' className="hidden md:block absolute text-white logo-font text-3xl cursor-pointer left-8 top-8">PixelPulse</Link>
 
-            <div className="h-full flex items-start md:ml-[150px] justify-center flex-col p-5">
+            <div className="h-full w-full flex md:items-start items-center md:ml-[150px] justify-center flex-col p-5">
                 <div className="w-[320px] md:w-[400px] h-[500px] flex items-center flex-col  justify-between ">
                     <h1 className="w-full text-start text-2xl font-bold">Sign in to PixelPulse</h1>
                     <Button w="w-full" py="py-4" bg="transparent" border="neutral-200" onClick={signInWithGoole}>                        

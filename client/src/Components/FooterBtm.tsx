@@ -4,7 +4,7 @@ const FooterBtm = () => {
     return (
         <div className="flex flex-col gap-12 py-10">
             <div className="flex items-center justify-between w-full px-[20px] md:px-[80px] flex-col md:flex-row gap-5">
-                <span className="logo-font text-4xl mr-4 hover:opacity-50 transition cursor-pointer">Dribbble</span>
+                <span className="logo-font text-4xl mr-4 hover:opacity-50 transition cursor-pointer">PixelPulse</span>
                 <ul className="flex items-center flex-wrap w-[300px] justify-center md:w-[1000px] gap-5">
                     <li className="cursor-pointer font-semibold">For designers</li>
                     <li className="cursor-pointer font-semibold">Hire talent</li>
@@ -24,7 +24,7 @@ const FooterBtm = () => {
             </div>
             <div className="flex items-center justify-between flex-col md:flex-row w-full text-neutral-400 px-[10px] md:px-[80px] mt-5 gap-5">
                 <ul className="flex items-center flex-row gap-4">
-                    <li>© 2024 Dribbble</li>
+                    <li>© 2024 PixelPulse</li>
                     <li>Terms</li>
                     <li>Privacy</li>
                     <li>Cookies</li>

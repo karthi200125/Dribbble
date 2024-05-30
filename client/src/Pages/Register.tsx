@@ -71,14 +71,14 @@ const Register = () => {
 
     return (
         <div className="w-full h-screen flex flex-row relative">
-            <Title title="Sign up | Dribbble" />
+            <Title title="Sign up | PixelPulse" />
             <video
                 src="https://cdn.dribbble.com/uploads/48292/original/30fd1f7b63806eff4db0d4276eb1ac45.mp4?1689187515"
                 autoPlay
                 muted
                 className="hidden md:block w-[400px] h-full object-cover"
             />
-            <Link to='/' className="hidden md:block absolute text-white logo-font text-3xl cursor-pointer left-8 top-8">Dribbble</Link>
+            <Link to='/' className="hidden md:block absolute text-white logo-font text-3xl cursor-pointer left-8 top-8">PixelPulse</Link>
             {reOpen &&
                 <div className="absolute left-[450px] top-[50px] w-10 h-10 flex items-center justify-center rounded-full border-[1px] border-solid border-neutral-300 cursor-pointer" onClick={() => setRegOpen(false)}>
                     <RiArrowDropLeftLine size={25} />
@@ -88,7 +88,7 @@ const Register = () => {
             <div className="w-full h-full flex items-start md:ml-[150px] justify-center flex-col p-5">
                 {!reOpen ?
                     <div className="w-[100%] md:w-[400px] h-[380px] flex items-center flex-col justify-between ">
-                        <h1 className="w-full text-start text-2xl font-bold">Sign up to Dribbble</h1>
+                        <h1 className="w-full text-start text-2xl font-bold">Sign up to PixelPulse</h1>
                         <Button w="w-full" py="py-4" onClick={signInWithGoole}>
                             {/* <img src={google} alt="" className="w-[30px] h-[30px] object-contain" /> */}
                             <span >{isLoading ? "PLease Wait....." : "Sign Up With Google"}</span>

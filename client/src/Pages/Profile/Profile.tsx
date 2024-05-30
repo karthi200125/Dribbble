@@ -12,7 +12,7 @@ import useHandleCrud from "../../Utils/HanldeCrud"
 import { followed } from "../../Redux/AuthSlice"
 import Title from "../../Components/Title"
 import Image from "../../Components/Image"
-import profileDefault from "../../assets/profileDefaultimage.jpg"
+import Footer from "../../Components/Footer"
 
 const Profile = () => {
 
@@ -55,18 +55,18 @@ const Profile = () => {
     dispatch(followed(Profileuser?._id));
     navigate(`/profile/${Profileuser._id}`)
   };
-  
+
   return (
     <div className="w-full h-full">
       <Navbar />
-      <Title title={`${Profileuser.username} | Dribbble`} />
+      <Title title={`${Profileuser.username} | PixelPulse`} />
       <div className="w-full h-full p-[20px] md:p-20">
         {user?._id === params.id ?
           <div className="h-[300px] md:h-[200px] w-full  flex items-start md:items-center justify-center flex-col md:flex-row gap-10 ">
             <Image src={Profileuser?.profilePic || noprofile} imgclass="w-[100px] md:w-[120px] h-[100px] md:h-[120px] rounded-full " />
             <div className="flex items-start flex-col gap-3 mt-[-30px] md:mt-[0px]">
               <h1 className="text-3xl font-bold capitalize">{Profileuser?.username}</h1>
-              <span>india</span>
+              <span>{Profileuser?.country}</span>
               <div className="flex flex-row items-center gap-3">
                 <Button bg="transparent" border="neutral-200" color="black" onClick={handleClick}>
                   Edit profile
@@ -88,17 +88,13 @@ const Profile = () => {
               <div className="w-full flex flex-row gap-5">
                 <Button>Get in Touch</Button>
                 <Button py="py-2" bg="transparent" border="neutral-200" onClick={handleFollow}>{alreadyfollowed ? "Following" : "Follow"}</Button>
-                <Button py="py-2" bg="transparent" border="neutral-200" px="px-4"><IoIosMore /></Button>
               </div>
-            </div>
-            <div className="w-[70%] h-full bg-red rounded-3xl overflow-hidden shadow-2xl">
-              <Image src={Profileuser?.profileThumbnailimg || profileDefault} imgclass="w-full h-full" />
             </div>
           </div>
         }
         <ProfileContents />
       </div>
-
+      <Footer />
     </div>
   )
 }

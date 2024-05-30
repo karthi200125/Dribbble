@@ -8,7 +8,7 @@ interface UploadProps {
 }
 
 export const useUpload = ({ image, file }: UploadProps) => { 
-    console.log(file, image);
+    
     const [per, setPer] = useState<any>();
     const [donwlaodUrl, setDownloadUrl] = useState<string | null>(null); 
 

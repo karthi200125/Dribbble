@@ -17,7 +17,7 @@ const Navbar = () => {
         <div className="w-full h-[100px] flex items-center justify-between flex-row px-3 md:px-10 py-[40px] ">
             <div className="flex items-center flex-row gap-6">
                 <Line3 onOpen={(d: any) => setmenuOpen(d)} />
-                <Link to="/home" className="logo-font text-4xl mr-4 hover:opacity-50 transition cursor-pointer">Dribbble</Link>
+                <Link to="/home" className="logo-font text-4xl mr-4 hover:opacity-50 transition cursor-pointer">PixelPulse</Link>
                 <ul className="hidden md:flex items-center justify-between flex-row gap-8 text-md font-medium">
                     <li className="hover:opacity-50 cursor-pointer transition">Find talent</li>
                     <li className="hover:opacity-50 cursor-pointer transition">Inspiration</li>

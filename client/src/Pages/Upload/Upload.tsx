@@ -12,7 +12,7 @@ import Input from "../../Components/Inputs";
 import Title from "../../Components/Title";
 import UploadBar from "../../Components/UploadBar";
 import useHandleCrud from "../../Utils/HanldeCrud";
-import { useUplaod } from "../../Utils/UplaodFile";
+import { useUpload } from "../../Utils/UplaodFile";
 import ImageUplaod from "./ImageUplaod";
 import { createproject } from "../../Redux/AuthSlice";
 import Model from "../Model";
@@ -53,7 +53,7 @@ const Upload = () => {
     setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const { UploadFile, donwlaodUrl, per } = useUplaod({ image, file })
+  const { UploadFile, donwlaodUrl, per } = useUpload({ image, file })
 
   const { isLoading, Crud, result } = useHandleCrud({
     url: proEdit ? `/project/updatepro/${proEdit?._id}` : "/project/createpro",
@@ -151,7 +151,7 @@ const Upload = () => {
   }, [input.proTitle, input.proDesc, donwlaodUrl]);
 
   return (
-    <div className={`${barOpen ? "w-[80%]" : "w-full"} h-screen flex flex-col gap-5 bg-neutral-50`}>
+    <div className={`${barOpen ? "w-[80%]" : "w-full"} h-screen flex flex-col gap-5 `}>
       <Title title="Dribble Create Project" />
       {/* upload nav*/}
       <div className="w-full flex flex-row items-center justify-between p-2 md:p-6">
@@ -167,7 +167,7 @@ const Upload = () => {
       </div>
 
       {image ? (
-        <div className={`w-full h-screen flex items-center justify-start flex-col gap-5 `}>
+        <div className={`w-full h-full flex items-center justify-start flex-col gap-5`}>
           <div className="top w-full md:w-[1050px] flex items-center flex-col gap-10 p-2 md:p-0">
             <input
               type="text"
@@ -177,7 +177,7 @@ const Upload = () => {
               name="proTitle"
               value={input.proTitle}
             />
-            <img src={file ? URL.createObjectURL(file) : image?.imageUrl || proEdit?.proImage} alt="" className="w-full h-[300px] md:h-[500px] object-cover rounded-lg" />
+            <img src={file ? URL.createObjectURL(file) : image?.imageUrl || proEdit?.proImage} alt="" className="w-full h-[300px] md:h-[500px] object-cover rounded-lg shadow-xl" />
             {proEdit &&
               <>
                 <input type="file" id="changeEditImage" className="hidden" onChange={(e: any) => setfile(e.target.files[0])} />
@@ -192,7 +192,7 @@ const Upload = () => {
             <Input name="proDesc" labelname="Project Description" placeholder="write what in this design or add any details you like mention" onChange={handlechange} value={input.proDesc} />
             <div className="w-full flex -items-center justify-between flex-row gap-10">
               <Input name="proLink" labelname="Project Link if any" placeholder="Paster Your project link here" onChange={handlechange} value={input.proLink} />
-              <select className="w-full border-[1px] border-solid border-neutral-200 px-5 rounded-xl focus:border-rose-400" name="cat" id="cat" onChange={(e) => setCat(e.target.value)}>
+              <select className="w-full h-[60px] mt-8 border-[1px] border-solid border-neutral-200 px-5 rounded-xl focus:border-rose-400" name="cat" id="cat" onChange={(e) => setCat(e.target.value)}>
                 <option value="">Select category</option>
                 {categories.map((cat: string) => (
                   <option value={cat} key={cat} >{cat}</option>
@@ -201,7 +201,7 @@ const Upload = () => {
             </div>
           </div>
 
-          <div className="relative w-full h-[2px] bg-neutral-300 mt-10">
+          <div className="relative w-full h-[100px] mt-10">
             <span
               className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 px-20 py-3 rounded-full flex flex-row gap-3 items-center bg-white border-[1px] border-solid border-neutral-200 cursor-pointer"
               onClick={handleBaropen}

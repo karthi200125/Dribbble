@@ -71,18 +71,18 @@ const Login = () => {
 
     return (
         <div className="w-full h-screen flex flex-row relative">
-            <Title title="Sign in | Dribbble" />
+            <Title title="Sign in | PixelPulse" />
             <video
                 src="https://cdn.dribbble.com/uploads/48226/original/b8bd4e4273cceae2889d9d259b04f732.mp4?1689028949"
                 autoPlay
                 muted
                 className="hidden md:block w-[400px] h-full object-cover"
             />
-            <Link to='/' className="hidden md:block absolute text-white logo-font text-3xl cursor-pointer left-8 top-8">Dribbble</Link>
+            <Link to='/' className="hidden md:block absolute text-white logo-font text-3xl cursor-pointer left-8 top-8">PixelPulse</Link>
 
             <div className="h-full flex items-start md:ml-[150px] justify-center flex-col p-5">
                 <div className="w-[320px] md:w-[400px] h-[500px] flex items-center flex-col  justify-between ">
-                    <h1 className="w-full text-start text-2xl font-bold">Sign in to Dribbble</h1>
+                    <h1 className="w-full text-start text-2xl font-bold">Sign in to PixelPulse</h1>
                     <Button w="w-full" py="py-4" bg="transparent" border="neutral-200" onClick={signInWithGoole}>                        
                         <span >{isLoading ? "PLease Wait....." : "Sign in With Google"}</span>
                     </Button>

@@ -51,7 +51,7 @@ const Home = () => {
     return (
         <div className="w-full h-screen ">
             <Navbar />
-            <Title title="Dribbble - Discover projects" />
+            <Title title="PixelPulse - Discover projects" />
             <div className="home w-100 h-100 ">
                 {search && <Search />}
                 <Categories onFilterOpen={() => setFilterOpen(!FilterOpen)} onCat={(cat: any) => setCat(cat)} />
